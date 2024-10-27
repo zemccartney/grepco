@@ -1,0 +1,9 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  "// EXPLAIN css.validate //": "turns off vs code built-in css linting to not conflict with stylelint",
+  "css.validate": false,
+  "stylelint.validate": ["css", "postcss"],
+  "html-validate.enable": true
+}

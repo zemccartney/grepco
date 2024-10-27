@@ -1,0 +1,5 @@
+{
+  "experimentalTernaries": true,
+  "trailingComma": "none",
+  "tabWidth": 4
+}

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8" />
+        <title>About Me — GrepCo</title>
+        <!-- TODO favicon -->
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=1"
+        />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        />
+
+        <link rel="stylesheet" href="global.css" />
+        <link rel="stylesheet" href="theme.css" />
+        <link rel="stylesheet" href="about/style.css" />
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                /*
+                    See source for this example: https://web.dev/articles/css-scroll-snap#example_a_horizontal_gallery
+                */
+
+                const carousel = document.querySelector(".carousel");
+                const slides = carousel.querySelector(".slides");
+                const numSlides = slides.querySelectorAll(".slide").length;
+
+                // recalculate scrollwidth so up to date for calculations
+                // prevents infinite scroll breaking due to window resizing
+                const scrollWidth = () => slides.clientWidth;
+
+                // For paginated scrolling, simply scroll the gallery one item in the given
+                // direction and let css scroll snaping handle the specific alignment.
+                function scrollToNext() {
+                    const w = scrollWidth();
+
+                    if (slides.scrollLeft === w * numSlides - w) {
+                        slides.scrollBy(-w * numSlides, 0);
+                    } else {
+                        slides.scrollBy(w, 0);
+                    }
+                }
+                function scrollToPrevious() {
+                    const w = scrollWidth();
+
+                    if (slides.scrollLeft === 0) {
+                        slides.scrollBy(w * numSlides, 0);
+                    } else {
+                        slides.scrollBy(-w, 0);
+                    }
+                }
+
+                carousel
+                    .querySelector("button.next")
+                    .addEventListener("click", scrollToNext);
+                carousel
+                    .querySelector("button.previous")
+                    .addEventListener("click", scrollToPrevious);
+            });
+        </script>
+    </head>
+    <body>
+        <div class="about-layout">
+            <header class="mx-auto">
+                <!-- prettier-ignore -->
+                <a href="../index.html" aria-label="GrepCo logo" class="regex">.*<span></span>/g</a>
+            </header>
+            <main class="mx-auto">
+                <section class="about">
+                    <header>
+                        <h2>About Me</h2>
+                    </header>
+                    <div class="section-container">
+                        <div class="section-body">
+                            <p>
+                                Hello! My name's Zack McCartney. I'm a web
+                                developer / programmer / software engineer /
+                                whatever you want to call it, working on the web
+                                for work and fun.
+                            </p>
+                            <p>For actual career info:</p>
+                            <ul>
+                                <li>
+                                    <a
+                                        href="https://www.linkedin.com/in/zackmccartney"
+                                        target="_blank"
+                                        >LinkedIn</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://github.com/zemccartney"
+                                        target="_blank"
+                                        >Github</a
+                                    >
+                                </li>
+                            </ul>
+                            <p>
+                                I grew up in Holliston, Massachusetts, USA, but
+                                have called the beautiful state of Maine my home
+                                for the better part of the last 15 years (living
+                                here permanently since 2014, college before
+                                that). I live in South Portland. I sometimes
+                                ride horses. I sometimes play ultimate frisbee,
+                                extremely rec league-y, including a funky local
+                                variant called Boot (come give it a shot, every
+                                Thursday during the winters at USM gym! With a
+                                postgame at the venerable Portland institution,
+                                <a
+                                    href="http://www.greatlostbear.com/"
+                                    target="_blank"
+                                    >The&nbsp;Great&nbsp;Lost&nbsp;Bear</a
+                                >).
+                            </p>
+                        </div>
+                        <div class="section-body">
+                            <p>
+                                I watch a lot of basketball. I live with my
+                                partner Jennie and our 13ish year old daughter
+                                Cece:
+                            </p>
+                            <div class="carousel">
+                                <button
+                                    class="previous"
+                                    type="button"
+                                    aria-label="Scroll to previous image"
+                                ></button>
+                                <button
+                                    class="next"
+                                    type="button"
+                                    aria-label="Scroll to next image"
+                                ></button>
+                                <div class="slides">
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/extremecloseup.png"
+                                            alt="Cece the cat, extreme close-up"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/mushroom.png"
+                                            alt="Cece the cat, on a mushroom"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <img
+                                            src="/images/babyc/hat.png"
+                                            alt="Cece the cat, wearing a fancy hat"
+                                            width="252"
+                                            height="336"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/chair.png"
+                                            alt="Cece the cat, posing on a footrest"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/upclose.png"
+                                            alt="Cece the cat, nosing a camera"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                She is my baby. Her birthday is January 15th.
+                                She is elderly but she is still just a baby. She
+                                is very small. Mainly because she is only 6
+                                pounds, but also because she is
+                                <em>just a baby</em>.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                <div class="secondary-content">
+                    <section class="why">
+                        <header>
+                            <h2>What's with GrepCo?</h2>
+                        </header>
+                        <div class="section-body">
+                            <p>
+                                <a
+                                    href="https://man7.org/linux/man-pages/man1/grep.1.html"
+                                    target="_blank"
+                                    >grep</a
+                                >
+                                is a classic search utility, dating back to the
+                                prehistoric days of Unix. When I learned that
+                                grep stood for "global regular expression search
+                                and print," I thought Global Regular Expressions
+                                sounded like a satirical agency name, something
+                                out of Better Off Ted, which left needing a p
+                                somewhere and I thought production company had a
+                                better ring to it than productions, along with
+                                some actual name differentiation from the
+                                program itself. That is, in fact, it, from
+                                bottom to
+                                <img
+                                    alt="small top hat emoji"
+                                    class="tiny-toppy"
+                                    src="/images/tophat.png"
+                                />.
+                            </p>
+                            <p class="disclaimer">
+                                (to be clear, I have no intention to discredit
+                                or infringe on grep's authors. Open to renaming
+                                if current branding lands as such)
+                            </p>
+                        </div>
+                    </section>
+                    <section class="contact">
+                        <header>
+                            <h2>Get in Touch</h2>
+                        </header>
+                        <div class="section-body">
+                            <p>
+                                Questions? Inquiries? Random thoughts? Don't
+                                hesitate to give me a shout! I'll try my best to
+                                get back to any non-spam messages within a
+                                couple of days.
+                            </p>
+                            <a href="mailto:zack@grepco.net">zack@grepco.net</a>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

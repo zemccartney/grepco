@@ -1,0 +1,179 @@
+/* Consider nabbing some rules from here as needed: https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css */
+
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/* END RESET */
+
+/* VARIABLES */
+
+:root {
+    /*** COLORS ***/
+
+    /* Primary */
+    --color-primary-100: hsl(204deg 94% 15%);
+    --color-primary-200: hsl(200deg 90% 20%);
+    --color-primary-300: hsl(198deg 81% 29%);
+    --color-primary-400: hsl(198deg 51% 52%);
+    --color-primary-500: hsl(196deg 65% 54%);
+    --color-primary-600: hsl(193deg 70% 56%);
+    --color-primary-700: hsl(193deg 74% 68%);
+    --color-primary-800: hsl(193deg 76% 81%);
+    --color-primary-900: hsl(190deg 92% 90%);
+    --color-primary-1000: hsl(190deg 100% 97%);
+
+    /* Accent */
+    --color-accent-100: hsl(1deg 96% 13%);
+    --color-accent-200: hsl(3deg 96% 20%);
+    --color-accent-300: hsl(5deg 96% 30%);
+    --color-accent-400: hsl(7deg 96% 36%);
+    --color-accent-500: hsl(10deg 96% 43%);
+    --color-accent-600: hsl(13deg 96% 50%);
+    --color-accent-700: hsl(16deg 96% 59%);
+    --color-accent-800: hsl(18deg 96% 78%);
+    --color-accent-900: hsl(18deg 98% 89%);
+    --color-accent-1000: hsl(21deg 100% 93%);
+
+    /* Grays */
+    --color-gray-100: hsl(209deg 61% 16%);
+    --color-gray-200: hsl(211deg 39% 23%);
+    --color-gray-300: hsl(209deg 34% 30%);
+    --color-gray-400: hsl(209deg 28% 39%);
+    --color-gray-500: hsl(210deg 22% 49%);
+    --color-gray-600: hsl(209deg 23% 60%);
+    --color-gray-700: hsl(211deg 27% 70%);
+    --color-gray-800: hsl(210deg 31% 80%);
+    --color-gray-900: hsl(212deg 33% 89%);
+
+    /* 
+        BREAKPOINTS, copied from Tailwind: https://tailwindcss.com/docs/responsive-design 
+        More for documentation purposes, since variables can't be used in media queries
+    */
+    --breakpoint-sm: 640px; /* 40rem */
+    --breakpoint-md: 768px; /* 48rem */
+    --breakpoint-lg: 1024px; /* 64rem */
+    --breakpoint-xl: 1280px; /* 80rem */
+    --breakpoint-2xl: 1536px; /* 96rem */
+
+    /* TYPOGRAPHY */
+    --font-family: "Exo 2", sans-serif;
+
+    /*
+        Property of Exo 2 from experimenting with character width unit (ch) per https://meyerweb.com/eric/thoughts/2018/06/28/what-is-the-css-ch-unit/
+        zeros are wider than typical characters, found that 20 zeros was ~20-30px wider than 20 characters (sample used: "Look, 20 characters.")
+        so if reaching for ch, consider 20% value ch e.g. 80ch if shooting for 100 characters wide, to achieve desired width
+        Tho em units will likely prove more reliable here
+    */
+
+    /* Sizing */
+
+    /* Assuming browser default of 16px */
+
+    /* TODO Consider using calc approach here to more clearly document https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/#calculated-values-14 */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-base: 1rem; /* 16px */
+    --font-size-lg: 1.125rem; /* 18px */
+    --font-size-xl: 1.25rem; /* 20px */
+    --font-size-2xl: 1.5rem; /* 24px */
+    --font-size-3xl: 1.875rem; /* 30px */
+    --font-size-4xl: 2.25rem; /* 36px */
+    --font-size-5xl: 3rem; /* 48px */
+    --font-size-6xl: 3.75rem; /* 60px */
+    --font-size-7xl: 4.5rem; /* 72px */
+
+    /* SPACING 
+        intentionally kept unitless, not sure yet how
+        to enforce our spacing system, but allow outputting values in rems
+        such that we can apply our system in a way that adapts to user preferences
+        where applicable (trying to follow intuition from: https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility)
+    */
+    --grid-unit: 8;
+    --spacing-base: calc(var(--grid-unit) * 2); /* 16 */
+    --spacing-quarter: calc(var(--spacing-base) * 0.25); /* 4 */
+    --spacing-half: calc(var(--spacing-base) * 0.5); /* 8 */
+    --spacing-threequarter: calc(var(--spacing-base) * 0.75); /* 12 */
+    --spacing-one: calc(var(--spacing-base) * 1); /* alias */
+    --spacing-onedotfive: calc(var(--spacing-base) * 1.5); /* 24 */
+    --spacing-two: calc(var(--spacing-base) * 2); /* 32 */
+    --spacing-three: calc(var(--spacing-base) * 3); /* 48 */
+    --spacing-four: calc(var(--spacing-base) * 4); /* 64 */
+    --spacing-six: calc(var(--spacing-base) * 6); /* 96 */
+    --spacing-eight: calc(var(--spacing-base) * 8); /* 128 */
+    --spacing-twelve: calc(var(--spacing-base) * 12); /* 192 */
+    --spacing-sixteen: calc(var(--spacing-base) * 16); /* 256 */
+    --spacing-twentyfour: calc(var(--spacing-base) * 24); /* 384 */
+    --spacing-thirtytwo: calc(var(--spacing-base) * 32); /* 512 */
+    --spacing-forty: calc(var(--spacing-base) * 40); /* 640 */
+    --spacing-fortyeight: calc(var(--spacing-base) * 48); /* 768 */
+    --spacing-sixtyfour: calc(var(--spacing-base) * 64); /* 1024 */
+    --spacing-eighty: calc(var(--spacing-base) * 80); /* 1280 */
+    --spacing-ninetysix: calc(var(--spacing-base) * 96); /* 1536 */
+
+    /*
+
+        # var calcs for outputting px and rem
+
+        both boil down to setting output unit by mulitplying numeric result of first calc by 1unit
+
+        ## px
+            calc(var(--spacing-one) * 1px)
+
+        ## rem
+
+            calc(var(--spacing-one) * 1rem / var(--spacing-base));
+
+            - based on calc here: https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/#calculated-values-14
+            - intent is to derive a rem equivalent of our spacing unit, then divide by our base font size to
+            yield a rem value relative to said font size.
+    */
+}
+
+/** UTILITIES **/
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
