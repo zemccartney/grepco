@@ -3,22 +3,53 @@
     <head>
         <meta charset="utf-8" />
         <title>About Me — GrepCo</title>
-        <!-- TODO favicon -->
+
+        <link
+            rel="icon"
+            href="/favicon.ico"
+            sizes="32x32"
+        />
+        <link
+            rel="icon"
+            href="/favicon.svg"
+            type="image/svg+xml"
+        />
+        <link
+            rel="apple-touch-icon"
+            href="/apple-touch-icon.png"
+        />
+
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1, user-scalable=1"
         />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin
+        />
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
         />
 
-        <link rel="stylesheet" href="/global.css" />
-        <link rel="stylesheet" href="/theme.css" />
-        <link rel="stylesheet" href="/about/style.css" />
+        <link
+            rel="stylesheet"
+            href="/global.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/theme.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/about/style.css"
+        />
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
@@ -65,18 +96,39 @@
         </script>
     </head>
     <body>
-        <div class="about-layout">
+        <div class="subpage-layout">
             <header class="mx-auto">
-                <!-- prettier-ignore -->
-                <a href="/index.html" aria-label="GrepCo logo" class="regex">.*<span></span>/g</a>
+                <nav>
+                    <a
+                        href="/index.html"
+                        aria-label="GrepCo logo"
+                        class="regex"
+                    >
+                        .*<span></span>/g
+                    </a>
+                    <div class="nav-button-group">
+                        <a
+                            href="/about"
+                            class="AccentButton current-page"
+                        >
+                            About
+                        </a>
+                        <a
+                            href="/projects"
+                            class="AccentButton"
+                        >
+                            Projects
+                        </a>
+                    </div>
+                </nav>
             </header>
             <main class="mx-auto">
-                <section class="about">
-                    <header>
-                        <h2>About Me</h2>
+                <section class="block about">
+                    <header class="block-header">
+                        <h1>About Me</h1>
                     </header>
                     <div class="section-container">
-                        <div class="section-body">
+                        <div class="block-body">
                             <p>
                                 Hello! My name's Zack McCartney. I'm a web
                                 developer / programmer / software engineer /
@@ -115,14 +167,13 @@
                                     href="http://www.greatlostbear.com/"
                                     target="_blank"
                                     >The&nbsp;Great&nbsp;Lost&nbsp;Bear</a
-                                >).
+                                >). I watch a lot of basketball.
                             </p>
                         </div>
-                        <div class="section-body">
+                        <div class="block-body">
                             <p>
-                                I watch a lot of basketball. I live with my
-                                partner Jennie and our 13ish year old daughter
-                                Cece:
+                                I live with my partner Jennie and our 13ish year
+                                old daughter Cece:
                             </p>
                             <div class="carousel">
                                 <button
@@ -139,29 +190,11 @@
                                     <div class="slide">
                                         <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
                                         <img
-                                            src="/images/babyc/extremecloseup.png"
-                                            alt="Cece the cat, extreme close-up"
+                                            src="/images/babyc/posing.png"
+                                            alt="Cece the cat, posing on a blanket"
                                             width="252"
                                             height="336"
                                             loading="lazy"
-                                        />
-                                    </div>
-                                    <div class="slide">
-                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
-                                        <img
-                                            src="/images/babyc/mushroom.png"
-                                            alt="Cece the cat, on a mushroom"
-                                            width="252"
-                                            height="336"
-                                            loading="lazy"
-                                        />
-                                    </div>
-                                    <div class="slide">
-                                        <img
-                                            src="/images/babyc/hat.png"
-                                            alt="Cece the cat, wearing a fancy hat"
-                                            width="252"
-                                            height="336"
                                         />
                                     </div>
                                     <div class="slide">
@@ -177,19 +210,57 @@
                                     <div class="slide">
                                         <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
                                         <img
-                                            src="/images/babyc/upclose.png"
-                                            alt="Cece the cat, nosing a camera"
+                                            src="/images/babyc/extremecloseup.png"
+                                            alt="Cece the cat, extreme close-up"
                                             width="252"
                                             height="336"
                                             loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/fierce.png"
+                                            alt="Cece the cat, looking very dramatic and stylish"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/inthesun.png"
+                                            alt="Cece the cat, lying in the sun"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                        <img
+                                            src="/images/babyc/nesting.png"
+                                            alt="Cece the cat, in a little blanket nest on my chair"
+                                            width="252"
+                                            height="336"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <div class="slide">
+                                        <img
+                                            src="/images/babyc/hat.png"
+                                            alt="Cece the cat, wearing a fancy hat"
+                                            width="252"
+                                            height="336"
                                         />
                                     </div>
                                 </div>
                             </div>
                             <p>
                                 She is my baby. Her birthday is January 15th.
-                                She is elderly but she is still just a baby. She
-                                is very small. Mainly because she is only 6
+                                She is elderly, but she is still just a baby.
+                                She is very small. Mainly because she is only 6
                                 pounds, but also because she is
                                 <em>just a baby</em>.
                             </p>
@@ -197,11 +268,11 @@
                     </div>
                 </section>
                 <div class="secondary-content">
-                    <section class="why">
-                        <header>
+                    <section class="block metal why">
+                        <header class="block-header">
                             <h2>What's with GrepCo?</h2>
                         </header>
-                        <div class="section-body">
+                        <div class="block-body">
                             <p>
                                 <a
                                     href="https://man7.org/linux/man-pages/man1/grep.1.html"
@@ -232,11 +303,11 @@
                             </p>
                         </div>
                     </section>
-                    <section class="contact">
-                        <header>
+                    <section class="block contact">
+                        <header class="block-header">
                             <h2>Get in Touch</h2>
                         </header>
-                        <div class="section-body">
+                        <div class="block-body">
                             <p>
                                 Questions? Inquiries? Random thoughts? Don't
                                 hesitate to give me a shout! I'll try my best to

@@ -1,5 +1,6 @@
 {
-  "experimentalTernaries": true,
-  "trailingComma": "none",
-  "tabWidth": 4
+    "experimentalTernaries": true,
+    "singleAttributePerLine": true,
+    "trailingComma": "none",
+    "tabWidth": 4
 }

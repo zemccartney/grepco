@@ -1,14 +1,10 @@
 .home-layout {
-    padding-top: calc(var(--spacing-four) * 1px);
     padding-bottom: calc(var(--spacing-four) * 1px);
-
-    > * + * {
-        margin-top: calc(var(--spacing-three) * 1rem / var(--spacing-base));
-    }
+    padding-top: calc(var(--spacing-two) * 1px);
 
     @media (min-width: 40rem) {
-        padding-top: calc(var(--spacing-six) * 1px);
         padding-bottom: calc(var(--spacing-six) * 1px);
+        padding-top: calc(var(--spacing-two) * 1px);
     }
 
     header {
@@ -19,7 +15,7 @@
         /* TODO postcss concern; need to provide a fallback for gap? */
         gap: calc((var(--spacing-three) * 1rem) / var(--spacing-base));
 
-        h1 {
+        > h1 {
             color: var(--color-accent-600);
             font-size: var(--font-size-4xl);
             letter-spacing: 0.05em;
@@ -30,12 +26,8 @@
             text-transform: uppercase;
         }
 
-        .logo {
-            text-align: center;
-
+        > .logo {
             .toppy {
-                margin-left: auto;
-                margin-right: auto;
                 width: 50%;
             }
 
@@ -45,6 +37,7 @@
                 font-weight: bold;
                 letter-spacing: 0.05em;
                 line-height: 1;
+                margin-left: -0.5rem; /* I can't explain why, but this nudge makes the logo look more centered */
 
                 /* Wanted disproportionate "letter-spacing" between the selector and flags of the regex */
                 span {
@@ -54,29 +47,27 @@
             }
         }
 
-        h2 {
-            color: var(--color-primary-900);
-            font-size: var(--font-size-2xl);
-            font-weight: bold;
-            text-align: center;
-        }
-
         @media (min-width: 40rem) {
             h1 {
                 font-size: var(--font-size-6xl);
-            }
-
-            h2 {
-                font-size: var(--font-size-3xl);
             }
         }
     }
 
     main {
-        max-width: 20em; /* TODO Document, how arrived at via ch measurements for font; what's the intended character count? */
         color: var(--color-primary-900);
         font-size: var(--font-size-base);
+        max-width: 20em; /* see note in global.css about character count experiment */
         text-align: center;
+
+        h2 {
+            color: var(--color-primary-900);
+            font-size: var(--font-size-2xl);
+            font-weight: bold;
+            margin-bottom: 1em;
+            margin-top: 2em;
+            text-align: center;
+        }
 
         p + p {
             margin-top: 1em;
@@ -84,15 +75,10 @@
 
         @media (min-width: 40rem) {
             font-size: var(--font-size-lg);
-        }
-    }
 
-    nav {
-        max-width: calc(
-            (var(--spacing-twentyfour) * 1rem) / var(--spacing-base)
-        );
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+            h2 {
+                font-size: var(--font-size-3xl);
+            }
+        }
     }
 }
