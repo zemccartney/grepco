@@ -28,12 +28,12 @@ body {
 }
 
 a {
-    color: var(--color-accent-600);
+    color: var(--color-link);
 
     /* TODO Proper mobile link styling? */
     &:hover,
     &:active {
-        color: var(--color-accent-300);
+        color: var(--color-link-active);
     }
 }
 

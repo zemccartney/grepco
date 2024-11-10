@@ -5,14 +5,49 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
+    "engines": {
+        "node": ">=22 <23"
+    },
     "devDependencies": {
+        "@csstools/postcss-bundler": "^2.0.5",
+        "@csstools/postcss-minify": "^2.0.3",
+        "del": "^8.0.0",
+        "gulp": "^5.0.0",
+        "gulp-cli": "^3.0.0",
+        "gulp-if": "^3.0.0",
+        "gulp-imagemin": "^9.1.0",
+        "gulp-plugin-extras": "^1.1.0",
+        "gulp-postcss": "^10.0.0",
         "html-validate": "^8.24.0",
+        "image-extensions": "^1.1.0",
+        "imagemin-pngquant": "^10.0.0",
+        "lazypipe": "^1.0.2",
+        "postcss-cli": "^11.0.0",
+        "postcss-preset-env": "^10.0.9",
         "prettier": "^3.3.3",
         "serve": "^14.2.4",
+        "sharp": "^0.33.5",
         "stylelint": "^16.9.0",
-        "stylelint-config-standard": "^36.0.1"
+        "stylelint-config-standard": "^36.0.1",
+        "vinyl": "^3.0.0"
     },
     "scripts": {
-        "start": "serve src"
+        "babyc": "gulp prepareBabyCGallery",
+        "build": "NODE_ENV=production gulp build",
+        "dev": "serve src",
+        "preview": "npm run build && serve dist",
+        "start": "gulp local & serve dist"
+    },
+    "browserslist": {
+        "development": [
+            "last 1 Chrome version",
+            "last 1 Firefox version",
+            "last 1 Safari version"
+        ],
+        "production": [
+            "last 5 versions",
+            "> 0.1%",
+            "not dead"
+        ]
     }
 }

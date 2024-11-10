@@ -1,0 +1,66 @@
+@import url("../global.css");
+@import url("../theme.css");
+
+#layout-root {
+    #projects-link {
+        color: var(--color-primary-900);
+        font-size: var(--font-size-4xl);
+        margin-top: 0.75em;
+        padding-inline-start: calc(
+            var(--spacing-two) * 1rem / var(--spacing-base)
+        );
+        text-decoration: none;
+        text-transform: uppercase;
+
+        &:hover,
+        &:active {
+            color: var(--color-primary-600);
+        }
+
+        @media (min-width: 40rem) {
+            font-size: var(--font-size-5xl);
+        }
+    }
+
+    main {
+        max-width: 40rem;
+
+        @media (min-width: 80rem) {
+            max-width: fit-content;
+        }
+
+        > article {
+            margin-top: calc(var(--spacing-two) * 1rem / var(--spacing-base));
+
+            #url {
+                display: block;
+                font-size: var(--font-size-xl);
+                font-weight: bold;
+                width: fit-content;
+            }
+
+            .block-body {
+                * + * {
+                    margin-top: 0.75em;
+
+                    &:is(h2) {
+                        margin-top: 1.25em;
+                    }
+
+                    &:is(li) {
+                        margin-top: 0.25em;
+                    }
+
+                    &:is(ul) {
+                        margin-top: 1.25em;
+                        margin-bottom: 1.25em;
+                    }
+                }
+
+                ul + * {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}

@@ -88,6 +88,10 @@ h6 {
     --color-gray-800: hsl(210deg 31% 80%);
     --color-gray-900: hsl(212deg 33% 89%);
 
+    /* links */
+    --color-link: hsl(214deg 88% 40%);
+    --color-link-active: hsl(284deg 93% 26%);
+
     /* 
         BREAKPOINTS, copied from Tailwind: https://tailwindcss.com/docs/responsive-design 
         More for documentation purposes, since variables can't be used in media queries
