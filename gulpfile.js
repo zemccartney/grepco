@@ -1,5 +1,3 @@
-import Fs from "node:fs/promises";
-import Stream from "node:stream";
 import { deleteAsync } from "del";
 import Gulp from "gulp";
 import GulpIf from "gulp-if";
@@ -76,15 +74,15 @@ function css() {
         .pipe(Gulp.dest("dist/", { sourcemaps: true }));
 }
 
-function html() {
-    return Gulp.src("src/**/*.html").pipe(Gulp.dest("dist/"));
+function others() {
+    return Gulp.src("src/**/*.{html,txt}").pipe(Gulp.dest("dist/"));
 }
 
-export const build = Gulp.series(clean, Gulp.parallel(images, css, html));
+export const build = Gulp.series(clean, Gulp.parallel(images, css, others));
 
 export const local = Gulp.series(build, () => {
     // TODO Possible to update only the file affected?
-    Gulp.watch("src/**/*.css", css), Gulp.watch("src/**/*.html", html);
+    Gulp.watch("src/**/*.css", css), Gulp.watch("src/**/*.{html,txt}", others);
 });
 
 /*
