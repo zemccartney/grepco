@@ -3,6 +3,14 @@
     <head>
         <meta charset="utf-8" />
         <title>About Me — GrepCo</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=1"
+        />
+        <meta
+            name="description"
+            content="About GrepCo and Zack McCartney"
+        />
 
         <link
             rel="icon"
@@ -17,11 +25,6 @@
         <link
             rel="apple-touch-icon"
             href="/apple-touch-icon.png"
-        />
-
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=1"
         />
 
         <link
@@ -58,11 +61,20 @@
                 const scrollWidth = () => slides.clientWidth;
 
                 // For paginated scrolling, simply scroll the gallery one item in the given
-                // direction and let css scroll snaping handle the specific alignment.
+                // direction and let css scroll snapping handle the specific alignment.
                 function scrollToNext() {
                     const w = scrollWidth();
 
-                    if (slides.scrollLeft === w * numSlides - w) {
+                    /*
+                        TODO Figure out why scrollLeft sometimes exceeds amount scrolled
+                        Unclear why, but on refactoring the carousel (relocating buttons,
+                        adjusting margin and padding and max-width, adding image border radius), the carousel
+                        would semi-randomly stop scrolling back to the beginning due to scrollLeft
+                        being 1px greater than w * numslides - w. Whole lot of spacing-related changes
+                        made, plenty of culprits, max-width being the most promising, since this
+                        isn't an issue on mobile views and that rule's applied only above the medium breakpoint
+                    */
+                    if (slides.scrollLeft >= w * numSlides - w) {
                         slides.scrollBy(-w * numSlides, 0);
                     } else {
                         slides.scrollBy(w, 0);
@@ -172,16 +184,6 @@
                                 old daughter Cece:
                             </p>
                             <div class="carousel">
-                                <button
-                                    class="previous"
-                                    type="button"
-                                    aria-label="Scroll to previous image"
-                                ></button>
-                                <button
-                                    class="next"
-                                    type="button"
-                                    aria-label="Scroll to next image"
-                                ></button>
                                 <div class="slides">
                                     <div class="slide">
                                         <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
@@ -261,6 +263,18 @@
                                             height="336"
                                         />
                                     </div>
+                                </div>
+                                <div class="control-panel">
+                                    <button
+                                        class="previous"
+                                        type="button"
+                                        aria-label="Scroll to previous image"
+                                    ></button>
+                                    <button
+                                        class="next"
+                                        type="button"
+                                        aria-label="Scroll to next image"
+                                    ></button>
                                 </div>
                             </div>
                             <p>

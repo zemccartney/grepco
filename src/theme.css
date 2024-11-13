@@ -186,9 +186,14 @@ nav {
 
 .post-title {
     color: var(--color-primary-900);
-    font-size: var(--font-size-7xl);
+    font-size: var(--font-size-4xl);
+    letter-spacing: 0.05em;
     font-style: italic;
     margin-top: calc(var(--spacing-four) * 1rem / var(--spacing-base));
     text-align: center;
     text-transform: uppercase;
+
+    @media (min-width: 40rem) {
+        font-size: var(--font-size-7xl);
+    }
 }

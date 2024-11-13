@@ -112,63 +112,77 @@ main {
 
                 .carousel {
                     padding: calc(
-                            (var(--spacing-one) * 1rem) / var(--spacing-base)
-                        )
-                        0;
+                        (var(--spacing-one) * 1rem) / var(--spacing-base)
+                    );
+
+                    /* don't override typography spacing rules i.e. margin-top via lobotomized owl */
+                    margin-left: calc(
+                        (var(--spacing-one) * -1rem) / var(--spacing-base)
+                    );
+                    margin-right: calc(
+                        (var(--spacing-one) * -1rem) / var(--spacing-base)
+                    );
                     background-color: var(--color-accent-100);
                     border-radius: calc(var(--spacing-half) * 1px);
-                    position: relative;
 
-                    > button {
-                        /* resets */
+                    @media (min-width: 40rem) {
+                        /* don't override typography spacing rules i.e. margin-top via lobotomized owl */
+                        margin-left: auto;
+                        margin-right: auto;
+                        max-width: 70%;
+                    }
 
-                        background-color: transparent;
-                        border-width: 0;
-                        padding: 0;
-                        border-style: solid;
-
-                        /* end resets */
-
-                        position: absolute;
-                        top: calc(50% - calc(var(--spacing-onedotfive) * 1px));
-                        width: 0;
-                        height: 0;
-                        cursor: pointer;
-                        border-color: var(--color-accent-700);
-                        border-top-width: calc(var(--spacing-onedotfive) * 1px);
-                        border-top-color: transparent;
-                        border-bottom-width: calc(
-                            var(--spacing-onedotfive) * 1px
+                    > .control-panel {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        padding-top: calc(
+                            (var(--spacing-one) * 1rem) / var(--spacing-base)
                         );
-                        border-bottom-color: transparent;
 
-                        &.previous {
-                            border-right-width: calc(
-                                var(--spacing-three) * 1px
+                        > button {
+                            /* resets */
+
+                            background-color: transparent;
+                            border-width: 0;
+                            padding: 0;
+                            border-style: solid;
+
+                            /* end resets */
+
+                            width: 0;
+                            height: 0;
+                            cursor: pointer;
+                            border-color: var(--color-accent-700);
+                            border-top-width: calc(
+                                var(--spacing-onedotfive) * 1px
                             );
-                            left: 0;
+                            border-top-color: transparent;
+                            border-bottom-width: calc(
+                                var(--spacing-onedotfive) * 1px
+                            );
+                            border-bottom-color: transparent;
 
-                            @media (min-width: 40rem) {
-                                left: calc(var(--spacing-onedotfive) * 1px);
+                            &.previous {
+                                border-right-width: calc(
+                                    var(--spacing-three) * 1px
+                                );
+
+                                &:hover,
+                                &:active {
+                                    border-right-color: var(--color-accent-800);
+                                }
                             }
 
-                            &:hover,
-                            &:active {
-                                border-right-color: var(--color-accent-800);
-                            }
-                        }
+                            &.next {
+                                border-left-width: calc(
+                                    var(--spacing-three) * 1px
+                                );
 
-                        &.next {
-                            border-left-width: calc(var(--spacing-three) * 1px);
-                            right: 0;
-
-                            @media (min-width: 40rem) {
-                                right: calc(var(--spacing-onedotfive) * 1px);
-                            }
-
-                            &:hover,
-                            &:active {
-                                border-left-color: var(--color-accent-800);
+                                &:hover,
+                                &:active {
+                                    border-left-color: var(--color-accent-800);
+                                }
                             }
                         }
                     }
@@ -180,12 +194,16 @@ main {
 
                         /* TODO Review / recall Comeau's image placement work */
                         > .slide {
-                            scroll-snap-align: center;
-                            flex-shrink: 0;
-                            display: flex;
                             align-items: center;
+                            display: flex;
+                            flex-shrink: 0;
                             justify-content: center;
+                            scroll-snap-align: center;
                             width: 100%;
+
+                            > img {
+                                border-radius: calc(var(--spacing-half) * 1px);
+                            }
                         }
                     }
                 }
