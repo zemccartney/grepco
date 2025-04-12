@@ -13,6 +13,13 @@ import PostCssPresetEnv from "postcss-preset-env";
 import Sharp from "sharp";
 import Vinyl from "vinyl";
 
+/*
+
+WARNING: Currently depends on running with --no-experimental-require-module node flag
+due to https://github.com/gulpjs/gulp-cli/issues/268
+
+*/
+
 /* Postcss usage pulled from https://github.com/csstools/postcss-plugins/tree/75e5ded5f37b641bec9bc45e9fcb7c5b51880673/postcss-recipes/minimal-setup */
 
 function clean() {
@@ -94,8 +101,9 @@ a.) for local dev, optimized images, both to test optimized display and so pages
 b.) images stored in correct src locations, so can still serve the site with no build as desired
 c.) clear how to regenerate images, if ever needed
 
-At the time of writing, running image optimization on the heavy carousel images in the build task
-If that ever gets too slow, remove and pre-optimize images as follows:
+At the time of writing, I'm running image optimization on the heavy carousel images in the build task
+
+If ever needed, remove and pre-optimize images as follows:
 
 - original images are stored in drive
 - to (re)generate, pull images down and run the following, saving results in version control
