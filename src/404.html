@@ -1,101 +1,61 @@
-<!doctype html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8" />
-        <title>404 — GrepCo</title>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=1"
-        />
-        <meta
-            name="description"
-            content="Page not found!"
-        />
+{% extends "layouts/base.html" %}
 
-        <link
-            rel="icon"
-            href="/favicon.ico"
-            sizes="32x32"
-        />
-        <link
-            rel="icon"
-            href="/favicon.svg"
-            type="image/svg+xml"
-        />
-        <link
-            rel="apple-touch-icon"
-            href="/apple-touch-icon.png"
-        />
+{% block pagename %}
+    404
+{% endblock %}
 
-        <link
-            rel="preconnect"
-            href="https://fonts.googleapis.com"
-        />
-        <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossorigin
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
-        />
+{% block description %}
+    Page not found!
+{% endblock %}
 
-        <link
-            rel="stylesheet"
-            href="/global.css"
-        />
-        <link
-            rel="stylesheet"
-            href="/theme.css"
-        />
-        <style>
-            main {
-                align-items: center;
-                display: flex;
-                flex-direction: column;
-                gap: calc((var(--spacing-three) * 1rem) / var(--spacing-base));
+{% block head %}
+    <style>
+        main {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: calc((var(--spacing-three) * 1rem) / var(--spacing-base));
 
-                padding-bottom: calc(var(--spacing-four) * 1px);
+            padding-bottom: calc(var(--spacing-four) * 1px);
+            padding-top: calc(var(--spacing-two) * 1px);
+
+            @media (min-width: 40rem) {
+                padding-bottom: calc(var(--spacing-six) * 1px);
                 padding-top: calc(var(--spacing-two) * 1px);
-
-                @media (min-width: 40rem) {
-                    padding-bottom: calc(var(--spacing-six) * 1px);
-                    padding-top: calc(var(--spacing-two) * 1px);
-                }
             }
+        }
 
-            #exclamation {
-                font-size: 10rem;
-                color: var(--color-accent-600);
-                font-weight: bold;
+        #exclamation {
+            font-size: 10rem;
+            color: var(--color-accent-600);
+            font-weight: bold;
+        }
+
+        h1 {
+            color: var(--color-accent-600);
+            font-size: var(--font-size-4xl);
+
+            @media (min-width: 40rem) {
+                font-size: var(--font-size-6xl);
             }
+        }
+    </style>
+{% endblock %}
 
-            h1 {
-                color: var(--color-accent-600);
-                font-size: var(--font-size-4xl);
-
-                @media (min-width: 40rem) {
-                    font-size: var(--font-size-6xl);
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <main class="mx-auto">
-            <div
-                id="exclamation"
-                role="none"
-            >
-                !
-            </div>
-            <h1>Page Not Found</h1>
-            <a
-                href="/"
-                class="AccentButton"
-            >
-                Go Home
-            </a>
-        </main>
-    </body>
-</html>
+{% block body %}
+    <main class="mx-auto">
+        <div
+            id="exclamation"
+            role="none"
+        >
+            !
+        </div>
+        <h1>Page Not Found</h1>
+        <a
+            href="/"
+            class="AccentButton"
+        >
+            Go Home
+        </a>
+    </main>
+{% endblock %}

@@ -1,132 +1,99 @@
-<!doctype html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8" />
-        <title>Project: Ball is Wine — GrepCo</title>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=1"
-        />
-        <meta
-            name="description"
-            content="GrepCo's Ball is Wine project — a celebration of hoops and crushed grapes"
-        />
+{% extends "layouts/base.html" %}
 
-        <link
-            rel="icon"
-            href="/favicon.ico"
-            sizes="32x32"
-        />
-        <link
-            rel="icon"
-            href="/favicon.svg"
-            type="image/svg+xml"
-        />
-        <link
-            rel="apple-touch-icon"
-            href="/apple-touch-icon.png"
-        />
+{% block pagename %}
+    Project: Ball is Wine
+{% endblock %}
 
-        <link
-            rel="preconnect"
-            href="https://fonts.googleapis.com"
-        />
-        <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossorigin
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
-        />
+{% block description %}
+    GrepCo's Ball is Wine project — a celebration of hoops and crushed grapes
+{% endblock %}
 
-        <link
-            rel="stylesheet"
-            href="/projects/detail.css"
-        />
-    </head>
-    <body>
-        <div
-            class="subpage-layout"
-            id="layout-root"
-        >
-            <header class="mx-auto">
-                <nav>
+{% block head %}
+    <link
+        rel="stylesheet"
+        href="/projects/detail.css"
+    />
+{% endblock %}
+
+{% block body %}
+    <div
+        class="subpage-layout"
+        id="layout-root"
+    >
+        <header class="mx-auto">
+            <nav>
+                <a
+                    href="/index.html"
+                    aria-label="GrepCo logo"
+                    class="regex"
+                >
+                    .*<span></span>/g
+                </a>
+                <div class="nav-button-group">
                     <a
-                        href="/index.html"
-                        aria-label="GrepCo logo"
-                        class="regex"
+                        href="/about"
+                        class="AccentButton"
                     >
-                        .*<span></span>/g
+                        About
                     </a>
-                    <div class="nav-button-group">
-                        <a
-                            href="/about"
-                            class="AccentButton"
-                        >
-                            About
-                        </a>
-                        <a
-                            href="/projects"
-                            class="AccentButton current-page"
-                        >
-                            Projects
-                        </a>
-                    </div>
-                </nav>
-            </header>
+                    <a
+                        href="/projects"
+                        class="AccentButton current-page"
+                    >
+                        Projects
+                    </a>
+                </div>
+            </nav>
+        </header>
 
-            <main class="mx-auto">
-                <h1 class="post-title">Ball is Wine</h1>
-                <article class="block metal">
-                    <div class="block-body">
-                        <!-- TODO screenshot -->
-                        <a
-                            class="mx-auto"
-                            id="url"
-                            href="https://balliswine.grepco.net"
-                            target="_blank"
-                            >https://balliswine.grepco.net</a
-                        >
-                        <h2>What is it?</h2>
-                        <p>
-                            Every month, I pick out a bottle of wine and pair it
-                            with a slate of basketball games. I then write about
-                            the experience of both, the ball <em>and</em> the
-                            wine.
-                        </p>
-                        <h2>Dev Info</h2>
-                        <p>Built mainly with:</p>
-                        <ul>
-                            <li>
-                                <a
-                                    href="https://astro.build/"
-                                    target="_blank"
-                                >
-                                    Astro
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://tailwindcss.com/"
-                                    target="_blank"
-                                >
-                                    Tailwind
-                                </a>
-                            </li>
-                        </ul>
-                        <p>
+        <main class="mx-auto">
+            <h1 class="post-title">Ball is Wine</h1>
+            <article class="block metal">
+                <div class="block-body">
+                    <!-- TODO screenshot -->
+                    <a
+                        class="mx-auto"
+                        id="url"
+                        href="https://balliswine.grepco.net"
+                        target="_blank"
+                        >https://balliswine.grepco.net</a
+                    >
+                    <h2>What is it?</h2>
+                    <p>
+                        Every month, I pick out a bottle of wine and pair it
+                        with a slate of basketball games. I then write about the
+                        experience of both, the ball <em>and</em> the wine.
+                    </p>
+                    <h2>Dev Info</h2>
+                    <p>Built mainly with:</p>
+                    <ul>
+                        <li>
                             <a
-                                href="https://github.com/zemccartney/balliswine"
+                                href="https://astro.build/"
                                 target="_blank"
                             >
-                                https://github.com/zemccartney/balliswine
+                                Astro
                             </a>
-                        </p>
-                    </div>
-                </article>
-            </main>
-        </div>
-    </body>
-</html>
+                        </li>
+                        <li>
+                            <a
+                                href="https://tailwindcss.com/"
+                                target="_blank"
+                            >
+                                Tailwind
+                            </a>
+                        </li>
+                    </ul>
+                    <p>
+                        <a
+                            href="https://github.com/zemccartney/balliswine"
+                            target="_blank"
+                        >
+                            https://github.com/zemccartney/balliswine
+                        </a>
+                    </p>
+                </div>
+            </article>
+        </main>
+    </div>
+{% endblock %}

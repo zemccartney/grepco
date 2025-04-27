@@ -1,6 +1,7 @@
 import { deleteAsync } from "del";
 import Gulp from "gulp";
 import GulpIf from "gulp-if";
+import * as GulpNunjucks from "gulp-nunjucks";
 import { gulpPlugin as GulpPlugin } from "gulp-plugin-extras";
 import Imagemin from "gulp-imagemin";
 import ImageExtensions from "image-extensions" with { type: "json" };
@@ -81,16 +82,31 @@ function css() {
         .pipe(Gulp.dest("dist/", { sourcemaps: true }));
 }
 
-function others() {
-    return Gulp.src("src/**/*.{html,txt}").pipe(Gulp.dest("dist/"));
+function tpl() {
+    return Gulp.src(["src/**/*.html", "!src/layouts/**"])
+        .pipe(GulpNunjucks.nunjucksCompile())
+        .pipe(Gulp.dest("dist/"));
 }
 
-export const build = Gulp.series(clean, Gulp.parallel(images, css, others));
+function others() {
+    return Gulp.src("src/**/*.{txt}").pipe(Gulp.dest("dist/"));
+}
 
-export const local = Gulp.series(build, () => {
+export const build = Gulp.series(
+    clean,
+    Gulp.parallel(images, css, tpl, others)
+);
+
+export const local = Gulp.series(
+    build,
     // TODO Possible to update only the file affected?
-    Gulp.watch("src/**/*.css", css), Gulp.watch("src/**/*.{html,txt}", others);
-});
+    () => {
+        Gulp.watch("src/**/*.css", css);
+        Gulp.watch("src/**/*.{txt}", others);
+        // Watch layout, too, so changes trigger rebuild
+        Gulp.watch(["src/**/*.html"], tpl);
+    }
+);
 
 /*
 Problem: image optimization can take a long time such that optimizing our images

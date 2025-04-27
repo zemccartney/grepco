@@ -1,182 +1,150 @@
-<!doctype html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8" />
-        <title>Project: NBA Surprise Teams Tracker — GrepCo</title>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=1"
-        />
-        <meta
-            name="description"
-            content="NBA Surprise Teams Tracker - tribute to a favorite hoops podcast"
-        />
+{% extends "layouts/base.html" %}
 
-        <link
-            rel="icon"
-            href="/favicon.ico"
-            sizes="32x32"
-        />
-        <link
-            rel="icon"
-            href="/favicon.svg"
-            type="image/svg+xml"
-        />
-        <link
-            rel="apple-touch-icon"
-            href="/apple-touch-icon.png"
-        />
+{% block pagename %}
+    Project: NBA Surprise Teams Tracker
+{% endblock %}
 
-        <link
-            rel="preconnect"
-            href="https://fonts.googleapis.com"
-        />
-        <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossorigin
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
-        />
+{% block description %}
+    NBA Surprise Teams Tracker - tribute to a favorite hoops podcast
+{% endblock %}
 
-        <link
-            rel="stylesheet"
-            href="/projects/detail.css"
-        />
+{% block head %}
+    <link
+        rel="stylesheet"
+        href="/projects/detail.css"
+    />
 
-        <style>
-            main {
-                h1 {
-                    @media (min-width: 80rem) {
-                        max-width: 65%;
-                        margin: 0 auto;
-                    }
-                }
-
-                article {
-                    max-width: fit-content;
+    <style>
+        main {
+            h1 {
+                @media (min-width: 80rem) {
+                    max-width: 65%;
+                    margin: 0 auto;
                 }
             }
-        </style>
-    </head>
-    <body>
-        <div
-            class="subpage-layout"
-            id="layout-root"
-        >
-            <header class="mx-auto">
-                <nav>
-                    <a
-                        href="/index.html"
-                        aria-label="GrepCo logo"
-                        class="regex"
-                    >
-                        .*<span></span>/g
-                    </a>
-                    <div class="nav-button-group">
-                        <a
-                            href="/about"
-                            class="AccentButton"
-                        >
-                            About
-                        </a>
-                        <a
-                            href="/projects"
-                            class="AccentButton current-page"
-                        >
-                            Projects
-                        </a>
-                    </div>
-                </nav>
-            </header>
 
-            <main class="mx-auto">
-                <h1 class="post-title">NBA&nbsp;Surprise Teams&nbsp;Tracker</h1>
-                <article class="block metal mx-auto">
-                    <div class="block-body">
-                        <a
-                            class="mx-auto"
-                            id="url"
-                            href="https://nbastt.grepco.net/"
-                            target="_blank"
-                            >https://nbastt.grepco.net/</a
-                        >
-                        <h2>What is it?</h2>
-                        <p>
-                            A tribute to a favorite NBA podcast. A small stats
-                            app, tracking said pod's segment, Surprise Teams, on
-                            if certain supposedly underwhelming NBA teams are in
-                            fact exceeding those expectations.
-                        </p>
-                        <h2>Dev Info</h2>
-                        <ul>
-                            <li>
-                                <span
-                                    >Built on
-                                    <a
-                                        href="https://astro.build/"
-                                        target="_blank"
-                                    >
-                                        Astro
-                                    </a></span
+            article {
+                max-width: fit-content;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div
+        class="subpage-layout"
+        id="layout-root"
+    >
+        <header class="mx-auto">
+            <nav>
+                <a
+                    href="/index.html"
+                    aria-label="GrepCo logo"
+                    class="regex"
+                >
+                    .*<span></span>/g
+                </a>
+                <div class="nav-button-group">
+                    <a
+                        href="/about"
+                        class="AccentButton"
+                    >
+                        About
+                    </a>
+                    <a
+                        href="/projects"
+                        class="AccentButton current-page"
+                    >
+                        Projects
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="mx-auto">
+            <h1 class="post-title">NBA&nbsp;Surprise Teams&nbsp;Tracker</h1>
+            <article class="block metal mx-auto">
+                <div class="block-body">
+                    <a
+                        class="mx-auto"
+                        id="url"
+                        href="https://nbastt.grepco.net/"
+                        target="_blank"
+                        >https://nbastt.grepco.net/</a
+                    >
+                    <h2>What is it?</h2>
+                    <p>
+                        A tribute to a favorite NBA podcast. A small stats app,
+                        tracking said pod's segment, Surprise Teams, on if
+                        certain supposedly underwhelming NBA teams are in fact
+                        exceeding those expectations.
+                    </p>
+                    <h2>Dev Info</h2>
+                    <ul>
+                        <li>
+                            <span
+                                >Built on
+                                <a
+                                    href="https://astro.build/"
+                                    target="_blank"
                                 >
-                            </li>
-                            <li>
-                                <span>
-                                    Styled with
-                                    <a
-                                        href="https://tailwindcss.com/"
-                                        target="_blank"
-                                    >
-                                        Tailwind
-                                    </a>
-                                </span>
-                            </li>
-                            <li>
-                                <!-- TODO Wrapping spans needed to work w/ marker alignment rule in theme; how to fix? -->
-                                <span>
-                                    Deployed with
-                                    <a
-                                        href="https://pages.cloudflare.com/"
-                                        target="_blank"
-                                        >Cloudflare Pages</a
-                                    >
-                                </span>
-                            </li>
-                            <li>
-                                <span>
-                                    Caching with
-                                    <a
-                                        href="https://developers.cloudflare.com/kv/"
-                                        target="_blank"
-                                        >Cloudflare KV</a
-                                    >
-                                </span>
-                            </li>
-                            <li>
-                                <span>
-                                    Monitoring with
-                                    <a
-                                        href="https://sentry.io/"
-                                        target="_blank"
-                                        >Sentry</a
-                                    >
-                                </span>
-                            </li>
-                        </ul>
-                        <p>
-                            <a
-                                href="https://github.com/zemccartney/nba-surprise-teams"
-                                target="_blank"
+                                    Astro
+                                </a></span
                             >
-                                https://github.com/zemccartney/nba-surprise-teams
-                            </a>
-                        </p>
-                    </div>
-                </article>
-            </main>
-        </div>
-    </body>
-</html>
+                        </li>
+                        <li>
+                            <span>
+                                Styled with
+                                <a
+                                    href="https://tailwindcss.com/"
+                                    target="_blank"
+                                >
+                                    Tailwind
+                                </a>
+                            </span>
+                        </li>
+                        <li>
+                            <!-- TODO Wrapping spans needed to work w/ marker alignment rule in theme; how to fix? -->
+                            <span>
+                                Deployed with
+                                <a
+                                    href="https://pages.cloudflare.com/"
+                                    target="_blank"
+                                    >Cloudflare Pages</a
+                                >
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                Caching with
+                                <a
+                                    href="https://developers.cloudflare.com/kv/"
+                                    target="_blank"
+                                    >Cloudflare KV</a
+                                >
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                Monitoring with
+                                <a
+                                    href="https://sentry.io/"
+                                    target="_blank"
+                                    >Sentry</a
+                                >
+                            </span>
+                        </li>
+                    </ul>
+                    <p>
+                        <a
+                            href="https://github.com/zemccartney/nba-surprise-teams"
+                            target="_blank"
+                        >
+                            https://github.com/zemccartney/nba-surprise-teams
+                        </a>
+                    </p>
+                </div>
+            </article>
+        </main>
+    </div>
+{% endblock %}
