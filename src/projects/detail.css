@@ -41,8 +41,14 @@
 .source-button-container {
     align-items: center;
     display: flex;
+    flex-flow: row wrap;
     gap: calc(var(--spacing-one) * 1px);
     justify-content: center;
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    > * {
+        min-width: 100px;
+    }
 }
 
 .github-logo {
