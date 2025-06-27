@@ -1,8 +1,7 @@
-/* Consider nabbing some rules from here as needed: https://github.com/sindresorhus/modern-normalize/blob/main/modern-normalize.css */
-
 /*
-  Josh's Custom CSS Reset
-  https://www.joshwcomeau.com/css/custom-css-reset/
+  RESET (partial copying of Josh's Custom CSS Reset https://www.joshwcomeau.com/css/custom-css-reset/
+  , which includes enough opinions found useful on top of modern normalize)
+
 */
 
 *,
@@ -129,11 +128,11 @@ h6 {
     --font-size-6xl: 3.75rem; /* 60px */
     --font-size-7xl: 4.5rem; /* 72px */
 
-    /* SPACING 
-        intentionally kept unitless, not sure yet how
-        to enforce our spacing system, but allow outputting values in rems
-        such that we can apply our system in a way that adapts to user preferences
-        where applicable (trying to follow intuition from: https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility)
+    /*
+        Spacing reference:
+        - based on calc here: https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/#calculated-values-14
+        - intent is to derive a rem equivalent of our spacing unit, then divide by our base font size to
+        yield a rem value relative to said font size.
     */
     --grid-unit: 8;
     --spacing-base: calc(var(--grid-unit) * 2); /* 16 */
@@ -157,27 +156,89 @@ h6 {
     --spacing-eighty: calc(var(--spacing-base) * 80); /* 1280 */
     --spacing-ninetysix: calc(var(--spacing-base) * 96); /* 1536 */
 
-    /*
+    /* REM VARIANTS - Pre-calculated rem values to avoid repetitive calculations */
+    --spacing-quarter-rem: calc(
+        var(--spacing-quarter) * 1rem / var(--spacing-base)
+    );
+    --spacing-half-rem: calc(var(--spacing-half) * 1rem / var(--spacing-base));
+    --spacing-threequarter-rem: calc(
+        var(--spacing-threequarter) * 1rem / var(--spacing-base)
+    );
+    --spacing-one-rem: calc(var(--spacing-one) * 1rem / var(--spacing-base));
+    --spacing-onedotfive-rem: calc(
+        var(--spacing-onedotfive) * 1rem / var(--spacing-base)
+    );
+    --spacing-two-rem: calc(var(--spacing-two) * 1rem / var(--spacing-base));
+    --spacing-three-rem: calc(
+        var(--spacing-three) * 1rem / var(--spacing-base)
+    );
+    --spacing-four-rem: calc(var(--spacing-four) * 1rem / var(--spacing-base));
+    --spacing-six-rem: calc(var(--spacing-six) * 1rem / var(--spacing-base));
+    --spacing-eight-rem: calc(
+        var(--spacing-eight) * 1rem / var(--spacing-base)
+    );
+    --spacing-twelve-rem: calc(
+        var(--spacing-twelve) * 1rem / var(--spacing-base)
+    );
+    --spacing-sixteen-rem: calc(
+        var(--spacing-sixteen) * 1rem / var(--spacing-base)
+    );
+    --spacing-twentyfour-rem: calc(
+        var(--spacing-twentyfour) * 1rem / var(--spacing-base)
+    );
+    --spacing-thirtytwo-rem: calc(
+        var(--spacing-thirtytwo) * 1rem / var(--spacing-base)
+    );
+    --spacing-forty-rem: calc(
+        var(--spacing-forty) * 1rem / var(--spacing-base)
+    );
+    --spacing-fortyeight-rem: calc(
+        var(--spacing-fortyeight) * 1rem / var(--spacing-base)
+    );
+    --spacing-sixtyfour-rem: calc(
+        var(--spacing-sixtyfour) * 1rem / var(--spacing-base)
+    );
+    --spacing-eighty-rem: calc(
+        var(--spacing-eighty) * 1rem / var(--spacing-base)
+    );
+    --spacing-ninetysix-rem: calc(
+        var(--spacing-ninetysix) * 1rem / var(--spacing-base)
+    );
 
-        # var calcs for outputting px and rem
-
-        both boil down to setting output unit by mulitplying numeric result of first calc by 1unit
-
-        ## px
-            calc(var(--spacing-one) * 1px)
-
-        ## rem
-
-            calc(var(--spacing-one) * 1rem / var(--spacing-base));
-
-            - based on calc here: https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/#calculated-values-14
-            - intent is to derive a rem equivalent of our spacing unit, then divide by our base font size to
-            yield a rem value relative to said font size.
-    */
+    /* PX VARIANTS - Pre-calculated pixel values for completeness */
+    --spacing-quarter-px: calc(var(--spacing-quarter) * 1px);
+    --spacing-half-px: calc(var(--spacing-half) * 1px);
+    --spacing-threequarter-px: calc(var(--spacing-threequarter) * 1px);
+    --spacing-one-px: calc(var(--spacing-one) * 1px);
+    --spacing-onedotfive-px: calc(var(--spacing-onedotfive) * 1px);
+    --spacing-two-px: calc(var(--spacing-two) * 1px);
+    --spacing-three-px: calc(var(--spacing-three) * 1px);
+    --spacing-four-px: calc(var(--spacing-four) * 1px);
+    --spacing-six-px: calc(var(--spacing-six) * 1px);
+    --spacing-eight-px: calc(var(--spacing-eight) * 1px);
+    --spacing-twelve-px: calc(var(--spacing-twelve) * 1px);
+    --spacing-sixteen-px: calc(var(--spacing-sixteen) * 1px);
+    --spacing-twentyfour-px: calc(var(--spacing-twentyfour) * 1px);
+    --spacing-thirtytwo-px: calc(var(--spacing-thirtytwo) * 1px);
+    --spacing-forty-px: calc(var(--spacing-forty) * 1px);
+    --spacing-fortyeight-px: calc(var(--spacing-fortyeight) * 1px);
+    --spacing-sixtyfour-px: calc(var(--spacing-sixtyfour) * 1px);
+    --spacing-eighty-px: calc(var(--spacing-eighty) * 1px);
+    --spacing-ninetysix-px: calc(var(--spacing-ninetysix) * 1px);
 }
 
 /** UTILITIES **/
 .mx-auto {
     margin-left: auto;
     margin-right: auto;
+}
+
+
+/** DEFAULTS **/
+p, ul, li {
+    font-size: var(--font-size-lg);
+}
+
+h1, h2 {
+    font-size: var(--font-size-2xl);
 }

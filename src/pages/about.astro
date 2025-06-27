@@ -1,0 +1,496 @@
+---
+import { Image } from "astro:assets";
+
+import BabyInChair from "../assets/images/babyc/chair.png";
+import BabyExtremeCloseUp from "../assets/images/babyc/extremecloseup.png";
+import FierceBaby from "../assets/images/babyc/fierce.png";
+import BabyInHat from "../assets/images/babyc/hat.png";
+import BabyInTheSun from "../assets/images/babyc/inthesun.png";
+import BabyNesting from "../assets/images/babyc/nesting.png";
+import BabyPosing from "../assets/images/babyc/posing.png";
+import TheBestBaby from "../assets/images/babyc/thebestbaby.png";
+import Toppy from "../assets/images/tophat.png";
+import Block from "../components/block.astro";
+import SubpageLayout from "../layouts/subpage.astro";
+import Typography from "../layouts/typography.astro";
+---
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        /*
+            See source for this example: https://web.dev/articles/css-scroll-snap#example_a_horizontal_gallery
+        */
+
+        const carousel = document.querySelector(".carousel");
+        const slides = carousel?.querySelector(".slides");
+
+        if (!carousel || !slides) {
+            return;
+        }
+
+        const numSlides = slides.querySelectorAll(".slide").length;
+
+        // recalculate scrollwidth so up to date for calculations
+        // prevents infinite scroll breaking due to window resizing
+        const scrollWidth = () => slides.clientWidth;
+
+        // For paginated scrolling, simply scroll the gallery one item in the given
+        // direction and let css scroll snapping handle the specific alignment.
+        function scrollToNext() {
+            if (!slides) {
+                return;
+            }
+
+            const w = scrollWidth();
+
+            /*
+                TODO Figure out why scrollLeft sometimes exceeds amount scrolled
+                Unclear why, but on refactoring the carousel (relocating buttons,
+                adjusting margin and padding and max-width, adding image border radius), the carousel
+                would semi-randomly stop scrolling back to the beginning due to scrollLeft
+                being 1px greater than w * numslides - w. Whole lot of spacing-related changes
+                made, plenty of culprits, max-width being the most promising, since this
+                isn't an issue on mobile views and that rule's applied only above the medium breakpoint
+            */
+            if (slides.scrollLeft >= w * numSlides - w) {
+                slides.scrollBy(-w * numSlides, 0);
+            } else {
+                slides.scrollBy(w, 0);
+            }
+        }
+        function scrollToPrevious() {
+            if (!slides) {
+                return;
+            }
+
+            const w = scrollWidth();
+
+            if (slides.scrollLeft === 0) {
+                slides.scrollBy(w * numSlides, 0);
+            } else {
+                slides.scrollBy(-w, 0);
+            }
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        carousel
+            .querySelector("button.next")!
+            .addEventListener("click", scrollToNext);
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        carousel
+            .querySelector("button.previous")!
+            .addEventListener("click", scrollToPrevious);
+    });
+</script>
+
+<style>
+    main {
+        max-width: 40rem;
+
+        /*
+            Target max width (80rem) + buffer to account for layout padding / section gaps
+            Ensure about subsections have enough space to move onto the same line
+        */
+        @media (min-width: 88rem) {
+            max-width: fit-content;
+        }
+    }
+
+    .about-block {
+        /* 
+            https://lea.verou.me/blog/2011/03/beveled-corners-negative-border-radius-with-css3-gradients/ 
+            gradient of main block, cuts off at the corner
+        */
+        background: linear-gradient(
+            225deg,
+            transparent var(--spacing-one-px),
+            var(--color-accent-1000) 0
+        );
+        background-repeat: no-repeat;
+
+        > header {
+            /* TODO Please comment this to explain; you will forget */
+            background:
+                linear-gradient(
+                    to right,
+                    var(--color-accent-100),
+                    85%,
+                    transparent
+                ),
+                linear-gradient(
+                    225deg,
+                    transparent var(--spacing-one-px),
+                    var(--color-accent-400) 0
+                );
+            background-repeat: no-repeat;
+
+            /* 
+                This border-top-left-radius declaration serves the same purpose as overflow: clip: align
+                the header box with the containing section; however, on either setting overflow-clip on the section
+                or setting the header to the same border-top-left-radius, a small (1px or so) sliver of an artifact, the background color
+                of the section in the background, would show through. for whatever reason, not sure why yet, this
+                fixed the issue insofar as it disappeared, though root cause TBD. 
+            */
+            border-top-left-radius: 6px;
+
+            h1,
+            h2 {
+                color: var(--color-accent-900);
+                font-weight: 500;
+            }
+        }
+
+        > div {
+            color: var(--color-accent-200);
+            display: flex;
+            flex-flow: row wrap;
+            align-content: stretch;
+            gap: 0;
+
+            /* 
+                Rules below ensure that children fill space, even if content isn't wide enough
+            */
+
+            > * {
+                width: 100%;
+            }
+
+            @media (min-width: 88rem) {
+                gap: var(--spacing-two-rem);
+
+                > * {
+                    flex: 1;
+                }
+            }
+
+            /* TODO Is this working */
+            @media (max-width: 88rem) {
+                > .block-segment {
+                    & + .block-segment {
+                        margin-top: 1em;
+                    }
+
+                    &:first-child {
+                        padding-bottom: 0;
+                    }
+
+                    &:last-child {
+                        padding-top: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .carousel {
+        background-color: var(--color-accent-100);
+        border-radius: var(--spacing-half-px);
+        padding-top: var(--spacing-three-rem);
+
+        > .control-panel {
+            display: flex;
+            flex-direction: row;
+            gap: var(--spacing-six-px);
+            width: fit-content;
+            margin: 0 auto;
+            padding-top: var(--spacing-two-rem);
+            padding-bottom: var(--spacing-two-rem);
+
+            > button {
+                /* resets */
+
+                background-color: transparent;
+                border-width: 0;
+                padding: 0;
+                border-style: solid;
+
+                /* end resets */
+
+                width: 0;
+                height: 0;
+                cursor: pointer;
+                border-color: var(--color-accent-700);
+                border-top-width: calc(var(--spacing-onedotfive) * 1px);
+                border-top-color: transparent;
+                border-bottom-width: calc(var(--spacing-onedotfive) * 1px);
+                border-bottom-color: transparent;
+
+                &.previous {
+                    border-right-width: calc(var(--spacing-three) * 1px);
+
+                    &:hover,
+                    &:active {
+                        border-right-color: var(--color-accent-800);
+                    }
+                }
+
+                &.next {
+                    border-left-width: calc(var(--spacing-three) * 1px);
+
+                    &:hover,
+                    &:active {
+                        border-left-color: var(--color-accent-800);
+                    }
+                }
+            }
+        }
+
+        .slides {
+            overflow: hidden;
+            display: flex;
+            scroll-snap-type: x mandatory;
+
+            /* TODO Review / recall Comeau's image placement work */
+            > .slide {
+                align-items: center;
+                display: flex;
+                flex-shrink: 0;
+                justify-content: center;
+                scroll-snap-align: center;
+                width: 100%;
+
+                > img {
+                    border: var(--spacing-half-px) outset
+                        var(--color-accent-600);
+                }
+            }
+        }
+    }
+
+    .secondary-content {
+        align-content: stretch;
+        display: flex;
+        flex-flow: row wrap;
+        gap: var(--spacing-two-rem);
+        margin-top: var(--spacing-two-rem);
+
+        /* 
+            Rules below ensure that children fill space, even if content isn't wide enough
+            Important for the Get In Touch section    
+        */
+
+        > * {
+            width: 100%;
+        }
+
+        @media (min-width: 88rem) {
+            > * {
+                flex: 1;
+            }
+        }
+    }
+
+    .what-block {
+        .tiny-toppy {
+            display: inline-block;
+            height: 1em;
+            width: 1em;
+        }
+
+        .disclaimer {
+            font-style: italic;
+        }
+    }
+
+    .contact-block {
+        background-color: var(--color-primary-900);
+        color: var(--color-primary-100);
+
+        a {
+            display: block;
+            font-size: var(--font-size-xl);
+            text-align: center;
+            margin-top: 2em;
+        }
+    }
+</style>
+
+<SubpageLayout
+    description="About GrepCo and Zack McCartney"
+    title="About Me"
+>
+    <main class="mx-auto">
+        <Block
+            class="about-block"
+            customLayout
+        >
+            <Fragment slot="header">
+                <h1>About Me</h1>
+            </Fragment>
+            <Fragment>
+                <Typography class="block-segment">
+                    <p>
+                        Hello! My name's Zack McCartney. I'm a web developer /
+                        programmer / software engineer / whatever you want to
+                        call it, working on the web for work and fun.
+                    </p>
+                    <p>For actual career info:</p>
+                    <ul>
+                        <li>
+                            <a
+                                href="https://www.linkedin.com/in/zackmccartney"
+                                target="_blank"
+                            >
+                                LinkedIn
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://github.com/zemccartney"
+                                target="_blank"
+                            >
+                                Github
+                            </a>
+                        </li>
+                    </ul>
+                </Typography>
+                <Typography class="block-segment">
+                    <p>
+                        I live with my partner and our 13ish year old daughter
+                        Cece:
+                    </p>
+                    <div class="carousel">
+                        <div class="slides">
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <!-- Omit loading="lazy" on first image in carousel, likely LCP candidate-->
+                                <Image
+                                    alt="Cece the cat, looking very picturesque on a foot rest"
+                                    loading="eager"
+                                    src={TheBestBaby}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <Image
+                                    alt="Cece the cat, posing on a blanket"
+                                    src={BabyPosing}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <Image
+                                    alt="Cece the cat, posing on a footrest"
+                                    src={BabyInChair}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <Image
+                                    alt="Cece the cat, extreme close-up"
+                                    src={BabyExtremeCloseUp}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <Image
+                                    alt="Cece the cat, looking very dramatic and stylish"
+                                    src={FierceBaby}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <Image
+                                    alt="Cece the cat, lying in the sun"
+                                    src={BabyInTheSun}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <!-- original image dimensions: 3024 x 4032, aspect ratio preserved in hardcoding below -->
+                                <Image
+                                    alt="Cece the cat, in a little blanket nest on my chair"
+                                    src={BabyNesting}
+                                    width="300"
+                                />
+                            </div>
+                            <div class="slide">
+                                <Image
+                                    alt="Cece the cat, wearing a fancy hat"
+                                    src={BabyInHat}
+                                    width="300"
+                                />
+                            </div>
+                        </div>
+                        <div class="control-panel">
+                            <button
+                                aria-label="Scroll to previous image"
+                                class="previous"
+                                type="button"
+                            ></button>
+                            <button
+                                aria-label="Scroll to next image"
+                                class="next"
+                                type="button"
+                            ></button>
+                        </div>
+                    </div>
+                    <p>
+                        She is my baby. Her birthday is January 15th. She is
+                        elderly, but she is still just a baby. She is very
+                        small. Mainly because she is only 6 pounds, but also
+                        because she is
+                        <em>just a baby</em>.
+                    </p>
+                </Typography>
+            </Fragment>
+        </Block>
+        <div class="secondary-content">
+            <Block
+                class="what-block"
+                data-variant="metal"
+            >
+                <Fragment slot="header">
+                    <h2>What's with GrepCo?</h2>
+                </Fragment>
+                <Typography class="block-segment">
+                    <p>
+                        <a
+                            href="https://man7.org/linux/man-pages/man1/grep.1.html"
+                            target="_blank"
+                            >grep</a
+                        >
+                        is a classic search utility, dating back to the prehistoric
+                        days of Unix. When I learned that grep stood for "global
+                        regular expression search and print," I thought Global Regular
+                        Expressions sounded like a satirical agency name, something
+                        out of Better Off Ted, which left needing a p somewhere and
+                        I thought production company had a better ring to it than
+                        productions, along with some actual name differentiation
+                        from the program itself. That is, in fact, it, from bottom
+                        to
+                        <Image
+                            alt="small top hat emoji"
+                            class="tiny-toppy"
+                            src={Toppy}
+                        />.
+                    </p>
+                    <p class="disclaimer">
+                        (to be clear, I have no intention to discredit or
+                        infringe on grep's authors. Open to renaming if current
+                        branding lands as such)
+                    </p>
+                </Typography>
+            </Block>
+            <Block class="contact-block">
+                <Fragment slot="header">
+                    <h2>Get in Touch</h2>
+                </Fragment>
+                <Typography>
+                    <p>
+                        Questions? Inquiries? Random thoughts? Don't hesitate to
+                        give me a shout! I'll try my best to get back to any
+                        non-spam messages within a couple of days.
+                    </p>
+                    <a href="mailto:zack@grepco.net">zack@grepco.net</a>
+                </Typography>
+            </Block>
+        </div>
+    </main>
+</SubpageLayout>

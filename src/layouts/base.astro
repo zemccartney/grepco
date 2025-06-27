@@ -1,0 +1,87 @@
+---
+interface Props {
+    description?: string;
+    title?: string;
+}
+
+const { description, title } = Astro.props;
+
+import "modern-normalize/modern-normalize.css";
+import "@fontsource/exo-2/100.css";
+import "@fontsource/exo-2/200.css";
+import "@fontsource/exo-2/300.css";
+import "@fontsource/exo-2/400.css";
+import "@fontsource/exo-2/500.css";
+import "@fontsource/exo-2/600.css";
+import "@fontsource/exo-2/700.css";
+import "@fontsource/exo-2/800.css";
+import "@fontsource/exo-2/900.css";
+import "@fontsource/exo-2/100-italic.css";
+import "@fontsource/exo-2/200-italic.css";
+import "@fontsource/exo-2/300-italic.css";
+import "@fontsource/exo-2/400-italic.css";
+import "@fontsource/exo-2/500-italic.css";
+import "@fontsource/exo-2/600-italic.css";
+import "@fontsource/exo-2/700-italic.css";
+import "@fontsource/exo-2/800-italic.css";
+import "@fontsource/exo-2/900-italic.css";
+
+import "../global.css";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf8" />
+        <meta
+            content="width=device-width"
+            name="viewport"
+        />
+        <link
+            href="/favicon.ico"
+            rel="icon"
+            sizes="32x32"
+        />
+        <link
+            href="/favicon.svg"
+            rel="icon"
+            type="image/svg+xml"
+        />
+        <link
+            href="/apple-touch-icon.png"
+            rel="apple-touch-icon"
+        />
+        <title>{title}</title>
+        <meta
+            content={description}
+            name="description"
+        />
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>
+
+<style>
+    /*
+        min-height: 100% not needed on body due to oddity when styling html
+
+        https://stackoverflow.com/a/76849201 answer mentions 
+
+        
+        "For historical reasons (connected with the pre-CSS way of setting the background colour for the document with the bgcolor attribute on the BODY element), 
+        the CSS spec requires that when the following conditions are met:
+        - You are styling an HTML document
+        - You apply a background colour to the BODY element
+        - You don't apply a background colour to the HTML element
+        … then the background colour of the BODY element is moved to the HTML element."
+
+    */
+    body {
+        background-color: var(--color-primary-100);
+        background-image: url("../assets/images/map.png");
+        background-position: center 15vh;
+        background-repeat: repeat-x;
+        font-family: var(--font-family);
+    }
+</style>

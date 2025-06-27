@@ -1,9 +1,17 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
+    "css.validate": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "search.exclude": {
+        "**/*.svg": true,
+        "**/node_modules": true,
+        "**/package-lock.json": true,
+        "**/worker-configuration.d.ts": true
+    },
 
-  "// EXPLAIN css.validate //": "turns off vs code built-in css linting to not conflict with stylelint",
-  "css.validate": false,
-  "stylelint.validate": ["css", "postcss"],
-  "html-validate.enable": true
+    "stylelint.validate": ["css", "postcss"]
 }

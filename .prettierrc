@@ -1,16 +1,15 @@
 {
-    "//WHY JINJA": "Seems to work, given nunjucks is basically a port of jinja? unclear if totally applies, but works for tpl inheritance at least",
-    "plugins": ["prettier-plugin-jinja-template"],
-    "overrides": [
-        {
-            "files": ["*.html"],
-            "options": {
-                "parser": "jinja-template"
-            }
-        }
-    ],
     "experimentalTernaries": true,
     "singleAttributePerLine": true,
     "trailingComma": "none",
-    "tabWidth": 4
+    "tabWidth": 4,
+    "plugins": ["prettier-plugin-astro"],
+    "overrides": [
+        {
+            "files": "*.astro",
+            "options": {
+                "parser": "astro"
+            }
+        }
+    ]
 }

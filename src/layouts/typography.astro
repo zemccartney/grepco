@@ -1,0 +1,67 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types";
+import type { ClassValue } from "clsx";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag; class?: ClassValue }>;
+
+const { as = "div", class: className, ...rest } = Astro.props;
+
+const Tag = as;
+---
+
+<style>
+    .GC_Typo {
+        /* TODO Abstract into link component, toggle active style, allow callers to implement styles */
+        /* Not sure this is the best spot for this, but convenient for now */
+        a {
+            color: var(--color-link);
+
+            &:hover,
+            &:active {
+                color: var(--color-link-active);
+            }
+        }
+
+        ul {
+            li {
+                &::marker {
+                    content: "*";
+                    font-size: 1.15em;
+                    font-weight: bold;
+                }
+
+                padding-inline-start: 1ch;
+                margin-top: 0.35em;
+            }
+
+            padding-inline-start: var(--spacing-onedotfive-px);
+            @media (min-width: 40rem) {
+                padding-inline-start: var(--spacing-three-px);
+            }
+        }
+
+        /*
+            Layout rules, assume only relevant to top level of layout, that container elements
+            will more often than not want to be responsible for spacing/laying out their own children
+        */
+        & > * {
+            & + * {
+                margin-top: 1em;
+            }
+
+            & + h1,
+            & + h2,
+            & + h3 {
+                margin-bottom: 0.75em;
+                margin-top: 1.5em;
+            }
+        }
+    }
+</style>
+
+<Tag
+    class:list={["GC_Typo", className]}
+    {...rest}
+>
+    <slot />
+</Tag>

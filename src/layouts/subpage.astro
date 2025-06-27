@@ -1,0 +1,129 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import Button from "../components/button.astro";
+import BaseLayout from "./base.astro";
+
+type Props = ComponentProps<typeof BaseLayout>;
+
+const { description, title } = Astro.props;
+---
+
+<script>
+    let currentPath = globalThis.location.pathname;
+    if (currentPath.endsWith("/")) {
+        // Normalize away trailing slash (Cloudflare 308s directory paths to trailing slash equiv e.g. /archive --> /archive/ )
+        currentPath = currentPath.slice(0, -1);
+    }
+
+    if (currentPath.startsWith("/projects")) {
+        currentPath = "/projects";
+    }
+
+    const navLink = document.querySelector(
+        `.nav-button-group > a[href="${currentPath}"]`
+    );
+    navLink?.classList.add("current");
+</script>
+
+<style>
+    .subpage-layout {
+        padding: var(--spacing-two-rem);
+
+        > header {
+            max-width: 40rem;
+            margin-bottom: var(--spacing-four-rem);
+
+            @media (min-width: 80rem) {
+                max-width: var(--spacing-forty-rem);
+            }
+        }
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-two-rem);
+
+        @media (min-width: 40rem) {
+            flex-direction: row;
+            gap: var(--spacing-four-rem);
+        }
+    }
+
+    .nav-button-group {
+        align-self: center;
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing-three-rem);
+
+        @media (min-width: 40rem) {
+            align-self: flex-end; /* makes buttons look more aligned with regex logo */
+        }
+
+        > .current {
+            position: relative;
+
+            &::before {
+                color: var(--color-primary-500);
+                content: "*";
+                font-size: var(--font-size-4xl);
+                position: absolute;
+                left: calc(50% - 0.25ch);
+                top: calc(var(--spacing-threequarter-rem) * -1);
+            }
+        }
+    }
+
+    .regex {
+        color: var(--color-accent-600);
+        font-size: var(--font-size-4xl);
+        font-weight: bold;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+
+        &:is(a) {
+            &:active,
+            &:hover {
+                box-shadow: 0 0.05em 0 var(--color-accent-600);
+                color: var(--color-accent-600);
+            }
+
+            @media (min-width: 40rem) {
+                font-size: var(--font-size-5xl);
+            }
+        }
+    }
+</style>
+
+<BaseLayout description={description} title={`${title} — GrepCo`}>
+    <div class="subpage-layout">
+        <header class="mx-auto">
+            <nav>
+                <a
+                    aria-label="GrepCo logo"
+                    class="regex"
+                    href="/"
+                >
+                    .*<span></span>/g
+                </a>
+                <div class="nav-button-group">
+                    <Button
+                        as="a"
+                        href="/about"
+                    >
+                        About
+                    </Button>
+                    <Button
+                        as="a"
+                        href="/projects"
+                    >
+                        Projects
+                    </Button>
+                </div>
+            </nav>
+            <slot name="header" />
+        </header>
+        <slot />
+    </div>
+</BaseLayout>

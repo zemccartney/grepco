@@ -1,0 +1,139 @@
+---
+import SubpageLayout from "../../layouts/subpage.astro";
+---
+
+<style>
+    main {
+        max-width: min-content;
+        display: grid;
+        row-gap: var(--spacing-six-rem);
+
+        @media (min-width: 48rem) {
+            max-width: 60rem;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    .page-title {
+        color: var(--color-primary-900);
+        font-size: var(--font-size-4xl);
+        letter-spacing: 0.05em;
+        font-style: italic;
+        margin-top: var(--spacing-four-rem);
+        text-align: center;
+        text-transform: uppercase;
+
+        @media (min-width: 40rem) {
+            font-size: var(--font-size-7xl);
+        }
+    }
+
+    .project-cell {
+        display: block;
+        text-decoration: none;
+
+        > p {
+            color: var(--color-accent-600);
+            font-size: var(--font-size-lg);
+            font-weight: bold;
+            text-align: center;
+            margin-top: 0.75em;
+        }
+
+        &:hover,
+        &:active {
+            > .folder > .front-flap {
+                transform-origin: bottom;
+                transform: scale3d(1, 0.95, 0.95) translateX(-5px) scaleX(1.05);
+            }
+
+            > p {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .folder {
+        isolation: isolate;
+        position: relative;
+
+        > * {
+            border-radius: var(--spacing-half-px);
+            height: var(--spacing-eight-rem);
+            width: var(--spacing-twelve-rem);
+        }
+
+        > .front-flap {
+            z-index: 1;
+            position: relative;
+            background: linear-gradient(
+                to bottom right,
+                var(--color-accent-500),
+                var(--color-accent-400),
+                35%,
+                var(--color-accent-200),
+                var(--color-accent-100)
+            );
+        }
+
+        > .back-flap {
+            background-color: var(--color-accent-100);
+            border-top-right-radius: 0;
+            position: absolute;
+            top: 0;
+
+            > .tab {
+                background-color: transparent;
+                border-radius: var(--spacing-half-px);
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                border-color: var(--color-accent-100);
+                border-style: solid;
+                border-bottom-width: var(--spacing-one-rem);
+                border-left-width: 20px;
+                border-left-color: transparent;
+                border-top-width: 0;
+                position: absolute;
+                width: 40%;
+                height: 0;
+                top: calc(var(--spacing-one-rem) * -1);
+                right: 0;
+            }
+        }
+    }
+</style>
+
+<SubpageLayout
+    description="GrepCo's projects"
+    title="Projects"
+>
+    <Fragment slot="header">
+        <h1 class="page-title">Projects</h1>
+    </Fragment>
+    <main class="mx-auto">
+        <a
+            class="mx-auto project-cell"
+            href="/projects/ball-is-wine"
+        >
+            <div class="folder">
+                <div class="front-flap"></div>
+                <div class="back-flap">
+                    <div class="tab"></div>
+                </div>
+            </div>
+            <p>Ball is Wine</p>
+        </a>
+        <a
+            class="mx-auto project-cell"
+            href="/projects/nbastt"
+        >
+            <div class="folder">
+                <div class="front-flap"></div>
+                <div class="back-flap">
+                    <div class="tab"></div>
+                </div>
+            </div>
+            <p>NBA&nbsp;Surprise<br />Teams&nbsp;Tracker</p>
+        </a>
+    </main>
+</SubpageLayout>
