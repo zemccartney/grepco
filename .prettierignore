@@ -2,3 +2,5 @@ package-lock.json
 
 # build output
 dist/
+
+mapgen

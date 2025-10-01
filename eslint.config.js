@@ -90,5 +90,8 @@ export default defineConfig([
             "markdown/no-duplicate-headings": ["error"]
         }
     },
-    prettier
+    prettier,
+    {
+        ignores: ["mapgen"]
+    }
 ]);
