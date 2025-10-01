@@ -1,5 +1,9 @@
 ---
+import { getCollection } from "astro:content";
+
 import SubpageLayout from "../../layouts/subpage.astro";
+
+const projects = await getCollection("projects");
 ---
 
 <style>
@@ -31,6 +35,7 @@ import SubpageLayout from "../../layouts/subpage.astro";
     .project-cell {
         display: block;
         text-decoration: none;
+        width: min-content; /* clamp to folder, forcing nicer text wrapping */
 
         > p {
             color: var(--color-accent-600);
@@ -38,6 +43,7 @@ import SubpageLayout from "../../layouts/subpage.astro";
             font-weight: bold;
             text-align: center;
             margin-top: 0.75em;
+            text-wrap: balance;
         }
 
         &:hover,
@@ -111,29 +117,21 @@ import SubpageLayout from "../../layouts/subpage.astro";
         <h1 class="page-title">Projects</h1>
     </Fragment>
     <main class="mx-auto">
-        <a
-            class="mx-auto project-cell"
-            href="/projects/ball-is-wine"
-        >
-            <div class="folder">
-                <div class="front-flap"></div>
-                <div class="back-flap">
-                    <div class="tab"></div>
-                </div>
-            </div>
-            <p>Ball is Wine</p>
-        </a>
-        <a
-            class="mx-auto project-cell"
-            href="/projects/nbastt"
-        >
-            <div class="folder">
-                <div class="front-flap"></div>
-                <div class="back-flap">
-                    <div class="tab"></div>
-                </div>
-            </div>
-            <p>NBA&nbsp;Surprise<br />Teams&nbsp;Tracker</p>
-        </a>
+        {
+            projects.map((project) => (
+                <a
+                    class="mx-auto project-cell"
+                    href={`/projects/${project.id}`}
+                >
+                    <div class="folder">
+                        <div class="front-flap" />
+                        <div class="back-flap">
+                            <div class="tab" />
+                        </div>
+                    </div>
+                    <p>{project.data.name}</p>
+                </a>
+            ))
+        }
     </main>
 </SubpageLayout>
