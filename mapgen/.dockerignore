@@ -1,0 +1,6 @@
+output/
+*.md
+update-source.sh
+generate.sh
+.git
+.gitkeep

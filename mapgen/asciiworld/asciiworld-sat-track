@@ -1,0 +1,67 @@
+#!/bin/bash
+
+observer=
+duration=0
+footprint=
+orbit=
+raw_args=
+
+while getopts o:d:FOr: name
+do
+	case $name in
+		o)
+			observer=$OPTARG
+			;;
+		d)
+			duration=$OPTARG
+			;;
+		F)
+			footprint=-F
+			;;
+		O)
+			orbit=-O
+			;;
+		r)
+			raw_args=$OPTARG
+			;;
+	esac
+done
+shift $((OPTIND - 1))
+title="Tracking: $@"
+
+[[ -z "$observer" ]] && observer=$(asciiworld-ip-geo)
+[[ -z "$observer" ]] && exit 1
+
+tmpdir=$(mktemp -d)
+satdir="${XDG_CACHE_HOME:-$HOME/.cache}"/asciiworld-sat-track
+
+mkdir -p "$satdir"
+find "$satdir" -type f -mtime +0 -delete
+track=()
+for i
+do
+	if [[ ! -f "$satdir"/"$i".tle ]]
+	then
+		tle=$(asciiworld-sat-get "$i")
+		(( $? != 0 )) && exit 1
+		echo "$tle" >"$satdir"/"$i".tle
+	fi
+	track+=("$satdir"/"$i".tle)
+done
+
+target_time=$(( $(date +%s) + duration ))
+tput civis
+trap 'tput cnorm; rm -Rf "$tmpdir"' EXIT
+while (( duration <= 0 )) || (( $(date +%s) < target_time ))
+do
+	echo -e "points\n$observer" >"$tmpdir"/loc
+	for i in "${track[@]}"
+	do
+		asciiworld-sat-calc $footprint $orbit <"$i" >>"$tmpdir"/loc
+		(( $? != 0 )) && exit 1
+	done
+	asciiworld -Tosl "$tmpdir"/loc -d ast -t "$title" $raw_args
+	(( $? != 0 )) && exit 1
+	sleep 0.5
+	tput home
+done

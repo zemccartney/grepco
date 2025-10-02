@@ -1,0 +1,51 @@
+Release history for asciiworld
+
+v25.01  2025-01-31
+  [Fixed]
+  - asciiworld-sat-calc: Stop using deprecated Python API.
+
+v24.05  2024-05-31
+  [Added]
+  - Makefile: An 'install' target has been added.
+
+v23.12  2023-12-27
+  [Added]
+  - Satellites: "-O" to omit orbit tracks.
+
+v22.03  2022-03-06
+  [Fixed]
+  - Update for API change of Celestrak.
+
+v21.04  2021-04-02
+  [Fixed]
+  - Update for API change of Celestrak.
+
+  [Changed]
+  - asciiworld-ip-geo now uses python-maxminddb and GeoIP2 databases,
+    since the old GeoIP DBs are being retired. You will probably need to
+    download a database from https://db-ip.com (licensed as Creative
+    Commons). Also, set $ASCIIWORLD_IPDB to the path to that DB.
+  - Tracks and circles are drawn using line segments instead of just
+    points.
+
+v20.01  2020-01-02
+  [Fixed]
+  - asciiworld-waypoints now uses Python 3.
+
+v18.07  2018-07-29
+  [Fixed]
+  - Update for API change of Celestrak.
+
+v18.06  2018-06-24
+  - This is a maintenance release, due to the project moving away from
+    GitHub. No code changes.
+
+v17.12  2017-12-24
+  [LICENSING]
+  - The project has been relicensed under the MIT license (more
+    precisely called "Expat License", but everyone calls it "MIT
+    license" these days).
+
+v15.03 and earlier releases
+  - Sorry, the CHANGES file did not exist back then. Please refer to the
+    Git log.

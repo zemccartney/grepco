@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+
+from os import getenv
+
+import http.client
+import sys
+
+from maxminddb import open_database
+
+
+geoip_city_database = getenv('ASCIIWORLD_IPDB', '/var/db/GeoIP/GeoLite2-City.mmdb')
+
+addr = None
+if len(sys.argv) > 1:
+    addr = sys.argv[1]
+else:
+    try:
+        c = http.client.HTTPConnection('ifconfig.co')
+        c.request('GET', '/', headers={'User-Agent': 'curl/7.40.0'})
+        r = c.getresponse()
+        if r.status == 200:
+            addr = r.read().decode('ascii').strip()
+    except:
+        pass
+
+if addr is None:
+    print('No IP address given and auto-discovery failed.', file=sys.stderr)
+    sys.exit(1)
+
+with open_database(geoip_city_database) as ipdb:
+    res = ipdb.get(addr)
+    if res is not None:
+        print('{} {}'.format(
+            res['location']['latitude'],
+            res['location']['longitude'],
+        ))

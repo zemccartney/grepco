@@ -1,0 +1,12 @@
+#!/bin/bash
+
+tle=$(curl -sL --fail "https://www.celestrak.com/NORAD/elements/gp.php?CATNR=$1")
+(( ${PIPESTATUS[0]} != 0 )) && exit ${PIPESTATUS[0]}
+
+if [[ "$tle" == *No\ GP\ data\ found* ]]
+then
+    echo "$tle" >&2
+    exit 1
+fi
+
+echo "$tle"

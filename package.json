@@ -14,6 +14,11 @@
         "lint": "eslint .",
         "lint:debug": "eslint --inspect-config",
         "lint:fix": "eslint . --fix",
+        "map:ascii": "docker run --rm -it --entrypoint /asciiworld/asciiworld grepco-mapgen:latest",
+        "map:build": "docker build -t grepco-mapgen:latest mapgen",
+        "map:debug": "docker run --rm -it --entrypoint sh grepco-mapgen:latest",
+        "map:generate": "./mapgen/generate.sh",
+        "map:update-source": "./mapgen/update-source.sh",
         "preview": "astro preview",
         "start": "concurrently  --kill-others --names astro,ts -c red,blue \"astro dev\" \"npm run typewatch\"",
         "typewatch": "astro check --watch --preserveWatchOutput"

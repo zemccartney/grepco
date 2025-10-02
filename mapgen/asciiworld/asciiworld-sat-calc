@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+
+# Based on code and ideas of trehn's termtrack:
+# https://github.com/trehn/termtrack
+
+
+from argparse import ArgumentParser
+from math import acos, degrees
+
+import datetime
+import ephem
+import sys
+
+
+parser = ArgumentParser()
+parser.add_argument('-F', '--no-footprint', action='store_true')
+parser.add_argument('-O', '--no-orbit', action='store_true')
+args = parser.parse_args()
+
+lines = sys.stdin.read().strip().splitlines()
+
+sat = ephem.readtle(*lines)
+
+sat.compute(datetime.datetime.now(datetime.timezone.utc))
+lon = sat.sublong
+lat = sat.sublat
+ele = sat.elevation
+print('points')
+print('{:f} {:f}'.format(degrees(lat), degrees(lon)))
+print('.')
+
+if not args.no_orbit:
+    print('track')
+    orbital_period = 60 * 60 * 24 / sat._n
+    orbit_offset = 0
+    while orbit_offset < orbital_period:
+        orbit_offset += orbital_period / 150
+        sat.compute(datetime.datetime.now(datetime.timezone.utc) +
+                datetime.timedelta(seconds=orbit_offset))
+        print('{:f} {:f}'.format(degrees(sat.sublat), degrees(sat.sublong)))
+    print('.')
+
+    print('track')
+    orbit_offset = 0
+    while orbit_offset > -0.05 * orbital_period:
+        orbit_offset -= orbital_period / 150
+        sat.compute(datetime.datetime.now(datetime.timezone.utc) +
+                datetime.timedelta(seconds=orbit_offset))
+        print('{:f} {:f}'.format(degrees(sat.sublat), degrees(sat.sublong)))
+    print('.')
+
+if not args.no_footprint:
+    # The satellite's footprint is a small circle centered at (lat, lon)
+    # with radius r (spherical distance).
+    print('circles')
+    r_earth = 6371000
+    try:
+        r = acos(r_earth / (r_earth + ele))
+        print('{:f} {:f} {:f}'.format(degrees(lat), degrees(lon), degrees(r)))
+    except ValueError:
+        print('Something is wrong with the elevation of the satellite: {}'.format(ele),
+              file=sys.stderr
+        )
+    print('.')

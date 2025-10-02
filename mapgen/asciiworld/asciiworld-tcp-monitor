@@ -1,0 +1,56 @@
+#!/bin/bash
+
+observer=
+duration=0
+raw_args=
+
+while getopts o:d:r: name
+do
+	case $name in
+		o)
+			observer=$OPTARG
+			;;
+		d)
+			duration=$OPTARG
+			;;
+		r)
+			raw_args=$OPTARG
+			;;
+	esac
+done
+shift $((OPTIND - 1))
+
+[[ -z "$observer" ]] && observer=$(asciiworld-ip-geo)
+[[ -z "$observer" ]] && exit 1
+
+track=$(mktemp)
+tput civis
+trap 'rm -f "$track"; tput cnorm' EXIT
+
+target_time=$(( $(date +%s) + duration ))
+while (( duration <= 0 )) || (( $(date +%s) < target_time ))
+do
+	: >"$track"
+	ss -tn |
+	gawk 'NR != 1 { print $5 }' |
+	sed 's/:[0-9]\+$//' |
+	sort |
+	uniq |
+	while read ip
+	do
+		res=$(asciiworld-ip-geo "$ip")
+		(( $? != 0 )) && exit 1
+		if [[ -n "$res" ]]
+		then
+			lat=${res% *}
+			lon=${res#* }
+			asciiworld-waypoints "$observer" "$lat $lon" >>"$track"
+			(( $? != 0 )) && exit 1
+		fi
+	done
+
+	asciiworld -Tosl "$track" $raw_args
+	(( $? != 0 )) && exit 1
+	sleep 2
+	tput home
+done
