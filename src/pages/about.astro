@@ -105,6 +105,16 @@ import Typography from "../layouts/typography.astro";
                 }
             }
         }
+
+        .carousel {
+            margin-left: calc(var(--spacing-two-rem) * -1);
+            margin-right: calc(var(--spacing-two-rem) * -1);
+
+            @media (min-width: 40rem) {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
     }
 
     .secondary-content {
