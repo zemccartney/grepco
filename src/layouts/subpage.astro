@@ -2,6 +2,7 @@
 import type { ComponentProps } from "astro/types";
 
 import Button from "../components/button.astro";
+import Logo from "../components/logo.astro";
 import BaseLayout from "./base.astro";
 
 type Props = ComponentProps<typeof BaseLayout>;
@@ -46,13 +47,13 @@ const { description, title } = Astro.props;
         gap: var(--spacing-two-rem);
 
         @media (min-width: 40rem) {
+            align-items: center;
             flex-direction: row;
             gap: var(--spacing-four-rem);
         }
     }
 
     .nav-button-group {
-        align-self: center;
         display: flex;
         flex-direction: row;
         gap: var(--spacing-three-rem);
@@ -75,23 +76,23 @@ const { description, title } = Astro.props;
         }
     }
 
-    .regex {
-        color: var(--color-accent-600);
+    .logo-link {
         font-size: var(--font-size-4xl);
-        font-weight: bold;
-        letter-spacing: 0.05em;
+        /* 
+            roundabout-ass way to say 18px, experimentally arrived at ... assuredly a better way, will figure out later
+            point is to make logo and nav buttons look more visually aligned    
+        */
+        margin-top: calc(var(--spacing-onedotfive-rem) * -0.75);
         text-decoration: none;
 
-        &:is(a) {
-            &:active,
-            &:hover {
-                box-shadow: 0 0.05em 0 var(--color-accent-600);
-                color: var(--color-accent-600);
-            }
+        &:active,
+        &:hover {
+            box-shadow: 0 0.05em 0 var(--color-accent-600);
+            color: var(--color-accent-600);
+        }
 
-            @media (min-width: 40rem) {
-                font-size: var(--font-size-5xl);
-            }
+        @media (min-width: 40rem) {
+            font-size: var(--font-size-5xl);
         }
     }
 </style>
@@ -103,13 +104,12 @@ const { description, title } = Astro.props;
     <div class="subpage-layout">
         <header class="mx-auto">
             <nav>
-                <a
-                    aria-label="GrepCo logo"
-                    class="regex"
+                <Logo
+                    as="a"
+                    class="logo-link"
                     href="/"
-                >
-                    .*<span></span>/g
-                </a>
+                    imgWidth={56}
+                />
                 <div class="nav-button-group">
                     <Button
                         as="a"

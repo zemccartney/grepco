@@ -1,8 +1,6 @@
 ---
-import { Image } from "astro:assets";
-
-import Logo from "../assets/images/logo.png";
 import Button from "../components/button.astro";
+import Logo from "../components/logo.astro";
 import BaseLayout from "../layouts/base.astro";
 import Typography from "../layouts/typography.astro";
 ---
@@ -41,20 +39,7 @@ import Typography from "../layouts/typography.astro";
                 margin-right: auto;
                 width: fit-content;
 
-                .toppy {
-                    display: inline-block;
-                    margin-right: var(--spacing-two-px);
-                    width: 100px;
-                }
-
-                .regex {
-                    display: flex;
-                    align-items: center;
-                    color: var(--color-accent-600);
-                    font-size: var(--font-size-7xl);
-                    font-weight: bold;
-                    letter-spacing: 0.05em;
-                    line-height: 1;
+                .GC_Logo {
                     margin-left: -0.5rem; /* I can't explain why, but this nudge makes the logo look more centered */
                 }
             }
@@ -111,30 +96,20 @@ import Typography from "../layouts/typography.astro";
         <header>
             <h1>Global Regular<br />Expressions</h1>
             <div
-                aria-label="GrepCo logo"
                 class="logo"
                 role="img"
             >
-                <div class="regex">
-                    <Image
-                        alt="GrepCo logo (top hat emoji with globe in the middle, cat poking its head off the top right, and a basketball floating over the top right)"
-                        class="toppy"
-                        src={Logo}
-                        width={100}
-                    /><span>/g</span>
-                </div>
+                <Logo />
             </div>
             <nav>
                 <Button
                     as="a"
-                    class="AccentButton"
                     href="/about"
                 >
                     About
                 </Button>
                 <Button
                     as="a"
-                    class="AccentButton"
                     href="/projects"
                 >
                     Projects

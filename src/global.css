@@ -53,6 +53,7 @@ h6 {
     /*** COLORS ***/
 
     /* Primary */
+    --color-primary-bg: hsl(210deg 95% 11%);
     --color-primary-100: hsl(204deg 94% 15%);
     --color-primary-200: hsl(200deg 90% 20%);
     --color-primary-300: hsl(198deg 81% 29%);
