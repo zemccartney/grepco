@@ -1,0 +1,49 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types";
+import type { ClassValue } from "clsx";
+
+import { Image } from "astro:assets";
+
+import LogoImg from "../assets/images/logo.png";
+
+type Props<Tag extends HTMLTag> = Polymorphic<{
+    as: Tag;
+    class?: ClassValue;
+    imgWidth?: number;
+}>;
+
+const { as = "div", class: className, imgWidth = 100, ...rest } = Astro.props;
+
+const Tag = as;
+---
+
+<style>
+    .GC_Logo {
+        display: flex;
+        align-items: center;
+        color: var(--color-accent-600);
+        font-size: var(--font-size-7xl);
+        font-weight: bold;
+        line-height: 1;
+        gap: var(--spacing-half-px);
+        width: fit-content;
+
+        span {
+            letter-spacing: -0.075em;
+        }
+    }
+</style>
+
+<Tag
+    class:list={["GC_Logo", className]}
+    {...rest}
+    aria-label="GrepCo logo"
+    role="img"
+>
+    <Image
+        alt="GrepCo logo (top hat emoji with globe in the middle, cat poking its head off the top right, and a basketball floating over the top right)"
+        class="toppy"
+        src={LogoImg}
+        width={imgWidth}
+    /><span>/g</span>
+</Tag>
