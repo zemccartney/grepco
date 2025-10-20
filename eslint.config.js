@@ -23,7 +23,8 @@ export default defineConfig([
     {
         extends: [pkgJson.configs.recommended],
         rules: {
-            "package-json/require-description": "off"
+            "package-json/require-description": "off",
+            "package-json/require-license": "off" // TODO re-enable, figure out appropriate license
         }
     },
     {
