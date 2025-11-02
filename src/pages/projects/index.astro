@@ -6,15 +6,54 @@ import SubpageLayout from "../../layouts/subpage.astro";
 const projects = await getCollection("projects");
 ---
 
-<style>
-    main {
-        max-width: min-content;
-        display: grid;
-        row-gap: var(--spacing-six-rem);
+{
+    /*
+        A bit gross here.
+        Defining style vars here instead of refactoring css
+        such that all places that use vars here are nested 
+        under common parent on which to define vars
+    */
+}
 
-        @media (min-width: 48rem) {
-            max-width: 60rem;
-            grid-template-columns: 1fr 1fr 1fr;
+<style
+    define:vars={{
+        "folder-width-lg": "var(--spacing-twelve-rem)",
+        "folder-width-sm": "var(--spacing-eight-rem)"
+    }}
+>
+    main {
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-four-rem);
+
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+
+            @media (min-width: 40rem) {
+                gap: var(--spacing-six-rem);
+            }
+
+            /* 
+                TODO understand / fix this
+
+                approximately minimum width at which screen
+                can accommodate 3 column grid
+
+                didn't find a way to keep the grid centered across
+                changes in width i.e. cells reflowing onto next row
+            */
+            @media (min-width: 54rem) {
+                grid-template-columns: repeat(
+                    auto-fill,
+                    var(--folder-width-lg)
+                );
+                max-width: calc(
+                    calc(var(--folder-width-lg) * 3) +
+                        calc(var(--spacing-six-rem) * 2)
+                );
+            }
         }
     }
 
@@ -24,6 +63,7 @@ const projects = await getCollection("projects");
         letter-spacing: 0.05em;
         font-style: italic;
         margin-top: var(--spacing-four-rem);
+        margin-bottom: var(--spacing-three-rem);
         text-align: center;
         text-transform: uppercase;
 
@@ -65,8 +105,14 @@ const projects = await getCollection("projects");
 
         > * {
             border-radius: var(--spacing-half-px);
-            height: var(--spacing-eight-rem);
-            width: var(--spacing-twelve-rem);
+
+            height: var(--spacing-six-rem);
+            width: var(--folder-width-sm);
+
+            @media (min-width: 40rem) {
+                height: var(--spacing-eight-rem);
+                width: var(--folder-width-lg);
+            }
         }
 
         > .front-flap {
@@ -113,25 +159,49 @@ const projects = await getCollection("projects");
     description="GrepCo's projects"
     title="Projects"
 >
-    <Fragment slot="header">
+    <main>
         <h1 class="page-title">Projects</h1>
-    </Fragment>
-    <main class="mx-auto">
-        {
-            projects.map((project) => (
-                <a
-                    class="mx-auto project-cell"
-                    href={`/projects/${project.id}`}
-                >
-                    <div class="folder">
-                        <div class="front-flap" />
-                        <div class="back-flap">
-                            <div class="tab" />
+        <div class="projects">
+            {
+                projects.map((project) => (
+                    <a
+                        class="project-cell"
+                        href={`/projects/${project.id}`}
+                    >
+                        <div class="folder">
+                            <div class="front-flap" />
+                            <div class="back-flap">
+                                <div class="tab" />
+                            </div>
                         </div>
+                        <p>{project.data.name}</p>
+                    </a>
+                ))
+            }
+            <a
+                class="project-cell"
+                href={`/projects/zzz`}
+            >
+                <div class="folder">
+                    <div class="front-flap"></div>
+                    <div class="back-flap">
+                        <div class="tab"></div>
                     </div>
-                    <p>{project.data.name}</p>
-                </a>
-            ))
-        }
+                </div>
+                <p>zzz</p>
+            </a>
+            <a
+                class="project-cell"
+                href={`/projects/zzz`}
+            >
+                <div class="folder">
+                    <div class="front-flap"></div>
+                    <div class="back-flap">
+                        <div class="tab"></div>
+                    </div>
+                </div>
+                <p>zzz</p>
+            </a>
+        </div>
     </main>
 </SubpageLayout>

@@ -21,16 +21,19 @@ import Typography from "../layouts/typography.astro";
             }
 
             nav {
-                align-items: center;
+                /* Useful: https://stackoverflow.com/a/46278350 */
+                width: calc(300px + var(--spacing-one-px));
+                margin-left: auto;
+                margin-right: auto;
+
                 display: flex;
-                flex-direction: row;
-                gap: var(--spacing-three-rem);
+                flex-flow: row wrap;
+                gap: var(--spacing-one-px);
                 justify-content: center;
 
-                @media (min-width: 40rem) {
-                    align-items: baseline;
-                    flex-direction: row;
-                    gap: var(--spacing-four-rem);
+                > * {
+                    flex: 0 0 150px;
+                    text-align: center;
                 }
             }
 
@@ -113,6 +116,12 @@ import Typography from "../layouts/typography.astro";
                     href="/projects"
                 >
                     Projects
+                </Button>
+                <Button
+                    as="a"
+                    href="/blog"
+                >
+                    Blog
                 </Button>
             </nav>
         </header>
