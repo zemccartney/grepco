@@ -54,6 +54,7 @@ export default defineConfig([
         ],
         files: ["**/*.{js,ts,tsx,jsx,astro,mjs}"],
         rules: {
+            "@typescript-eslint/unified-signatures": ["off"], // TODO turned off b/c was crashing on components/block.astro; no idea why, error message unhelpful
             "unicorn/no-keyword-prefix": ["off"],
             "unicorn/prevent-abbreviations": ["off"]
         }
