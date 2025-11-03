@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "@fontsource/exo-2": "^5.2.8",
+        "@fontsource/pt-mono": "^5.2.8",
+        "@inox-tools/content-utils": "^0.12.0",
         "astro": "^5.14.1",
         "clsx": "^2.1.1"
     },

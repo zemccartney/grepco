@@ -103,7 +103,8 @@ h6 {
     --breakpoint-2xl: 1536px; /* 96rem */
 
     /* TYPOGRAPHY */
-    --font-family: "Exo 2", sans-serif;
+    --font-sans: "Exo 2", sans-serif;
+    --font-mono: "PT Mono", monospace;
 
     /*
         Property of Exo 2 from experimenting with character width unit (ch) per https://meyerweb.com/eric/thoughts/2018/06/28/what-is-the-css-ch-unit/
@@ -238,10 +239,15 @@ h6 {
 p,
 ul,
 li {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
 }
 
 h1,
 h2 {
     font-size: var(--font-size-2xl);
+}
+
+html,
+body {
+    height: 100%;
 }

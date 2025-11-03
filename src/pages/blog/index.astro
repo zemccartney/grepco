@@ -1,0 +1,157 @@
+---
+import { getOldestCommitDate } from "@it-astro:content/git";
+import { getCollection } from "astro:content";
+
+import SubpageLayout from "../../layouts/subpage.astro";
+
+const posts = await getCollection("posts", ({ data }) => {
+    return import.meta.env.DEV || data.status !== "draft";
+});
+---
+
+<style>
+    /* 
+        All this, plus the 100% height rules on html and body,
+        to get to the light-blue backgrounded .posts filling the
+        remaining height on the page. Hmm
+
+        TODO Has to be a better way?
+        https://stackoverflow.com/a/24979148
+    */
+    .layout {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        main {
+            height: inherit;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+
+            .posts {
+                flex: 1;
+                margin-top: calc(var(--spacing-two-rem));
+
+                .posts-container {
+                    max-width: 48rem;
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding: var(--spacing-two-rem) var(--spacing-one-rem);
+
+                    @media (min-width: 40rem) {
+                        padding: var(--spacing-four-rem) var(--spacing-two-rem);
+                    }
+                }
+            }
+        }
+    }
+
+    /* TODO Abstract into central component, part of theme */
+    .page-title {
+        color: var(--color-primary-900);
+        font-size: var(--font-size-4xl);
+        letter-spacing: 0.05em;
+        font-style: italic;
+        text-align: center;
+        text-transform: uppercase;
+        text-wrap: balance;
+
+        @media (min-width: 40rem) {
+            font-size: var(--font-size-7xl);
+        }
+    }
+
+    .posts {
+        background-color: var(--color-primary-900);
+    }
+
+    article {
+        a {
+            text-decoration: none;
+            color: var(--color-primary-300);
+            text-wrap: balance;
+            display: block;
+
+            h2 {
+                /*
+                    Needed to unset default from global.css
+
+                    TODO Possible to allow NOT doing this? :where / :is?
+                */
+                font-size: var(--font-size-3xl);
+                font-weight: 900;
+
+                @media (min-width: 40rem) {
+                    font-size: var(--font-size-5xl);
+                }
+            }
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        time {
+            color: var(--color-primary-100);
+            font-size: var(--font-size-lg);
+        }
+    }
+</style>
+
+<SubpageLayout
+    class="layout"
+    description="GrepCo's blog"
+    title="Blog"
+>
+    <main>
+        <h1 class="page-title">Blog</h1>
+        <section class="posts">
+            <div class="posts-container">
+                {
+                    posts.map((post) => (
+                        <article>
+                            <a href={`/blog/${post.id}`}>
+                                <h2>{post.data.title}</h2>
+                            </a>
+                            {async () => {
+                                const publicationDate =
+                                    await getOldestCommitDate("posts", post.id);
+
+                                return (
+                                    <time
+                                        datetime={publicationDate.toISOString()}
+                                    >
+                                        {publicationDate.toLocaleDateString(
+                                            "en-US",
+                                            {
+                                                day: "numeric",
+                                                month: "long",
+                                                year: "numeric"
+                                            }
+                                        )}
+                                    </time>
+                                );
+                            }}
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+    </main>
+</SubpageLayout>
+
+<!--
+
+ - Using section write in HTML? or article? or time?
+
+ /* 
+            TODO Review how you did this in Gundy ... better way? write down
+            learnings about height?
+        */
+- Address TODO in subpage layout re: refactoring layouts. Just go with the full flex route
+    - need to make blog layout, so reusable for posts, but still go ahead with subpage
+    decomposition
+        - key result: clean up warning TODO in subpage layout, should become
+        separate styling rule on blog layout
+-->
