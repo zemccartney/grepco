@@ -33,16 +33,6 @@ const Tag = as;
             padding: var(--spacing-two-rem);
         }
 
-        /* body segments might be nested; see about for more complicated example (2 column block) */
-        .block-segment {
-            /*
-                Meant to cap line lengths at readable number of characters; note, though, that space occupied by text is 35em - x-padding
-                Ended up achieving good line length and helped keep blocks sized consistently, but a bit mismatched with intention, should
-                figure out how to do better here
-            */
-            max-width: 35em;
-        }
-
         &[data-variant="metal"] {
             color: var(--color-gray-200);
             background-color: var(--color-gray-900);

@@ -6,86 +6,82 @@ import Typography from "../layouts/typography.astro";
 ---
 
 <style>
-    .home-layout {
-        padding-bottom: var(--spacing-four-px);
+    header {
         padding-top: var(--spacing-two-px);
 
-        @media (min-width: 40rem) {
-            padding-bottom: var(--spacing-six-px);
-            padding-top: var(--spacing-two-px);
-        }
-
-        header {
-            > * + * {
-                margin-top: var(--spacing-four-rem);
-            }
-
-            nav {
-                /* Useful: https://stackoverflow.com/a/46278350 */
-                width: calc(300px + var(--spacing-one-px));
-                margin-left: auto;
-                margin-right: auto;
-
-                display: flex;
-                flex-flow: row wrap;
-                gap: var(--spacing-one-px);
-                justify-content: center;
-
-                > * {
-                    flex: 0 0 150px;
-                    text-align: center;
-                }
-            }
-
-            > .logo {
-                margin-left: auto;
-                margin-right: auto;
-                width: fit-content;
-
-                .GC_Logo {
-                    margin-left: -0.5rem; /* I can't explain why, but this nudge makes the logo look more centered */
-                }
-            }
-
-            > h1 {
-                color: var(--color-accent-600);
-                font-size: var(--font-size-4xl);
-                letter-spacing: 0.05em;
-                line-height: 1.2;
-                font-style: italic;
-                font-weight: bold;
-                text-align: center;
-                text-transform: uppercase;
-                text-wrap: balance;
-            }
-
-            @media (min-width: 40rem) {
-                h1 {
-                    font-size: var(--font-size-6xl);
-                }
-            }
-        }
-
-        main {
-            color: var(--color-primary-900);
-            font-size: var(--font-size-base);
+        > * + * {
             margin-top: var(--spacing-four-rem);
-            max-width: 24em;
+        }
+
+        nav {
+            /* Useful: https://stackoverflow.com/a/46278350 */
+            width: calc(300px + var(--spacing-one-px));
+            margin-left: auto;
+            margin-right: auto;
+
+            display: flex;
+            flex-flow: row wrap;
+            gap: var(--spacing-one-px);
+            justify-content: center;
+
+            > * {
+                flex: 0 0 150px;
+                text-align: center;
+            }
+        }
+
+        > .logo {
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+
+            .GC_Logo {
+                margin-left: -0.5rem; /* I can't explain why, but this nudge makes the logo look more centered */
+            }
+        }
+
+        > h1 {
+            color: var(--color-accent-600);
+            font-size: var(--font-size-4xl);
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+            font-style: italic;
+            font-weight: bold;
             text-align: center;
+            text-transform: uppercase;
+            text-wrap: balance;
+        }
+
+        @media (min-width: 40rem) {
+            padding-top: var(--spacing-two-px);
+
+            h1 {
+                font-size: var(--font-size-6xl);
+            }
+        }
+    }
+
+    main {
+        color: var(--color-primary-900);
+        font-size: var(--font-size-base);
+        margin-top: var(--spacing-four-rem);
+        max-width: 24em;
+        padding-bottom: var(--spacing-four-px);
+        text-align: center;
+
+        h2 {
+            color: var(--color-primary-900);
+            font-size: var(--font-size-2xl);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        @media (min-width: 40rem) {
+            font-size: var(--font-size-lg);
+            padding-bottom: var(--spacing-six-px);
 
             h2 {
-                color: var(--color-primary-900);
-                font-size: var(--font-size-2xl);
-                font-weight: bold;
-                text-align: center;
-            }
-
-            @media (min-width: 40rem) {
-                font-size: var(--font-size-lg);
-
-                h2 {
-                    font-size: var(--font-size-3xl);
-                }
+                font-size: var(--font-size-3xl);
             }
         }
     }
@@ -95,46 +91,44 @@ import Typography from "../layouts/typography.astro";
     description="Zack McCartney's personal site / a fake production company"
     title="GrepCo — Global Regular Expressions Production Company"
 >
-    <div class="home-layout">
-        <header>
-            <h1>Global Regular<br />Expressions</h1>
-            <div
-                class="logo"
-                role="img"
-            >
-                <Logo />
-            </div>
-            <nav>
-                <Button
-                    as="a"
-                    href="/about"
-                >
-                    About
-                </Button>
-                <Button
-                    as="a"
-                    href="/projects"
-                >
-                    Projects
-                </Button>
-                <Button
-                    as="a"
-                    href="/blog"
-                >
-                    Blog
-                </Button>
-            </nav>
-        </header>
-        <Typography
-            as="main"
-            class="mx-auto"
+    <header>
+        <h1>Global Regular<br />Expressions</h1>
+        <div
+            class="logo"
+            role="img"
         >
-            <h2>"a production company"</h2>
-            <p>
-                And by company, "we" mean a solo dev working up in sunny
-                South&nbsp;Portland,&nbsp;ME.
-            </p>
-            <p>Thanks for stopping by!</p>
-        </Typography>
-    </div>
+            <Logo />
+        </div>
+        <nav>
+            <Button
+                as="a"
+                href="/about"
+            >
+                About
+            </Button>
+            <Button
+                as="a"
+                href="/projects"
+            >
+                Projects
+            </Button>
+            <Button
+                as="a"
+                href="/blog"
+            >
+                Blog
+            </Button>
+        </nav>
+    </header>
+    <Typography
+        as="main"
+        class="mx-auto"
+    >
+        <h2>"a production company"</h2>
+        <p>
+            And by company, "we" mean a solo dev working up in sunny
+            South&nbsp;Portland,&nbsp;ME.
+        </p>
+        <p>Thanks for stopping by!</p>
+    </Typography>
 </BaseLayout>

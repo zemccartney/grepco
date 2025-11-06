@@ -21,39 +21,34 @@ const projects = await getCollection("projects");
         "folder-width-sm": "var(--spacing-eight-rem)"
     }}
 >
-    main {
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-four-rem);
+    .projects {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-four-rem);
 
-            max-width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+        max-width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
 
-            @media (min-width: 40rem) {
-                gap: var(--spacing-six-rem);
-            }
+        @media (min-width: 40rem) {
+            gap: var(--spacing-six-rem);
+        }
 
-            /* 
-                TODO understand / fix this
+        /* 
+            TODO understand / fix this
 
-                approximately minimum width at which screen
-                can accommodate 3 column grid
+            approximately minimum width at which screen
+            can accommodate 3 column grid
 
-                didn't find a way to keep the grid centered across
-                changes in width i.e. cells reflowing onto next row
-            */
-            @media (min-width: 54rem) {
-                grid-template-columns: repeat(
-                    auto-fill,
-                    var(--folder-width-lg)
-                );
-                max-width: calc(
-                    calc(var(--folder-width-lg) * 3) +
-                        calc(var(--spacing-six-rem) * 2)
-                );
-            }
+            didn't find a way to keep the grid centered across
+            changes in width i.e. cells reflowing onto next row
+        */
+        @media (min-width: 54rem) {
+            grid-template-columns: repeat(auto-fill, var(--folder-width-lg));
+            max-width: calc(
+                calc(var(--folder-width-lg) * 3) +
+                    calc(var(--spacing-six-rem) * 2)
+            );
         }
     }
 
@@ -158,25 +153,23 @@ const projects = await getCollection("projects");
     description="GrepCo's projects"
     title="Projects"
 >
-    <main>
-        <h1 class="page-title">Projects</h1>
-        <div class="projects">
-            {
-                projects.map((project) => (
-                    <a
-                        class="project-cell"
-                        href={`/projects/${project.id}`}
-                    >
-                        <div class="folder">
-                            <div class="front-flap" />
-                            <div class="back-flap">
-                                <div class="tab" />
-                            </div>
+    <h1 class="page-title">Projects</h1>
+    <div class="projects">
+        {
+            projects.map((project) => (
+                <a
+                    class="project-cell"
+                    href={`/projects/${project.id}`}
+                >
+                    <div class="folder">
+                        <div class="front-flap" />
+                        <div class="back-flap">
+                            <div class="tab" />
                         </div>
-                        <p>{project.data.name}</p>
-                    </a>
-                ))
-            }
-        </div>
-    </main>
+                    </div>
+                    <p>{project.data.name}</p>
+                </a>
+            ))
+        }
+    </div>
 </SubpageLayout>

@@ -21,6 +21,7 @@
         "map:update-source": "./mapgen/update-source.sh",
         "preview": "astro preview",
         "start": "concurrently  --kill-others --names astro,ts -c red,blue \"astro dev\" \"npm run typewatch\"",
+        "todos": "rg -i todo",
         "typewatch": "astro check --watch --preserveWatchOutput"
     },
     "dependencies": {

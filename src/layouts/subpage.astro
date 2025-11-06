@@ -2,8 +2,7 @@
 import type { ComponentProps } from "astro/types";
 import type { ClassValue } from "clsx";
 
-import Button from "../components/button.astro";
-import Logo from "../components/logo.astro";
+import SubpageNav from "../components/subpage-nav.astro";
 import BaseLayout from "./base.astro";
 
 interface Props extends ComponentProps<typeof BaseLayout> {
@@ -17,89 +16,23 @@ interface Props extends ComponentProps<typeof BaseLayout> {
 const { class: className, description, title, ...rest } = Astro.props;
 ---
 
-<script>
-    let currentPath = globalThis.location.pathname;
-    if (currentPath.endsWith("/")) {
-        // Normalize away trailing slash (Cloudflare 308s directory paths to trailing slash equiv e.g. /archive --> /archive/ )
-        currentPath = currentPath.slice(0, -1);
-    }
-
-    const navLinks = document.querySelectorAll(
-        `.nav-button-group > a[href="${currentPath}"], .mobile-nav-menu > a[href="${currentPath}`
-    );
-
-    for (const link of navLinks) {
-        link.classList.add("current");
-    }
-
-    const navTrigger = document.querySelector(
-        "#mobile-nav-trigger"
-    ) as HTMLButtonElement;
-
-    const navClose = document.querySelector(
-        "#mobile-nav-close"
-    ) as HTMLButtonElement;
-
-    const body = document.querySelector("body") as HTMLElement;
-    const header = document.querySelector("#global-header") as HTMLElement;
-    const navMenu = document.querySelector(".mobile-nav-menu") as HTMLElement;
-
-    let bodyOverflowStyle: string;
-    let scrollPosition: [number, number];
-
-    navTrigger.addEventListener("click", () => {
-        navMenu.style.display = "initial";
-        header.dataset.mobileMenuOpen = "true";
-        navTrigger.style.display = "none";
-        navClose.style.display = "initial";
-
-        // header.dataset.mobileMenuOpen assignment and changing visible header buttons
-        // changes the size of header, hence why this assignment must follow that one
-        navMenu.style.top = `${header.getBoundingClientRect().height}px`;
-
-        bodyOverflowStyle = body.style.overflow;
-        body.style.overflow = "hidden";
-        scrollPosition = [globalThis.scrollX, globalThis.scrollY];
-        globalThis.scrollTo(0, 0);
-    });
-
-    const onClose = () => {
-        navMenu.style.display = "none";
-        delete header.dataset.mobileMenuOpen;
-        body.style.overflow = bodyOverflowStyle || "initial";
-
-        if (scrollPosition) {
-            globalThis.scrollTo(...scrollPosition);
-        }
-
-        navTrigger.style.display = "initial";
-        navClose.style.display = "none";
-    };
-
-    navClose.addEventListener("click", onClose);
-
-    const mediaQueryList = globalThis.matchMedia(
-        "not all and (max-width: 40rem)"
-    );
-
-    function handleOrientationChange(ev: MediaQueryList | MediaQueryListEvent) {
-        if (ev.matches) {
-            onClose();
-        }
-    }
-
-    handleOrientationChange(mediaQueryList);
-    mediaQueryList.addEventListener("change", handleOrientationChange);
-</script>
-
 <style>
     .subpage-layout {
-        /*
-            Moved to page components owning global padding
-            to simplify changing background color of header
-            on opening mobile nav
+        /* 
+            All this, plus the 100% height rules on html and body,
+            allows for page sections expanding to fill remaining height
+            (see light-blue background main section on blog pages)
+            
+            https://stackoverflow.com/a/24979148
         */
+        height: 100%;
+        display: flex;
+        flex-direction: column;
 
+        /*
+            page components own global padding to simplify changing
+            background color of header on opening mobile nav
+        */
         main,
         header {
             padding-left: var(--spacing-two-rem);
@@ -115,173 +48,26 @@ const { class: className, description, title, ...rest } = Astro.props;
         }
     }
 
-    #global-header {
+    header {
         max-width: 44rem;
         margin-bottom: var(--spacing-four-rem);
 
+        &:has(nav[data-mobile-menu-open="true"]) {
+            background-color: var(--color-accent-1000);
+            padding-bottom: 2px; /* prevent hiding logo link box shadow */
+        }
+
+        @media (min-width: 40rem) {
+            /* 
+                needed to prevent heading from collapsing horizontally, such that
+                background color of mobile nav doesn't fill space
+            */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         @media (min-width: 80rem) {
             max-width: var(--spacing-fortyeight-rem);
-        }
-
-        @media (max-width: 40rem) {
-            &[data-mobile-menu-open] {
-                background-color: var(--color-accent-1000);
-                padding-bottom: 2px;
-            }
-        }
-
-        /* 
-            Warning: this media query is needed to prevent
-            heading from collapsing horizontally, such that
-            background color of mobile nav doesn't fill space,
-            only on the blog page, whose .layout class
-            changes .subpage-layout to a flex container to deal with
-            some height-filling shenanigans. This sucks!
-
-            TODO Find a better way to organize... just make the whole layout
-            flex? Or separate the blog layout, which would push for decomposing
-            this layout into components, which would be nice anyway?
-        */
-        @media (min-width: 40rem) {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    }
-
-    nav {
-        display: flex;
-        gap: var(--spacing-two-rem);
-        align-items: center;
-        height: 64px; /* Prevent inadvertent stretching, solved for height jitter when opening and closing mobile nav */
-
-        .mobile-nav {
-            margin-left: auto;
-            margin-right: auto;
-
-            #mobile-nav-close {
-                /* resets */
-
-                background-color: transparent;
-                border-width: 0;
-                padding: 0;
-                border-style: solid;
-
-                /* end resets */
-
-                display: none;
-                color: var(--color-accent-600);
-                font-size: var(--font-size-5xl);
-                font-weight: bold;
-                text-decoration: none;
-                margin-top: -4px; /* tighten up alignment with logo link */
-
-                &:hover {
-                    color: var(--color-accent-200);
-                }
-            }
-
-            .mobile-nav-menu {
-                isolation: isolate;
-                z-index: 1;
-                display: none;
-                position: fixed;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: var(--color-accent-1000);
-                padding-top: var(--spacing-six-rem);
-
-                a {
-                    display: block;
-                    color: var(--color-accent-600);
-                    font-weight: 600;
-                    font-size: var(--font-size-3xl);
-                    text-decoration: none;
-                    text-align: center;
-                    padding: var(--spacing-one-rem) var(--spacing-two-px);
-
-                    &:hover {
-                        text-decoration: underline;
-                    }
-
-                    &.current {
-                        color: var(--color-primary-700);
-                        background-color: var(--color-accent-100);
-                        pointer-events: none;
-                    }
-
-                    & + * {
-                        margin-top: var(--spacing-three-rem);
-                    }
-                }
-            }
-        }
-
-        .nav-button-group {
-            display: none;
-            flex-direction: row;
-            gap: var(--spacing-three-rem);
-
-            > .current {
-                position: relative;
-                pointer-events: none;
-
-                /* standard Button hover/active styles */
-                background-color: var(--color-accent-900);
-                border-style: outset;
-                color: var(--color-accent-100);
-
-                &::before {
-                    color: var(--color-primary-500);
-                    content: "*";
-                    font-size: var(--font-size-4xl);
-                    font-weight: 600;
-                    position: absolute;
-                    left: calc(50% - 0.25ch);
-                    top: calc(var(--spacing-threequarter-rem) * -1);
-                }
-            }
-        }
-
-        .nav-button-group,
-        .mobile-nav {
-            /*
-                Unfortunate, but helps make logo link and rest of nav buttons
-                visually aligned
-            */
-            margin-top: -6px;
-        }
-
-        @media (min-width: 40rem) {
-            gap: var(--spacing-four-rem);
-
-            .mobile-nav {
-                display: none;
-            }
-
-            .nav-button-group {
-                display: flex;
-            }
-        }
-    }
-
-    .logo-link {
-        font-size: var(--font-size-4xl);
-        /* 
-            roundabout-ass way to say 18px, experimentally arrived at ... assuredly a better way, will figure out later
-            point is to make logo and nav buttons look more visually aligned    
-        */
-        margin-top: calc(var(--spacing-onedotfive-rem) * -0.75);
-        text-decoration: none;
-
-        &:active,
-        &:hover {
-            box-shadow: 0 0.05em 0 var(--color-accent-600);
-            color: var(--color-accent-600);
-        }
-
-        @media (min-width: 40rem) {
-            font-size: var(--font-size-5xl);
         }
     }
 </style>
@@ -295,49 +81,11 @@ const { class: className, description, title, ...rest } = Astro.props;
         class:list={["subpage-layout", className]}
         {...rest}
     >
-        <header id="global-header">
-            <nav>
-                <Logo
-                    as="a"
-                    class="logo-link"
-                    href="/"
-                    imgWidth={56}
-                />
-                <div class="nav-button-group">
-                    <Button
-                        as="a"
-                        href="/about"
-                    >
-                        About
-                    </Button>
-                    <Button
-                        as="a"
-                        href="/projects"
-                    >
-                        Projects
-                    </Button>
-                    <Button
-                        as="a"
-                        href="/blog"
-                    >
-                        Blog
-                    </Button>
-                </div>
-                <div class="mobile-nav">
-                    <Button id="mobile-nav-trigger">Menu</Button>
-                    <button
-                        id="mobile-nav-close"
-                        type="button"
-                        >X</button
-                    >
-                    <div class="mobile-nav-menu">
-                        <a href="/about">About</a>
-                        <a href="/projects">Projects</a>
-                        <a href="/blog">Blog</a>
-                    </div>
-                </div>
-            </nav>
+        <header>
+            <SubpageNav />
         </header>
-        <slot />
+        <main>
+            <slot />
+        </main>
     </div>
 </BaseLayout>

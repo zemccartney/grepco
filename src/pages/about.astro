@@ -9,15 +9,19 @@ import Typography from "../layouts/typography.astro";
 ---
 
 <style>
-    main {
-        max-width: 40rem;
+    .subpage-layout {
+        main {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 48rem;
 
-        /*
+            /*
             Target max width (80rem) + buffer to account for layout padding / section gaps
             Ensure about subsections have enough space to move onto the same line
         */
-        @media (min-width: 88rem) {
-            max-width: fit-content;
+            @media (min-width: 88rem) {
+                max-width: fit-content;
+            }
         }
     }
 
@@ -169,100 +173,92 @@ import Typography from "../layouts/typography.astro";
     description="About GrepCo and Zack McCartney"
     title="About Me"
 >
-    <main class="mx-auto">
+    <Block
+        class="about-block"
+        customLayout
+    >
+        <Fragment slot="header">
+            <h1>About Me</h1>
+        </Fragment>
+        <Fragment>
+            <Typography class="block-segment">
+                <p>
+                    Hello! My name's Zack McCartney. I'm a web developer /
+                    programmer / software engineer / whatever you want to call
+                    it, working on the web for work and fun.
+                </p>
+                <p>For actual career info:</p>
+                <ul>
+                    <li>
+                        <a href="https://www.linkedin.com/in/zackmccartney">
+                            LinkedIn
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/zemccartney"> Github </a>
+                    </li>
+                </ul>
+            </Typography>
+            <Typography class="block-segment">
+                <p>
+                    I live with my partner and our 13ish year old daughter Cece:
+                </p>
+                <BabyCCarousel />
+                <p>
+                    She is my baby. Her birthday is January 15th. She is
+                    elderly, but she is still just a baby. She is very small.
+                    Mainly because she is only 6 pounds, but also because she is
+                    <em>just a baby</em>.
+                </p>
+            </Typography>
+        </Fragment>
+    </Block>
+    <div class="secondary-content">
         <Block
-            class="about-block"
-            customLayout
+            class="what-block"
+            data-variant="metal"
         >
             <Fragment slot="header">
-                <h1>About Me</h1>
+                <h2>What's with GrepCo?</h2>
             </Fragment>
-            <Fragment>
-                <Typography class="block-segment">
-                    <p>
-                        Hello! My name's Zack McCartney. I'm a web developer /
-                        programmer / software engineer / whatever you want to
-                        call it, working on the web for work and fun.
-                    </p>
-                    <p>For actual career info:</p>
-                    <ul>
-                        <li>
-                            <a href="https://www.linkedin.com/in/zackmccartney">
-                                LinkedIn
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/zemccartney">
-                                Github
-                            </a>
-                        </li>
-                    </ul>
-                </Typography>
-                <Typography class="block-segment">
-                    <p>
-                        I live with my partner and our 13ish year old daughter
-                        Cece:
-                    </p>
-                    <BabyCCarousel />
-                    <p>
-                        She is my baby. Her birthday is January 15th. She is
-                        elderly, but she is still just a baby. She is very
-                        small. Mainly because she is only 6 pounds, but also
-                        because she is
-                        <em>just a baby</em>.
-                    </p>
-                </Typography>
-            </Fragment>
+            <Typography class="block-segment">
+                <p>
+                    <a href="https://man7.org/linux/man-pages/man1/grep.1.html"
+                        >grep</a
+                    >
+                    is a classic search utility, dating back to the prehistoric days
+                    of Unix. When I learned that grep stood for "global regular expression
+                    search and print," I thought Global Regular Expressions sounded
+                    like a satirical agency name, something out of Better Off Ted,
+                    which left needing a p somewhere and I thought production company
+                    had a better ring to it than productions, along with some actual
+                    name differentiation from the program itself. That is, in fact,
+                    it, from bottom to
+                    <Image
+                        alt="small top hat emoji"
+                        class="tiny-toppy"
+                        src={Toppy}
+                    />.
+                </p>
+                <p class="disclaimer">
+                    (to be clear, I have no intention to discredit or infringe
+                    on grep's authors. Open to renaming if current branding
+                    lands as such)
+                </p>
+            </Typography>
         </Block>
-        <div class="secondary-content">
-            <Block
-                class="what-block"
-                data-variant="metal"
-            >
-                <Fragment slot="header">
-                    <h2>What's with GrepCo?</h2>
-                </Fragment>
-                <Typography class="block-segment">
-                    <p>
-                        <a
-                            href="https://man7.org/linux/man-pages/man1/grep.1.html"
-                            >grep</a
-                        >
-                        is a classic search utility, dating back to the prehistoric
-                        days of Unix. When I learned that grep stood for "global
-                        regular expression search and print," I thought Global Regular
-                        Expressions sounded like a satirical agency name, something
-                        out of Better Off Ted, which left needing a p somewhere and
-                        I thought production company had a better ring to it than
-                        productions, along with some actual name differentiation
-                        from the program itself. That is, in fact, it, from bottom
-                        to
-                        <Image
-                            alt="small top hat emoji"
-                            class="tiny-toppy"
-                            src={Toppy}
-                        />.
-                    </p>
-                    <p class="disclaimer">
-                        (to be clear, I have no intention to discredit or
-                        infringe on grep's authors. Open to renaming if current
-                        branding lands as such)
-                    </p>
-                </Typography>
-            </Block>
-            <Block class="contact-block">
-                <Fragment slot="header">
-                    <h2>Get in Touch</h2>
-                </Fragment>
-                <Typography>
-                    <p>
-                        Questions? Inquiries? Random thoughts? Don't hesitate to
-                        give me a shout! I'll try my best to get back to any
-                        non-spam messages within a couple of days.
-                    </p>
-                    <a href="mailto:zack@grepco.net">zack@grepco.net</a>
-                </Typography>
-            </Block>
-        </div>
-    </main>
+        <Block class="contact-block">
+            <Fragment slot="header">
+                <h2>Get in Touch</h2>
+            </Fragment>
+            <Typography>
+                <p>
+                    Questions? Inquiries? Random thoughts? Don't hesitate to
+                    give me a shout! I'll try my best to get back to any
+                    non-spam messages within a couple of days.
+                </p>
+                <a href="mailto:zack@grepco.net">zack@grepco.net</a>
+            </Typography>
+        </Block>
+    </div>
 </SubpageLayout>

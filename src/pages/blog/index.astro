@@ -10,19 +10,7 @@ const posts = await getCollection("posts", ({ data }) => {
 ---
 
 <style>
-    /* 
-        All this, plus the 100% height rules on html and body,
-        to get to the light-blue backgrounded .posts filling the
-        remaining height on the page. Hmm
-
-        TODO Has to be a better way?
-        https://stackoverflow.com/a/24979148
-    */
-    .layout {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-
+    .subpage-layout {
         main {
             height: inherit;
             display: flex;
@@ -100,50 +88,47 @@ const posts = await getCollection("posts", ({ data }) => {
 </style>
 
 <SubpageLayout
-    class="layout"
     description="GrepCo's blog"
     title="Blog"
 >
-    <main>
-        <h1 class="page-title">Blog</h1>
-        <section class="posts">
-            <div class="posts-container">
-                {
-                    posts.map((post) => (
-                        <article>
-                            <a href={`/blog/${post.id}`}>
-                                <h2>{post.data.title}</h2>
-                            </a>
-                            {async () => {
-                                const publicationDate =
-                                    await getOldestCommitDate("posts", post.id);
+    <h1 class="page-title">Blog</h1>
+    <section class="posts">
+        <div class="posts-container">
+            {
+                posts.map((post) => (
+                    <article>
+                        <a href={`/blog/${post.id}`}>
+                            <h2>{post.data.title}</h2>
+                        </a>
+                        {async () => {
+                            const publicationDate = await getOldestCommitDate(
+                                "posts",
+                                post.id
+                            );
 
-                                return (
-                                    <time
-                                        datetime={publicationDate.toISOString()}
-                                    >
-                                        {publicationDate.toLocaleDateString(
-                                            "en-US",
-                                            {
-                                                day: "numeric",
-                                                month: "long",
-                                                year: "numeric"
-                                            }
-                                        )}
-                                    </time>
-                                );
-                            }}
-                        </article>
-                    ))
-                }
-            </div>
-        </section>
-    </main>
+                            return (
+                                <time datetime={publicationDate.toISOString()}>
+                                    {publicationDate.toLocaleDateString(
+                                        "en-US",
+                                        {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric"
+                                        }
+                                    )}
+                                </time>
+                            );
+                        }}
+                    </article>
+                ))
+            }
+        </div>
+    </section>
 </SubpageLayout>
 
 <!--
 
- - Using section write in HTML? or article? or time?
+ - Using section right in HTML? or article? or time?
 
  /* 
             TODO Review how you did this in Gundy ... better way? write down
