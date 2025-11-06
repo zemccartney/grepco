@@ -63,7 +63,6 @@ h6 {
     --color-primary-700: hsl(193deg 74% 68%);
     --color-primary-800: hsl(193deg 76% 81%);
     --color-primary-900: hsl(190deg 92% 90%);
-    --color-primary-1000: hsl(190deg 100% 97%);
 
     /* Accent */
     --color-accent-100: hsl(1deg 96% 13%);
@@ -104,6 +103,7 @@ h6 {
 
     /* TYPOGRAPHY */
     --font-sans: "Exo 2", sans-serif;
+    --font-serif: "Faustina Variable", serif;
     --font-mono: "PT Mono", monospace;
 
     /*

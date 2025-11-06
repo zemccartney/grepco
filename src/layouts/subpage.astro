@@ -33,17 +33,17 @@ const { class: className, description, title, ...rest } = Astro.props;
             page components own global padding to simplify changing
             background color of header on opening mobile nav
         */
-        main,
-        header {
+        > main,
+        > header {
             padding-left: var(--spacing-two-rem);
             padding-right: var(--spacing-two-rem);
         }
 
-        header {
+        > header {
             padding-top: var(--spacing-two-rem);
         }
 
-        main {
+        > main {
             padding-bottom: var(--spacing-two-rem);
         }
     }

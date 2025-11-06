@@ -1,0 +1,61 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import SubpageLayout from "./subpage.astro";
+
+type Props = ComponentProps<typeof SubpageLayout>;
+
+const { description, title, ...rest } = Astro.props;
+---
+
+<style>
+    .subpage-layout {
+        main {
+            height: inherit;
+            display: flex;
+            flex-direction: column;
+            /* unset subpage padding, allow background color to extend to the edges of the screen */
+            padding: 0;
+
+            .content {
+                flex: 1;
+                margin-top: calc(var(--spacing-two-rem));
+                background-color: var(--color-primary-900);
+                padding-bottom: var(--spacing-two-rem);
+                padding-left: var(--spacing-two-rem);
+                padding-right: var(--spacing-two-rem);
+            }
+        }
+    }
+
+    /* TODO Abstract into central component, part of theme */
+    .page-title {
+        color: var(--color-primary-900);
+        font-size: var(--font-size-4xl);
+        letter-spacing: 0.05em;
+        font-style: italic;
+        text-align: center;
+        text-transform: uppercase;
+        text-wrap: balance;
+
+        @media (min-width: 40rem) {
+            font-size: var(--font-size-7xl);
+        }
+    }
+</style>
+
+<SubpageLayout
+    description={description || "GrepCo's blog"}
+    title={title || "Blog"}
+    {...rest}
+>
+    <h1
+        class="page-title"
+        id="blog-layout-header"
+    >
+        <slot name="title" />
+    </h1>
+    <section class="content">
+        <slot />
+    </section>
+</SubpageLayout>

@@ -1,0 +1,199 @@
+---
+import {
+    getLatestCommitDate,
+    getOldestCommitDate
+} from "@it-astro:content/git";
+import { getCollection, render } from "astro:content";
+
+import BlogLayout from "../../layouts/blog.astro";
+
+export const getStaticPaths = async () => {
+    const posts = await getCollection("posts");
+
+    // TODO prod filtering
+
+    return posts.map((post) => ({
+        params: { slug: post.id },
+        props: { post }
+    }));
+};
+
+const { post } = Astro.props;
+const { Content: Body } = await render(post);
+
+const publishedOn = await getOldestCommitDate("posts", post.id);
+const updatedOn = await getLatestCommitDate("posts", post.id);
+
+// TODO What to do about description? possible to generate from start of the post?
+// TODO ties directly into opengraph?
+// TODO external heading for article? how to markup?
+---
+
+<style>
+    .frontmatter {
+        border-bottom: 2px dashed var(--color-primary-200);
+        color: var(--color-accent-400);
+        font-family: var(--font-mono);
+        margin-left: auto;
+        margin-right: auto;
+        max-width: var(--spacing-thirtytwo-rem);
+        padding: var(--spacing-half-rem);
+        padding-left: 0;
+
+        /*
+            selector needed to override specificity of global styles default on p elements
+            TODO figure out how to avoid; :where?
+        */
+        * {
+            font-size: var(--font-size-base);
+        }
+
+        .property {
+            color: var(--color-primary-bg);
+            display: inline-block;
+            margin-right: var(--spacing-one-px);
+        }
+
+        @media (min-width: 40rem) {
+            padding: var(--spacing-one-rem);
+        }
+    }
+
+    .post-content {
+        color: var(--color-primary-bg);
+        font-family: var(--font-serif);
+        font-size: var(--font-size-2xl); /* necessary for setting max-width */
+        line-height: 1.4;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: var(--spacing-eight-rem);
+        max-width: 28em;
+
+        /* 
+            necessary for overriding global defaults
+            TODO figure out how to avoid; :where?
+        */
+        p,
+        ul,
+        li {
+            font-size: 1.375rem; /* 22px */
+        }
+
+        /* section heading */
+        h2 {
+            border-bottom: 0.1em solid var(--color-accent-500);
+            font-family: var(--font-sans);
+            font-size: var(--font-size-4xl);
+            letter-spacing: 0.035em;
+            text-wrap: balance;
+        }
+
+        /* sub-section heading */
+        h3 {
+            color: var(--color-accent-500);
+            font-family: var(--font-sans);
+            font-size: var(--font-size-2xl);
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        > * {
+            /* 
+                & + * means apply only if element (*) follows another 
+                https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
+            */
+
+            &:not(h2, h3) + * {
+                margin-top: 1.75em;
+            }
+
+            &:is(h2):not(:first-child) {
+                margin-top: 1.5em;
+            }
+
+            &:is(h2):not(:last-child) {
+                margin-bottom: 0.75em;
+            }
+
+            &:is(h3):not(:first-child) {
+                margin-top: 1.5em;
+            }
+
+            &:is(h3):not(:last-child) {
+                margin-bottom: 0.5em;
+            }
+        }
+
+        ul,
+        ol {
+            padding-inline-start: var(--spacing-onedotfive-px);
+
+            &:is(ol) {
+                padding-inline-start: var(--spacing-two-px);
+
+                li {
+                    padding-inline-start: 0.75ch;
+                }
+            }
+
+            li {
+                padding-inline-start: 1ch;
+                margin-top: 0.35em;
+
+                &::marker {
+                    color: var(--color-accent-500);
+                    font-family: var(--font-sans);
+                }
+            }
+
+            &:is(ul) {
+                li {
+                    &::marker {
+                        content: "*";
+                        font-size: 1.15em;
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            @media (min-width: 40rem) {
+                padding-inline-start: var(--spacing-three-px);
+
+                &:is(ol) {
+                    padding-inline-start: 54px;
+                }
+            }
+        }
+    }
+</style>
+
+<BlogLayout title={post.data.title}>
+    <Fragment slot="title">
+        {post.data.title}
+    </Fragment>
+    {
+        /*
+            aria-labelledby since article's h1 is placed outside of article in blog layout,
+            doubling as both the page and article h1
+        */
+    }
+    <article aria-labelledby="blog-layout-header">
+        <header class="frontmatter">
+            <p>
+                <span class="property">published_on:</span>
+                {publishedOn.toLocaleDateString()}
+            </p>
+            {
+                updatedOn > publishedOn && (
+                    <p>
+                        <span class="property">updated_on:</span>
+                        {updatedOn.toLocaleDateString()}
+                    </p>
+                )
+            }
+        </header>
+        <div class="post-content">
+            <Body />
+        </div>
+    </article>
+</BlogLayout>

@@ -25,6 +25,7 @@
         "typewatch": "astro check --watch --preserveWatchOutput"
     },
     "dependencies": {
+        "@fontsource-variable/faustina": "^5.2.8",
         "@fontsource/exo-2": "^5.2.8",
         "@fontsource/pt-mono": "^5.2.8",
         "@inox-tools/content-utils": "^0.12.0",
