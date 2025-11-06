@@ -6,52 +6,7 @@ import SubpageLayout from "../../layouts/subpage.astro";
 const projects = await getCollection("projects");
 ---
 
-{
-    /*
-        A bit gross here.
-        Defining style vars here instead of refactoring css
-        such that all places that use vars here are nested 
-        under common parent on which to define vars
-    */
-}
-
-<style
-    define:vars={{
-        "folder-width-lg": "var(--spacing-twelve-rem)",
-        "folder-width-sm": "var(--spacing-eight-rem)"
-    }}
->
-    .projects {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-four-rem);
-
-        max-width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-
-        @media (min-width: 40rem) {
-            gap: var(--spacing-six-rem);
-        }
-
-        /* 
-            TODO understand / fix this
-
-            approximately minimum width at which screen
-            can accommodate 3 column grid
-
-            didn't find a way to keep the grid centered across
-            changes in width i.e. cells reflowing onto next row
-        */
-        @media (min-width: 54rem) {
-            grid-template-columns: repeat(auto-fill, var(--folder-width-lg));
-            max-width: calc(
-                calc(var(--folder-width-lg) * 3) +
-                    calc(var(--spacing-six-rem) * 2)
-            );
-        }
-    }
-
+<style>
     .page-title {
         color: var(--color-primary-900);
         font-size: var(--font-size-4xl);
@@ -66,84 +21,127 @@ const projects = await getCollection("projects");
         }
     }
 
-    .project-cell {
-        display: block;
-        text-decoration: none;
-        width: min-content; /* clamp to folder, forcing nicer text wrapping */
+    .projects-wrapper {
+        --folder-width-sm: var(--spacing-eight-rem);
+        --folder-width-lg: var(--spacing-twelve-rem);
 
-        > p {
-            color: var(--color-accent-600);
-            font-size: var(--font-size-lg);
-            font-weight: bold;
-            text-align: center;
-            margin-top: 0.75em;
-            text-wrap: balance;
+        /*
+            intuition: grid autofills all space available
+
+            - wrapper max-width = max size to which grid could expand, but, unlike
+            if we set this value directly on the grid, respects screen size i.e. compresses
+            below max width as screen width decreases. That is, max width without autofilling
+                - without a concrete max width or width, grid seems to default to autofilling to least
+                space possible i.e. always one column layout
+
+            - justify-content center keeps folders centered when flex container width <= max width
+            i.e. occupying entire screen width i.e. when autofilled folders wrap such that columns
+            width doesn't fill screen width
+
+            - grid max-width + autofill = fill maximum available space, but, vitally, as constrained
+            by wrapper
+        */
+
+        display: flex;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: var(--spacing-sixtyfour-rem);
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, var(--folder-width-sm));
+            gap: var(--spacing-four-rem);
+            max-width: 100%;
+            @media (min-width: 40rem) {
+                gap: var(--spacing-six-rem);
+                grid-template-columns: repeat(
+                    auto-fill,
+                    var(--folder-width-lg)
+                );
+            }
         }
 
-        &:hover,
-        &:active {
-            > .folder > .front-flap {
-                transform-origin: bottom;
-                transform: scale3d(1, 0.95, 0.95) translateX(-5px) scaleX(1.05);
-            }
+        .project-cell {
+            display: block;
+            text-decoration: none;
+            width: min-content; /* clamp to folder, forcing nicer text wrapping */
 
             > p {
-                text-decoration: underline;
+                color: var(--color-accent-600);
+                font-size: var(--font-size-lg);
+                font-weight: bold;
+                text-align: center;
+                margin-top: 0.75em;
+                text-wrap: balance;
+            }
+
+            &:hover,
+            &:active {
+                > .folder > .front-flap {
+                    transform-origin: bottom;
+                    transform: scale3d(1, 0.95, 0.95) translateX(-5px)
+                        scaleX(1.05);
+                }
+
+                > p {
+                    text-decoration: underline;
+                }
             }
         }
-    }
 
-    .folder {
-        isolation: isolate;
-        position: relative;
-
-        > * {
-            border-radius: var(--spacing-half-px);
-
-            height: var(--spacing-six-rem);
-            width: var(--folder-width-sm);
-
-            @media (min-width: 40rem) {
-                height: var(--spacing-eight-rem);
-                width: var(--folder-width-lg);
-            }
-        }
-
-        > .front-flap {
-            z-index: 1;
+        .folder {
+            isolation: isolate;
             position: relative;
-            background: linear-gradient(
-                to bottom right,
-                var(--color-accent-500),
-                var(--color-accent-400),
-                35%,
-                var(--color-accent-200),
-                var(--color-accent-100)
-            );
-        }
 
-        > .back-flap {
-            background-color: var(--color-accent-100);
-            border-top-right-radius: 0;
-            position: absolute;
-            top: 0;
-
-            > .tab {
-                background-color: transparent;
+            > * {
                 border-radius: var(--spacing-half-px);
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-                border-color: var(--color-accent-100);
-                border-style: solid;
-                border-bottom-width: var(--spacing-one-rem);
-                border-left-width: 20px;
-                border-left-color: transparent;
-                border-top-width: 0;
+
+                height: var(--spacing-six-rem);
+                width: var(--folder-width-sm);
+
+                @media (min-width: 40rem) {
+                    height: var(--spacing-eight-rem);
+                    width: var(--folder-width-lg);
+                }
+            }
+
+            > .front-flap {
+                z-index: 1;
+                position: relative;
+                background: linear-gradient(
+                    to bottom right,
+                    var(--color-accent-500),
+                    var(--color-accent-400),
+                    35%,
+                    var(--color-accent-200),
+                    var(--color-accent-100)
+                );
+            }
+
+            > .back-flap {
+                background-color: var(--color-accent-100);
+                border-top-right-radius: 0;
                 position: absolute;
-                width: 40%;
-                height: 0;
-                top: calc(var(--spacing-one-rem) * -1);
-                right: 0;
+                top: 0;
+
+                > .tab {
+                    background-color: transparent;
+                    border-radius: var(--spacing-half-px);
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                    border-color: var(--color-accent-100);
+                    border-style: solid;
+                    border-bottom-width: var(--spacing-one-rem);
+                    border-left-width: 20px;
+                    border-left-color: transparent;
+                    border-top-width: 0;
+                    position: absolute;
+                    width: 40%;
+                    height: 0;
+                    top: calc(var(--spacing-one-rem) * -1);
+                    right: 0;
+                }
             }
         }
     }
@@ -154,22 +152,24 @@ const projects = await getCollection("projects");
     title="Projects"
 >
     <h1 class="page-title">Projects</h1>
-    <div class="projects">
-        {
-            projects.map((project) => (
-                <a
-                    class="project-cell"
-                    href={`/projects/${project.id}`}
-                >
-                    <div class="folder">
-                        <div class="front-flap" />
-                        <div class="back-flap">
-                            <div class="tab" />
+    <div class="projects-wrapper">
+        <div class="projects">
+            {
+                projects.map((project) => (
+                    <a
+                        class="project-cell"
+                        href={`/projects/${project.id}`}
+                    >
+                        <div class="folder">
+                            <div class="front-flap" />
+                            <div class="back-flap">
+                                <div class="tab" />
+                            </div>
                         </div>
-                    </div>
-                    <p>{project.data.name}</p>
-                </a>
-            ))
-        }
+                        <p>{project.data.name}</p>
+                    </a>
+                ))
+            }
+        </div>
     </div>
 </SubpageLayout>
