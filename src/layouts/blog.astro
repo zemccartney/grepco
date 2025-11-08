@@ -9,7 +9,7 @@ const { description, title, ...rest } = Astro.props;
 ---
 
 <style>
-    .subpage-layout {
+    .subpage-layout-overrides {
         main {
             height: inherit;
             display: flex;
@@ -45,6 +45,7 @@ const { description, title, ...rest } = Astro.props;
 </style>
 
 <SubpageLayout
+    class="subpage-layout-overrides"
     description={description || "GrepCo's blog"}
     title={title || "Blog"}
     {...rest}

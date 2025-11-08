@@ -3,6 +3,7 @@ import { getOldestCommitDate } from "@it-astro:content/git";
 import { getCollection } from "astro:content";
 
 import BlogLayout from "../../layouts/blog.astro";
+import * as Utils from "../../utils";
 
 const posts = await getCollection("posts", ({ id }) => {
     return (
@@ -70,7 +71,7 @@ const posts = await getCollection("posts", ({ id }) => {
         {
             posts.map((post) => (
                 <article>
-                    <a href={`/blog/${post.id}`}>
+                    <a href={`/blog/${Utils.getPostDisplayId(post)}`}>
                         <h2>{post.data.title}</h2>
                     </a>
                     {async () => {

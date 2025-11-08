@@ -6,6 +6,7 @@ import {
 import { getCollection, render } from "astro:content";
 
 import BlogLayout from "../../layouts/blog.astro";
+import * as Utils from "../../utils";
 
 export const getStaticPaths = async () => {
     const posts = await getCollection("posts", ({ id }) => {
@@ -17,7 +18,7 @@ export const getStaticPaths = async () => {
     });
 
     return posts.map((post) => ({
-        params: { slug: post.id.replace("drafts/", "") },
+        params: { slug: Utils.getPostDisplayId(post) },
         props: { post }
     }));
 };
