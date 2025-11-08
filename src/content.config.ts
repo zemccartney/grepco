@@ -20,7 +20,6 @@ const posts = defineCollection({
         pattern: "**/[^_]*.{md,mdx}"
     }),
     schema: z.object({
-        status: z.enum(["draft", "published"]),
         title: z.string()
     })
 });

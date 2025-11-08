@@ -4,8 +4,12 @@ import { getCollection } from "astro:content";
 
 import BlogLayout from "../../layouts/blog.astro";
 
-const posts = await getCollection("posts", ({ data }) => {
-    return import.meta.env.DEV || data.status !== "draft";
+const posts = await getCollection("posts", ({ id }) => {
+    return (
+        import.meta.env.DEV ||
+        import.meta.env.IS_PREVIEW_ENV ||
+        !id.startsWith("drafts")
+    );
 });
 ---
 
