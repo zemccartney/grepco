@@ -13,6 +13,12 @@ Irure cillum cillum enim enim. Dolore occaecat ut incididunt enim eu ut eu id fu
 
 Et incididunt dolore reprehenderit sunt enim occaecat tempor irure aliqua magna mollit. Aliquip amet commodo labore pariatur exercitation nostrud proident proident dolor irure sint tempor. Eiusmod Lorem officia nulla non irure ex. In aute Lorem amet ex velit. Ea esse ad eiusmod elit esse consequat officia officia.
 
+---
+
+www.google.com is some text i'm adding.
+
+zack@grepco.net
+
 - a
 - b
 - c
@@ -22,3 +28,35 @@ Et incididunt dolore reprehenderit sunt enim occaecat tempor irure aliqua magna 
 3. z
 
 <!-- TODO links, hr, image -->
+
+```ts title="file.ts"
+interface Person {
+    name: string;
+}
+
+interface PersonSpan extends Person {
+    birth: Date;
+    death?: Date;
+}
+
+/*
+    aria-labelledby since article's h1 is placed outside of article in blog layout,
+    doubling as both the page and article h1
+*/
+
+function isEven(num) {
+    return num % 2 === 0;
+}
+
+// Testing the function
+const num = 4;
+if (isEven(num)) {
+    console.log(`${num} is even.`);
+} else {
+    throw new Error("Wait, what?");
+}
+```
+
+Et incididunt dolore reprehenderit sunt enim occaecat tempor irure aliqua magna mollit. Aliquip amet commodo labore pariatur exercitation nostrud proident proident dolor irure sint tempor. Eiusmod Lorem officia nulla non irure ex. In aute Lorem amet ex velit. Ea esse ad eiusmod elit esse consequat officia officia.
+
+Et incididunt dolore reprehenderit sunt enim occaecat tempor irure aliqua magna mollit. Aliquip amet commodo labore pariatur exercitation nostrud proident proident dolor irure sint tempor. Eiusmod Lorem officia nulla non irure ex. In aute Lorem amet ex velit. Ea esse ad eiusmod elit esse consequat officia officia.

@@ -87,8 +87,11 @@ export default defineConfig([
         plugins: {
             markdown
         },
+        // TODO play with this option; assume linting on code blocks
+        // will only be a pain in the ass, assume a lot of partial examples,
+        // code with intentional issues, etc.
+        // processor: "markdown/markdown",
         rules: {
-            "markdown/no-bare-urls": ["error"],
             "markdown/no-duplicate-headings": ["error"]
         }
     },

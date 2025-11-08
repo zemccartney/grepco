@@ -26,7 +26,6 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
 
 // TODO What to do about description? possible to generate from start of the post?
 // TODO ties directly into opengraph?
-// TODO external heading for article? how to markup?
 ---
 
 <style>
@@ -62,43 +61,47 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
     .post-content {
         color: var(--color-primary-bg);
         font-family: var(--font-serif);
-        font-size: var(--font-size-2xl); /* necessary for setting max-width */
         line-height: 1.4;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: var(--spacing-eight-rem);
-        max-width: 28em;
+        margin-top: var(--spacing-four-rem);
 
-        /* 
-            necessary for overriding global defaults
-            TODO figure out how to avoid; :where?
+        @media (min-width: 40rem) {
+            margin-top: var(--spacing-eight-rem);
+        }
+
+        /*
+            Layout rules, assume only relevant to top level of layout, that container elements
+            will more often than not want to be responsible for spacing/laying out their own children
         */
-        p,
-        ul,
-        li {
-            font-size: 1.375rem; /* 22px */
-        }
-
-        /* section heading */
-        h2 {
-            border-bottom: 0.1em solid var(--color-accent-500);
-            font-family: var(--font-sans);
-            font-size: var(--font-size-4xl);
-            letter-spacing: 0.035em;
-            text-wrap: balance;
-        }
-
-        /* sub-section heading */
-        h3 {
-            color: var(--color-accent-500);
-            font-family: var(--font-sans);
-            font-size: var(--font-size-2xl);
-            font-style: italic;
-            text-transform: uppercase;
-        }
-
         > * {
+            /*
+
+                highlighted elements
+
+                a little wonky here: width-capping and centering elements
+                individually to support select elements taking up more horizontal
+                space. for example, better to allow code blocks to expand more
+                to avoid horizontal scroll / wrapping as much as possible
+            */
+            margin-left: auto;
+            margin-right: auto;
+
+            &:not(.expressive-code) {
+                max-width: 42rem;
+            }
+
+            &:is(.expressive-code) {
+                max-width: var(--spacing-sixtyfour-rem);
+
+                @media (max-width: 40rem) {
+                    margin-left: calc(var(--spacing-two-rem) * -1);
+                    margin-right: calc(var(--spacing-two-rem) * -1);
+                }
+            }
+
             /* 
+
+                vertical rhythm
+
                 & + * means apply only if element (*) follows another 
                 https://alistapart.com/article/axiomatic-css-and-lobotomized-owls/
             */
@@ -122,8 +125,70 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
             &:is(h3):not(:last-child) {
                 margin-bottom: 0.5em;
             }
+
+            /*
+
+                vertical rhythm exceptions
+
+                elements for which found more + symmetrical spacing
+                tended to look cleaner e.g. hrs, aligned with using
+                to mark boundaries between sections i.e. break
+                in rhythm
+            */
+            &:is(hr) {
+                margin-top: 3em;
+                margin-bottom: 3em;
+            }
+
+            &:is(hr) + * {
+                margin-top: 0;
+            }
+
+            &:is(.expressive-code) {
+                /* using rem since .expressive-code doesn't have its own font size */
+                margin-top: 4rem;
+                margin-bottom: 4rem;
+            }
+
+            &:is(.expressive-code) + * {
+                margin-top: 0;
+            }
         }
 
+        /* 
+            necessary for overriding global defaults
+            TODO figure out how to avoid; :where?
+        */
+        p,
+        ul,
+        li {
+            font-size: 1.375rem; /* 22px */
+        }
+
+        /* section heading */
+        h2 {
+            border-bottom: var(--spacing-quarter-px) solid
+                var(--color-accent-500);
+            font-family: var(--font-sans);
+            font-size: var(--font-size-5xl);
+            letter-spacing: 0.035em;
+            text-wrap: balance;
+        }
+
+        /* sub-section heading */
+        h3 {
+            color: var(--color-accent-500);
+            font-family: var(--font-sans);
+            font-size: var(--font-size-2xl);
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        /*
+            recreates list styles in layouts/typography (handles ol, too)
+
+            TODO find some way to consolidate?
+        */
         ul,
         ol {
             padding-inline-start: var(--spacing-onedotfive-px);
@@ -162,6 +227,40 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
                 &:is(ol) {
                     padding-inline-start: 54px;
                 }
+            }
+        }
+
+        a {
+            color: var(--color-link);
+
+            &:hover,
+            &:active {
+                color: var(--color-link-active);
+            }
+        }
+
+        hr {
+            background-color: var(--color-accent-500);
+            border: none; /* reset border styles so visible color is exactly height specified */
+            height: 2px;
+            width: 65%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .expressive-code {
+            code {
+                font-size: var(--font-size-base);
+
+                @media (min-width: 40rem) {
+                    font-size: var(--font-size-xl);
+                }
+            }
+
+            /* tighten line numbers */
+            .gutter .ln {
+                padding-inline: 1.5ch;
+                padding-inline-start: 1ch;
             }
         }
     }

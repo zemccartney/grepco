@@ -25,11 +25,13 @@
         "typewatch": "astro check --watch --preserveWatchOutput"
     },
     "dependencies": {
+        "@expressive-code/plugin-line-numbers": "^0.41.3",
         "@fontsource-variable/faustina": "^5.2.8",
         "@fontsource/exo-2": "^5.2.8",
-        "@fontsource/pt-mono": "^5.2.8",
+        "@fontsource/iosevka": "^5.2.5",
         "@inox-tools/content-utils": "^0.12.0",
         "astro": "^5.14.1",
+        "astro-expressive-code": "^0.41.3",
         "clsx": "^2.1.1"
     },
     "devDependencies": {
