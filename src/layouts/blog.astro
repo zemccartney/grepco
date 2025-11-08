@@ -10,12 +10,20 @@ const { description, title, ...rest } = Astro.props;
 
 <style>
     .subpage-layout-overrides {
-        > main {
+        main {
             height: inherit;
             display: flex;
             flex-direction: column;
             /* unset subpage padding, allow background color to extend to the edges of the screen */
-            padding: 0;
+            /*
+                TODO file bug? needed important b/c styles were applying in dev, but not in prod (build)
+                that is, padding rules on .subpage-layout > main were taking precedence only once built
+                
+                approaches tried:
+                - just targeting .subpage-layout
+                - targeting .subpage-layout-overrides and passing class to layout
+            */
+            padding: 0 !important;
 
             .content {
                 flex: 1;
