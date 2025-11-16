@@ -217,11 +217,15 @@ import Logo from "./logo.astro";
     }
 
     .logo-link {
-        font-size: var(--font-size-4xl);
+        /*
+            TODO file bug? needed important b/c styles were applying in dev, but not in prod (build)
+            that is, padding rules on .subpage-layout > main were taking precedence only once built
+        */
+        font-size: var(--font-size-4xl) !important;
         /* 
-                roundabout-ass way to say 18px, experimentally arrived at ... assuredly a better way, will figure out later
-                point is to make logo and nav buttons look more visually aligned    
-            */
+            roundabout-ass way to say 18px, experimentally arrived at ... assuredly a better way, will figure out later
+            point is to make logo and nav buttons look more visually aligned    
+        */
         margin-top: calc(var(--spacing-onedotfive-rem) * -0.75);
         text-decoration: none;
 
@@ -232,7 +236,7 @@ import Logo from "./logo.astro";
         }
 
         @media (min-width: 40rem) {
-            font-size: var(--font-size-5xl);
+            font-size: var(--font-size-5xl) !important;
         }
     }
 </style>
