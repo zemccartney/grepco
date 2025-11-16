@@ -13,7 +13,7 @@ import Logo from "./logo.astro";
     }
 
     const navLinks = document.querySelectorAll(
-        `.nav-button-group > a[href="${currentPath}"], .mobile-nav-menu > a[href="${currentPath}"]`
+        `.nav-button-group > a[href="${currentPath}"], .mobile-overlay-menu > a[href="${currentPath}"]`
     );
 
     for (const link of navLinks) {
@@ -23,11 +23,11 @@ import Logo from "./logo.astro";
     /* Mobile nav open/close */
 
     const navTrigger = document.querySelector(
-        "#mobile-nav-trigger"
+        "#mobile-overlay-trigger"
     ) as HTMLButtonElement;
 
     const navClose = document.querySelector(
-        "#mobile-nav-close"
+        "#mobile-overlay-close"
     ) as HTMLButtonElement;
 
     const body = document.querySelector("body") as HTMLElement;
@@ -37,13 +37,13 @@ import Logo from "./logo.astro";
     let scrollPosition: [number, number];
 
     navTrigger.addEventListener("click", () => {
-        nav.dataset.mobileMenuOpen = "true";
-
         // TODO eventually implement sticky header such that preserving scroll actually matters
         bodyOverflowStyle = body.style.overflow;
         body.style.overflow = "hidden";
         scrollPosition = [globalThis.scrollX, globalThis.scrollY];
         globalThis.scrollTo(0, 0);
+
+        nav.dataset.mobileMenuOpen = "true";
     });
 
     const onClose = () => {
@@ -74,13 +74,15 @@ import Logo from "./logo.astro";
 <style>
     /* grouping layout styles here; nav as a coordinator ruleset TODO revisit / keep thinking about this pattern */
     nav {
-        align-items: center;
-        display: flex;
-        gap: var(--spacing-two-rem);
-        height: 64px; /* Prevent inadvertent stretching, solved for height jitter when opening and closing mobile nav */
+        .nav-base {
+            align-items: center;
+            display: flex;
+            gap: var(--spacing-two-rem);
+            height: 64px; /* Prevent inadvertent stretching, solved for height jitter when opening and closing mobile nav */
+        }
 
         .nav-button-group,
-        .mobile-nav {
+        .mobile-overlay-close {
             /*
                 Unfortunate, but helps make logo link and rest of nav buttons
                 visually aligned
@@ -89,15 +91,8 @@ import Logo from "./logo.astro";
         }
 
         /* hide expanded nav mobile-first */
-        .nav-button-group, 
-        /*
-            for the mobile nav, overlay menu hidden by default;
-            on reveal, close button takes the place of the trigger
-            in the normal flow of the nav, while the menu is
-            fixed-positioned below
-        */
-        #mobile-nav-close,
-        .mobile-nav-menu {
+        .nav-button-group,
+        .mobile-overlay {
             display: none;
         }
 
@@ -105,12 +100,11 @@ import Logo from "./logo.astro";
             &[data-mobile-menu-open="true"] {
                 display: block;
 
-                #mobile-nav-trigger {
+                .nav-base {
                     display: none;
                 }
 
-                #mobile-nav-close,
-                .mobile-nav-menu {
+                .mobile-overlay {
                     display: block;
                 }
 
@@ -125,7 +119,8 @@ import Logo from "./logo.astro";
         @media (min-width: 40rem) {
             gap: var(--spacing-four-rem);
 
-            .mobile-nav {
+            .mobile-nav,
+            #mobile-overlay-trigger {
                 display: none;
             }
 
@@ -160,56 +155,61 @@ import Logo from "./logo.astro";
         }
     }
 
-    .mobile-nav {
-        margin-left: auto;
-        margin-right: auto;
+    .mobile-overlay {
+        background-color: var(--color-accent-1000);
+    }
 
-        #mobile-nav-close {
-            /* resets */
+    .mobile-overlay-header {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing-six-rem);
+    }
 
-            background-color: transparent;
-            border-width: 0;
-            padding: 0;
-            border-style: solid;
+    #mobile-overlay-close {
+        /* resets */
 
-            /* end resets */
+        background-color: transparent;
+        border-width: 0;
+        padding: 0;
+        border-style: solid;
+
+        /* end resets */
+        color: var(--color-accent-600);
+        font-size: var(--font-size-5xl);
+        font-weight: bold;
+        text-decoration: none;
+        margin-top: -4px; /* tighten up alignment with logo link */
+
+        &:hover {
+            color: var(--color-accent-200);
+        }
+    }
+
+    .mobile-overlay-menu {
+        padding-top: var(--spacing-six-rem);
+
+        a {
+            display: block;
             color: var(--color-accent-600);
-            font-size: var(--font-size-5xl);
-            font-weight: bold;
+            font-weight: 600;
+            font-size: var(--font-size-3xl);
             text-decoration: none;
-            margin-top: -4px; /* tighten up alignment with logo link */
+            text-align: center;
+            padding: var(--spacing-one-rem) var(--spacing-two-px);
 
             &:hover {
-                color: var(--color-accent-200);
+                text-decoration: underline;
             }
-        }
 
-        .mobile-nav-menu {
-            background-color: var(--color-accent-1000);
-            padding-top: var(--spacing-six-rem);
+            &.current {
+                color: var(--color-primary-700);
+                background-color: var(--color-accent-100);
+                pointer-events: none;
+            }
 
-            a {
-                display: block;
-                color: var(--color-accent-600);
-                font-weight: 600;
-                font-size: var(--font-size-3xl);
-                text-decoration: none;
-                text-align: center;
-                padding: var(--spacing-one-rem) var(--spacing-two-px);
-
-                &:hover {
-                    text-decoration: underline;
-                }
-
-                &.current {
-                    color: var(--color-primary-700);
-                    background-color: var(--color-accent-100);
-                    pointer-events: none;
-                }
-
-                & + * {
-                    margin-top: var(--spacing-three-rem);
-                }
+            & + * {
+                margin-top: var(--spacing-three-rem);
             }
         }
     }
@@ -238,43 +238,57 @@ import Logo from "./logo.astro";
     class="GC_Subnav"
     data-mobile-menu-open={false}
 >
-    <h1>
-        <Logo
-            as="a"
-            class="logo-link"
-            href="/"
-            imgWidth={56}
-        />
-    </h1>
+    <div class="nav-base">
+        <h1>
+            <Logo
+                as="a"
+                class="logo-link"
+                href="/"
+                imgWidth={56}
+            />
+        </h1>
 
-    <div class="nav-button-group">
-        <Button
-            as="a"
-            href="/about"
-        >
-            About
-        </Button>
-        <Button
-            as="a"
-            href="/projects"
-        >
-            Projects
-        </Button>
-        <Button
-            as="a"
-            href="/blog"
-        >
-            Blog
-        </Button>
+        <div class="nav-button-group">
+            <Button
+                as="a"
+                href="/about"
+            >
+                About
+            </Button>
+            <Button
+                as="a"
+                href="/projects"
+            >
+                Projects
+            </Button>
+            <Button
+                as="a"
+                href="/blog"
+            >
+                Blog
+            </Button>
+        </div>
+        <Button id="mobile-overlay-trigger">Menu</Button>
     </div>
-    <div class="mobile-nav">
-        <Button id="mobile-nav-trigger">Menu</Button>
-        <button
-            id="mobile-nav-close"
-            type="button"
-            >X</button
-        >
-        <div class="mobile-nav-menu">
+
+    <div class="mobile-overlay">
+        <div class="mobile-overlay-header">
+            <h1>
+                <Logo
+                    as="a"
+                    class="logo-link"
+                    href="/"
+                    imgWidth={56}
+                />
+            </h1>
+            <button
+                id="mobile-overlay-close"
+                type="button"
+                >X</button
+            >
+        </div>
+
+        <div class="mobile-overlay-menu">
             <a href="/about">About</a>
             <a href="/projects">Projects</a>
             <a href="/blog">Blog</a>
