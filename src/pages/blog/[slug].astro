@@ -26,6 +26,8 @@ const { Content: Body } = await render(post);
 const git = await getEntryGitInfo("posts", post.id);
 const publishedOn = git?.earliest ?? new Date();
 const updatedOn = git?.latest ?? new Date();
+
+console.log({ git, id: post.id }, "WHYYYYY");
 ---
 
 <style>
