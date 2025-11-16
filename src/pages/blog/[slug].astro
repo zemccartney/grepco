@@ -29,7 +29,7 @@ const { Content: Body } = await render(post);
 const publishedOn = await getOldestCommitDate(post);
 const updatedOn = await getLatestCommitDate(post);
 
-console.log({ post, publishedOn, updatedOn });
+console.log({ id: post.id, publishedOn, updatedOn });
 
 // TODO What to do about description? possible to generate from start of the post?
 // TODO ties directly into opengraph?

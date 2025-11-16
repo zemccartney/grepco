@@ -6,7 +6,9 @@ import { defineConfig } from "astro/config";
 // https://astro.build/config
 export default defineConfig({
     integrations: [
-        inoxToolsContentUtils(),
+        inoxToolsContentUtils({
+            staticOnlyCollections: ["posts"]
+        }),
         expressiveCode({
             themes: ["night-owl"]
         })
