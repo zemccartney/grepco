@@ -26,10 +26,10 @@ export const getStaticPaths = async () => {
 const { post } = Astro.props;
 const { Content: Body } = await render(post);
 
-const publishedOn = await getOldestCommitDate("posts", post.id);
-const updatedOn = await getLatestCommitDate("posts", post.id);
+const publishedOn = await getOldestCommitDate(post);
+const updatedOn = await getLatestCommitDate(post);
 
-console.log({ id: post.id, publishedOn, updatedOn }, "OCTOPUS");
+console.log({ post, publishedOn, updatedOn });
 
 // TODO What to do about description? possible to generate from start of the post?
 // TODO ties directly into opengraph?

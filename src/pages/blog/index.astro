@@ -79,15 +79,12 @@ const posts = await getCollection("posts", ({ id }) => {
                         <h2>{post.data.title}</h2>
                     </a>
                     {async () => {
-                        const publicationDate = await getOldestCommitDate(
-                            "posts",
-                            post.id
-                        );
+                        const publishedOn = await getOldestCommitDate(post);
 
                         return (
-                            <time datetime={publicationDate.toISOString()}>
+                            <time datetime={publishedOn.toISOString()}>
                                 {Utils.displayDatetimeEastern(
-                                    publicationDate,
+                                    publishedOn,
                                     "long"
                                 )}
                             </time>
