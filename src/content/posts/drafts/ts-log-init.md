@@ -1,5 +1,6 @@
 ---
 title: "Typescript Learning Log: Early Intuitions"
+description: An attempt at pulling my typescript intuitions-so-far out of my brain after a few months of learning the language in earnest.
 ---
 
 I've been learning typescript in earnest over the past few months, after spending the first close-to-a-decade of my career almost exclusively in "classic" javascript. I'd dabbled some on my side projects (this site among them, though the actual typescripting required here is close to nil), but with an opportunity to migrate an existing, non-trivial project at work, I wanted to have some semi-professional-seeming idea of what I was doing. To try to get things to stick more, and in the spirit of learning in public, I'm hoping to keep a log of my travels here.

@@ -68,6 +68,16 @@ import "../global.css";
             content={description}
             name="description"
         />
+
+        <!-- open graph -->
+        <meta
+            content={description}
+            property="og:description"
+        />
+        <meta
+            content={title}
+            property="og:title"
+        />
     </head>
     <body>
         <slot />

@@ -20,6 +20,7 @@ const posts = defineCollection({
         pattern: "**/[^_]*.{md,mdx}"
     }),
     schema: z.object({
+        description: z.string(),
         title: z.string()
     })
 });
