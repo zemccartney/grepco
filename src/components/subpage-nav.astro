@@ -108,9 +108,9 @@ import Logo from "./logo.astro";
                     display: block;
                 }
 
-                #mobile-nav-close {
+                #mobile-overlay-close {
                     position: absolute;
-                    top: 1rem;
+                    top: 2%;
                     right: 25%;
                 }
             }
@@ -119,7 +119,7 @@ import Logo from "./logo.astro";
         @media (min-width: 40rem) {
             gap: var(--spacing-four-rem);
 
-            .mobile-nav,
+            .mobile-overlay,
             #mobile-overlay-trigger {
                 display: none;
             }
@@ -188,6 +188,8 @@ import Logo from "./logo.astro";
 
     .mobile-overlay-menu {
         padding-top: var(--spacing-six-rem);
+        margin-left: calc(var(--spacing-two-rem) * -1);
+        margin-right: calc(var(--spacing-two-rem) * -1);
 
         a {
             display: block;

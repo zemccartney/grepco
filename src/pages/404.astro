@@ -1,0 +1,88 @@
+---
+import { Image } from "astro:assets";
+
+import TopHat from "../assets/images/tophat.png";
+import Button from "../components/button.astro";
+import BaseLayout from "../layouts/base.astro";
+---
+
+<style>
+    .stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-four-rem);
+        align-items: center;
+    }
+
+    .spooky {
+        margin-top: var(--spacing-eight-rem);
+
+        p {
+            color: var(--color-accent-600);
+            font-size: var(--font-size-5xl);
+            font-weight: bold;
+            text-align: center;
+
+            &.ghost {
+                position: relative;
+                top: 30px;
+                font-size: var(--font-size-6xl);
+            }
+
+            &.regex {
+                position: relative;
+                top: var(--spacing-three-px);
+                left: var(--spacing-two-px);
+            }
+        }
+
+        img {
+            transform: rotate(180deg);
+        }
+    }
+
+    /* TODO Consolidate into theme? Copied from home page */
+    h1 {
+        color: var(--color-accent-600);
+        font-size: var(--font-size-4xl);
+        letter-spacing: 0.05em;
+        line-height: 1.2;
+        font-style: italic;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        text-wrap: balance;
+    }
+
+    @media (min-width: 40rem) {
+        h1 {
+            font-size: var(--font-size-6xl);
+        }
+    }
+</style>
+
+<BaseLayout
+    description="404"
+    title="Page Not Found!"
+>
+    <div class="stack">
+        <div
+            class="spooky"
+            role="img"
+        >
+            <p class="regex">_^</p>
+            <p class="ghost">👻</p>
+            <Image
+                alt="Tophat emoji, turned upside down"
+                src={TopHat}
+                width={120}
+            />
+        </div>
+        <h1>Page not found!</h1>
+        <Button
+            as="a"
+            href="/"
+            >Back home</Button
+        >
+    </div>
+</BaseLayout>
