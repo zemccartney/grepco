@@ -7,6 +7,7 @@
         "build": "npm run check && astro build",
         "cf:wip": "git commit -m \"[CF-Pages-Skip] WIP\" && git push",
         "check": "astro check && npm run fmt:check && npm run lint",
+        "deploy": "npm run build && wrangler deploy",
         "deps": "ncu -i --format group --cooldown 3",
         "fmt": "prettier . --write",
         "fmt:check": "prettier . --check",
@@ -57,7 +58,8 @@
         "stylelint": "^16.25.0",
         "stylelint-config-standard": "^39.0.1",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.46.2"
+        "typescript-eslint": "^8.46.2",
+        "wrangler": "^4.47.0"
     },
     "engines": {
         "node": ">=22 <23"

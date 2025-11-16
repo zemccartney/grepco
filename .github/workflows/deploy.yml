@@ -1,0 +1,31 @@
+# authenticate to CF
+# install application
+# deploy (if not main, use preview alias and branch; otherwise, deploy, custom domain)
+
+name: deploy
+
+on:
+    workflow_dispatch:
+    push:
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        env:
+            CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+            CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: 22
+            - run: npm ci
+            - run: npx wrangler whoami
+            - run: npm run build
+            - name: Deploy --preview-alias
+              if: "${{ github.ref_name == 'main' }}"
+              run: wrangler versions upload --preview-alias $(git rev-parse --abbrev-ref HEAD)
+            - name: Deploy production
+              if: "${{ github.ref_name == 'main' }}"
+              env:
+                  IS_PREVIEW_ENV: true
+              run: npx wrangler deploy
