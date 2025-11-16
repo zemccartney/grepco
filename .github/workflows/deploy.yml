@@ -20,6 +20,8 @@ jobs:
                   node-version: 22
             - run: npm ci
             - run: npx wrangler whoami
+            - run: git log src/content/posts/drafts/ts-log-init.md
+            - run: git log src/content/posts/drafts/requiem-for-a-seltzer.md
             - name: Deploy preview
               if: "${{ github.ref_name != 'main' }}"
               env:
