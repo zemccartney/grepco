@@ -31,34 +31,19 @@ import Logo from "./logo.astro";
     ) as HTMLButtonElement;
 
     const body = document.querySelector("body") as HTMLElement;
-    const header = document.querySelector("header") as HTMLElement;
     const nav = document.querySelector("nav") as HTMLElement;
-    const navMenu = nav.querySelector(".mobile-nav-menu") as HTMLElement;
 
     let bodyOverflowStyle: string;
     let scrollPosition: [number, number];
 
     navTrigger.addEventListener("click", () => {
+        nav.dataset.mobileMenuOpen = "true";
+
         // TODO eventually implement sticky header such that preserving scroll actually matters
         bodyOverflowStyle = body.style.overflow;
         body.style.overflow = "hidden";
         scrollPosition = [globalThis.scrollX, globalThis.scrollY];
         globalThis.scrollTo(0, 0);
-
-        nav.dataset.mobileMenuOpen = "true";
-
-        /*
-            WARNING - this top styling must follow the scroll reset
-            above. Solves a bug seen only on Chrome iOS (v134), where
-            you'd see a gap, allowing you to scroll the page behind,
-            between the header and the mobile menu if you first scrolled
-            the page down while keeping the menu trigger in view, then opening
-            the menu
-        */
-
-        // nav.dataset.mobileMenuOpen assignment and changing visible header buttons
-        // changes the size of header, hence why this assignment must follow that one
-        navMenu.style.top = `${header.getBoundingClientRect().height}px`;
     });
 
     const onClose = () => {
@@ -118,13 +103,21 @@ import Logo from "./logo.astro";
 
         @media (max-width: 40rem) {
             &[data-mobile-menu-open="true"] {
+                display: block;
+
                 #mobile-nav-trigger {
                     display: none;
                 }
 
                 #mobile-nav-close,
                 .mobile-nav-menu {
-                    display: initial;
+                    display: block;
+                }
+
+                #mobile-nav-close {
+                    position: absolute;
+                    top: 1rem;
+                    right: 25%;
                 }
             }
         }
@@ -192,12 +185,6 @@ import Logo from "./logo.astro";
         }
 
         .mobile-nav-menu {
-            isolation: isolate;
-            z-index: 1;
-            position: fixed;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background-color: var(--color-accent-1000);
             padding-top: var(--spacing-six-rem);
 

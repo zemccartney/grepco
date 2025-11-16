@@ -1,5 +1,5 @@
 ---
-import { getOldestCommitDate } from "@it-astro:content/git";
+import { getEntryGitInfo } from "@it-astro:content/git";
 import { getCollection } from "astro:content";
 
 import BlogLayout from "../../layouts/blog.astro";
@@ -79,7 +79,8 @@ const posts = await getCollection("posts", ({ id }) => {
                         <h2>{post.data.title}</h2>
                     </a>
                     {async () => {
-                        const publishedOn = await getOldestCommitDate(post);
+                        const git = await getEntryGitInfo("posts", post.id);
+                        const publishedOn = git?.earliest ?? new Date();
 
                         return (
                             <time datetime={publishedOn.toISOString()}>
