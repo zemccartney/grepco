@@ -20,12 +20,11 @@ jobs:
                   node-version: 22
             - run: npm ci
             - run: npx wrangler whoami
-            - run: npm run build
-            - name: Deploy --preview-alias
+            - name: Deploy preview
               if: "${{ github.ref_name != 'main' }}"
-              run: npx wrangler versions upload --preview-alias "${{ github.ref_name }}"
-            - name: Deploy production
-              if: "${{ github.ref_name == 'main' }}"
               env:
                   IS_PREVIEW_ENV: true
-              run: npx wrangler deploy
+              run: npm run build && npx wrangler versions upload --preview-alias "${{ github.ref_name }}"
+            - name: Deploy production
+              if: "${{ github.ref_name == 'main' }}"
+              run: npm run build && npx wrangler deploy
