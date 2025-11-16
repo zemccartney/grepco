@@ -74,7 +74,7 @@ h6 {
     --color-accent-700: hsl(16deg 96% 59%);
     --color-accent-800: hsl(18deg 96% 78%);
     --color-accent-900: hsl(18deg 98% 89%);
-    --color-accent-1000: hsl(21deg 100% 93%);
+    --color-accent-1000: hsl(21deg 100% 99%);
 
     /* Grays */
     --color-gray-100: hsl(209deg 61% 16%);
@@ -103,7 +103,6 @@ h6 {
 
     /* TYPOGRAPHY */
     --font-sans: "Exo 2", sans-serif;
-    --font-serif: "Faustina Variable", serif;
     --font-mono: "Iosevka", monospace;
 
     /*
@@ -236,14 +235,12 @@ h6 {
 }
 
 /** DEFAULTS **/
-p,
-ul,
-li {
+
+:where(p, u, li) {
     font-size: var(--font-size-xl);
 }
 
-h1,
-h2 {
+:where(h1, h2) {
     font-size: var(--font-size-2xl);
 }
 

@@ -21,6 +21,10 @@ const posts = await getCollection("posts", ({ id }) => {
         margin-right: auto;
         padding: var(--spacing-two-rem) var(--spacing-one-rem);
 
+        > article:not(:first-child) {
+            margin-top: var(--spacing-two-rem);
+        }
+
         @media (min-width: 40rem) {
             padding: var(--spacing-four-rem) var(--spacing-two-rem);
         }

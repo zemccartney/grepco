@@ -45,8 +45,7 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
         padding-left: 0;
 
         /*
-            selector needed to override specificity of global styles default on p elements
-            TODO figure out how to avoid; :where?
+            selector needed to override global styles default on p elements
         */
         * {
             font-size: var(--font-size-base);
@@ -65,12 +64,13 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
 
     .post-content {
         color: var(--color-primary-bg);
-        font-family: var(--font-serif);
-        line-height: 1.4;
+        font-family: var(--font-sans);
+        line-height: 1.65;
         margin-top: var(--spacing-four-rem);
 
         @media (min-width: 40rem) {
-            margin-top: var(--spacing-eight-rem);
+            font-size: var(--font-size-2xl);
+            margin-top: var(--spacing-six-rem);
         }
 
         /*
@@ -91,7 +91,7 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
             margin-right: auto;
 
             &:not(.expressive-code) {
-                max-width: 42rem;
+                max-width: 40rem;
             }
 
             &:is(.expressive-code) {
@@ -158,16 +158,6 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
             &:is(.expressive-code) + * {
                 margin-top: 0;
             }
-        }
-
-        /* 
-            necessary for overriding global defaults
-            TODO figure out how to avoid; :where?
-        */
-        p,
-        ul,
-        li {
-            font-size: 1.375rem; /* 22px */
         }
 
         /* section heading */
