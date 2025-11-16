@@ -23,7 +23,7 @@ jobs:
             - run: npm run build
             - name: Deploy --preview-alias
               if: "${{ github.ref_name != 'main' }}"
-              run: wrangler versions upload --preview-alias $(git rev-parse --abbrev-ref HEAD)
+              run: wrangler versions upload --preview-alias "${{ github.ref_name }}"
             - name: Deploy production
               if: "${{ github.ref_name == 'main' }}"
               env:
