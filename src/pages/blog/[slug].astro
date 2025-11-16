@@ -29,6 +29,8 @@ const { Content: Body } = await render(post);
 const publishedOn = await getOldestCommitDate("posts", post.id);
 const updatedOn = await getLatestCommitDate("posts", post.id);
 
+console.log({ id: post.id, publishedOn, updatedOn }, "OCTOPUS");
+
 // TODO What to do about description? possible to generate from start of the post?
 // TODO ties directly into opengraph?
 ---
@@ -275,13 +277,13 @@ const updatedOn = await getLatestCommitDate("posts", post.id);
         <header class="frontmatter">
             <p>
                 <span class="property">published_on:</span>
-                {publishedOn.toLocaleDateString()}
+                {Utils.displayDatetimeEastern(publishedOn)}
             </p>
             {
                 updatedOn > publishedOn && (
                     <p>
                         <span class="property">updated_on:</span>
-                        {updatedOn.toLocaleDateString()}
+                        {Utils.displayDatetimeEastern(updatedOn)}
                     </p>
                 )
             }

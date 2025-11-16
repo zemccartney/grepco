@@ -86,11 +86,10 @@ const posts = await getCollection("posts", ({ id }) => {
 
                         return (
                             <time datetime={publicationDate.toISOString()}>
-                                {publicationDate.toLocaleDateString("en-US", {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric"
-                                })}
+                                {Utils.displayDatetimeEastern(
+                                    publicationDate,
+                                    "long"
+                                )}
                             </time>
                         );
                     }}
