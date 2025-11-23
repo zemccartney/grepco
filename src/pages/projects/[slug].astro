@@ -1,4 +1,5 @@
 ---
+import { addPageMeta } from "@page-meta/add";
 import { getCollection, render } from "astro:content";
 
 import Block from "../../components/block.astro";
@@ -18,6 +19,11 @@ const { project } = Astro.props;
 const { Content: Body } = await render(project);
 
 const { description, name, repoUrl, url } = project.data;
+
+addPageMeta(Astro, {
+    description: description,
+    title: `Project: ${name}`
+});
 ---
 
 <style>
@@ -87,10 +93,7 @@ const { description, name, repoUrl, url } = project.data;
     }
 </style>
 
-<SubpageLayout
-    description={description}
-    title={`Project: ${name}`}
->
+<SubpageLayout>
     <h1 class="page-title">{name}</h1>
     <Block
         as="article"

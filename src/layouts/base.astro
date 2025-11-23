@@ -1,42 +1,7 @@
 ---
-interface Props {
-    description?: string;
-    title?: string;
-}
-
-const { description, title } = Astro.props;
-
 import "modern-normalize/modern-normalize.css";
-import "@fontsource/exo-2/100.css";
-import "@fontsource/exo-2/200.css";
-import "@fontsource/exo-2/300.css";
-import "@fontsource/exo-2/400.css";
-import "@fontsource/exo-2/500.css";
-import "@fontsource/exo-2/600.css";
-import "@fontsource/exo-2/700.css";
-import "@fontsource/exo-2/800.css";
-import "@fontsource/exo-2/900.css";
-import "@fontsource/exo-2/100-italic.css";
-import "@fontsource/exo-2/200-italic.css";
-import "@fontsource/exo-2/300-italic.css";
-import "@fontsource/exo-2/400-italic.css";
-import "@fontsource/exo-2/500-italic.css";
-import "@fontsource/exo-2/600-italic.css";
-import "@fontsource/exo-2/700-italic.css";
-import "@fontsource/exo-2/800-italic.css";
-import "@fontsource/exo-2/900-italic.css";
-import "@fontsource/iosevka/400.css";
-import "@fontsource/iosevka/500.css";
-import "@fontsource/iosevka/600.css";
-import "@fontsource/iosevka/700.css";
-import "@fontsource/iosevka/800.css";
-import "@fontsource/iosevka/900.css";
-import "@fontsource/iosevka/400-italic.css";
-import "@fontsource/iosevka/500-italic.css";
-import "@fontsource/iosevka/600-italic.css";
-import "@fontsource/iosevka/700-italic.css";
-import "@fontsource/iosevka/800-italic.css";
-import "@fontsource/iosevka/900-italic.css";
+import Exo2LatinItalic from "@fontsource-variable/exo-2/files/exo-2-latin-wght-italic.woff2?url";
+import Exo2LatinNormal from "@fontsource-variable/exo-2/files/exo-2-latin-wght-normal.woff2?url";
 
 import "../global.css";
 ---
@@ -46,7 +11,7 @@ import "../global.css";
     <head>
         <meta charset="utf-8" />
         <meta
-            content="width=device-width, minimum-scale=1, initial-scale=1"
+            content="width=device-width"
             name="viewport"
         />
         <link
@@ -63,20 +28,19 @@ import "../global.css";
             href="/apple-touch-icon.png"
             rel="apple-touch-icon"
         />
-        <title>{title}</title>
-        <meta
-            content={description}
-            name="description"
+        <link
+            as="font"
+            crossorigin="anonymous"
+            href={Exo2LatinNormal}
+            rel="preload"
+            type="font/woff2"
         />
-
-        <!-- open graph -->
-        <meta
-            content={description}
-            property="og:description"
-        />
-        <meta
-            content={title}
-            property="og:title"
+        <link
+            as="font"
+            crossorigin="anonymous"
+            href={Exo2LatinItalic}
+            rel="preload"
+            type="font/woff2"
         />
     </head>
     <body>

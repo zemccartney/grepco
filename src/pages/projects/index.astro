@@ -1,9 +1,15 @@
 ---
+import { addPageMeta } from "@page-meta/add";
 import { getCollection } from "astro:content";
 
 import SubpageLayout from "../../layouts/subpage.astro";
 
 const projects = await getCollection("projects");
+
+addPageMeta(Astro, {
+    description: "Catalog of GrepCo's projects",
+    title: "Projects"
+});
 ---
 
 <style>
@@ -147,10 +153,7 @@ const projects = await getCollection("projects");
     }
 </style>
 
-<SubpageLayout
-    description="Catalog of GrepCo's projects"
-    title="Projects"
->
+<SubpageLayout>
     <h1 class="page-title">Projects</h1>
     <div class="projects-wrapper">
         <div class="projects">

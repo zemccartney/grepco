@@ -1,5 +1,6 @@
 ---
 import { getEntryGitInfo } from "@it-astro:content/git";
+import { addPageMeta } from "@page-meta/add";
 import { getCollection } from "astro:content";
 
 import BlogLayout from "../../layouts/blog.astro";
@@ -11,6 +12,11 @@ const posts = await getCollection("posts", ({ id }) => {
         import.meta.env.IS_PREVIEW_ENV ||
         !id.startsWith("drafts")
     );
+});
+
+addPageMeta(Astro, {
+    description: "GrepCo's blog",
+    title: "Blog"
 });
 ---
 

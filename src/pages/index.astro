@@ -1,8 +1,15 @@
 ---
+import { addPageMeta } from "@page-meta/add";
+
 import Button from "../components/button.astro";
 import Logo from "../components/logo.astro";
 import BaseLayout from "../layouts/base.astro";
 import Typography from "../layouts/typography.astro";
+
+addPageMeta(Astro, {
+    description: "Zack McCartney's personal site / a fake production company",
+    title: `Global Regular Expressions: A "Production Company"`
+});
 ---
 
 <style>
@@ -87,10 +94,7 @@ import Typography from "../layouts/typography.astro";
     }
 </style>
 
-<BaseLayout
-    description="Zack McCartney's personal site / a fake production company"
-    title="GrepCo — Global Regular Expressions Production Company"
->
+<BaseLayout>
     <header>
         <h1>Global Regular<br />Expressions</h1>
         <div

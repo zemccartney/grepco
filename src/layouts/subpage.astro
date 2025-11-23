@@ -13,7 +13,7 @@ interface Props extends ComponentProps<typeof BaseLayout> {
 // https://docs.astro.build/en/guides/styling/#passing-a-class-to-a-child-component
 // "Using the default scoped style strategy, you must also pass the data-astro-cid-* attribute.
 // You can do this by passing the ...rest of the props to the component."
-const { class: className, description, title, ...rest } = Astro.props;
+const { class: className, ...rest } = Astro.props;
 ---
 
 <style>
@@ -79,10 +79,7 @@ const { class: className, description, title, ...rest } = Astro.props;
     }
 </style>
 
-<BaseLayout
-    description={description}
-    title={`${title} — GrepCo`}
->
+<BaseLayout>
     {/* TODO Just pipe classes down to root? */}
     <div
         class:list={["subpage-layout", className]}

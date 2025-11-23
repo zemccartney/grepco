@@ -5,7 +5,7 @@ import SubpageLayout from "./subpage.astro";
 
 type Props = ComponentProps<typeof SubpageLayout>;
 
-const { description, title, ...rest } = Astro.props;
+const { ...rest } = Astro.props;
 ---
 
 <style>
@@ -57,8 +57,6 @@ const { description, title, ...rest } = Astro.props;
 
 <SubpageLayout
     class="subpage-layout-overrides"
-    description={description || "GrepCo's blog"}
-    title={title || "Blog"}
     {...rest}
 >
     {

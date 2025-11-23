@@ -1,9 +1,15 @@
 ---
+import { addPageMeta } from "@page-meta/add";
 import { Image } from "astro:assets";
 
 import TopHat from "../assets/images/tophat.png";
 import Button from "../components/button.astro";
 import BaseLayout from "../layouts/base.astro";
+
+addPageMeta(Astro, {
+    description: "404",
+    title: "Page Not Found!"
+});
 ---
 
 <style>
@@ -61,10 +67,7 @@ import BaseLayout from "../layouts/base.astro";
     }
 </style>
 
-<BaseLayout
-    description="404"
-    title="Page Not Found!"
->
+<BaseLayout>
     <div class="stack">
         <div
             class="spooky"
