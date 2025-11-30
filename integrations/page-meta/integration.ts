@@ -1,7 +1,8 @@
 import {
     addVirtualImports,
     createResolver,
-    defineIntegration
+    defineIntegration,
+    injectDevRoute
 } from "astro-integration-kit";
 import * as Fs from "node:fs/promises";
 
@@ -15,6 +16,11 @@ import * as Fs from "node:fs/promises";
 // TODO expose transformation as global option
 // TODO typing (have an option for lax mode i.e. where no requirements enforced, opinions ignored); users pass own schema, set via injectTypes?
 // TODO Possible to lint if addPageMeta not called?
+// TODO drawback to export approach, no typing; export type, set on meta / use satisfies?
+// TODO in page template, how to tell people need to size canvas by image dimensions, place in top-left? or make screenshotting range configurable?
+// TODO test aspect ratio handling, would need to support configuring
+// TODO Export middleware functions, allow disabling, importing directly w/in user's own middleware file, for clarity of execution order
+// TODO note, expected warning re: mismatched rendering modes? No, would need to provide a page aligned with user's target, to support keeping route into prod
 
 export default defineIntegration({
     name: "@page-meta",
@@ -23,7 +29,17 @@ export default defineIntegration({
 
         return {
             hooks: {
-                "astro:config:setup": (params) => {
+                "astro:routes:resolved": ({ routes }) => {
+                    // TODO stash route tree
+                    // TODO expose as types? expose routing utils for matching logic w/in components? Or already available
+                    // on render context? set typesafe links, type anchor elements, enforce route type on other links, allow matching
+                    // stash for latter, for using patternRegex to determine how to consolidate images by path
+                },
+                // eslint-disable-next-line perfectionist/sort-objects
+                "astro:config:setup": async (params) => {
+                    // if build, interpolate resolved og-image path ... no, because can't know ahead of time? unless can use the same transform given a route pattern for
+                    // url setting and generation
+
                     addVirtualImports(params, {
                         imports: [
                             {
@@ -31,10 +47,38 @@ export default defineIntegration({
                                         export const localsKey = Symbol("page-meta::add");
 
                                         export const addPageMeta = (ctx, data) => {
-
                                             ctx.locals[localsKey] = {
-                                                ...data,
-                                                origin: '${params.config.site || ""}'
+                                                ...data
+                                            };
+                                        };
+
+                                        export const resolveMeta = (ctx) => {
+                                            const meta = ctx.locals[localsKey] ?? {};
+                                        
+                                            const base = {
+                                                image: {
+                                                    height: 630,
+                                                    url: "/og?route=" + encodeURIComponent(ctx.routePattern),
+                                                    width: 1200
+                                                },
+                                                og: true,
+                                                origin: '${params.config.site || ""}',
+                                                type: "website"
+                                            };
+                                        
+                                            if (ctx.routePattern !== "/") {
+                                                base.name = "GrepCo"; // TODO exclude site name and type from addPageMeta interface
+                                                base.separator = " | ";
+                                                base.ogNameInTitle = false;
+                                            }
+                                        
+                                            return {
+                                                ...base,
+                                                ...meta,
+                                                image: {
+                                                    ...base.image,
+                                                    ...meta.image
+                                                }
                                             };
                                         };
                                     `,
@@ -49,8 +93,24 @@ export default defineIntegration({
                         entrypoint: resolve("./middleware"),
                         order: "post"
                     });
+
+                    injectDevRoute(params, {
+                        entrypoint: resolve("./og.astro"),
+                        pattern: "/og",
+                        prerender: false
+                    });
+
+                    if (params.command === "dev") {
+                        // TODO rename to preview
+                        params.injectScript(
+                            "page",
+                            await Fs.readFile(resolve("./script.ts"), {
+                                encoding: "utf8"
+                            })
+                        );
+                    }
                 },
-                // eslint-disable-next-line perfectionist/sort-objects
+                // eslint-disable-next-line perfectionist/sort-objects -- align with hook call order
                 "astro:config:done": async (params) => {
                     params.injectTypes({
                         content: await Fs.readFile(resolve("./virtual.d.ts"), {
@@ -58,6 +118,10 @@ export default defineIntegration({
                         }),
                         filename: "page-meta.d.ts"
                     });
+                },
+                // eslint-disable-next-line perfectionist/sort-objects
+                "astro:build:done": ({ pages }) => {
+                    console.log("PENGUIN", pages);
                 }
             }
         };

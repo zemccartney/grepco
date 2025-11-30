@@ -1,7 +1,21 @@
 import type { CollectionEntry } from "astro:content";
 
+import { getCollection } from "astro:content";
+
 export const getPostDisplayId = (post: CollectionEntry<"posts">) => {
     return post.id.replace("drafts/", "");
+};
+
+export const resolvePostId = async (id: CollectionEntry<"posts">["id"]) => {
+    const ambig = await getCollection("posts", ({ id: postId }) => {
+        return postId.endsWith(id);
+    });
+
+    if (ambig.length > 1) {
+        throw new Error(`post id ${id} duplicated across published and drafts`);
+    }
+
+    return ambig[0];
 };
 
 const easternShortFormatter = new Intl.DateTimeFormat("en-US", {

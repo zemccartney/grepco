@@ -1,7 +1,8 @@
-import type { MiddlewareHandler } from "astro";
+import type { APIContext } from "astro";
 import type { Options as MetaOptions } from "rehype-meta";
 
-import { localsKey } from "@page-meta/add";
+import { resolveMeta } from "@page-meta/add";
+import { defineMiddleware, sequence } from "astro:middleware";
 import { rehype } from "rehype";
 import rehypeMeta from "rehype-meta";
 
@@ -16,19 +17,41 @@ import rehypeMeta from "rehype-meta";
     - what happens if tags already set? overwritten, right? would need to document if published
 */
 
-export const onRequest: MiddlewareHandler = async (context, next) => {
+const isPage = (ctx: APIContext, response: Response) => {
+    return (
+        ctx.routePattern &&
+        ctx.routePattern !== "/og" && // TODO configurable endpoint path
+        response.headers.get("content-type")?.includes("text/html") // excludes /_image, TODO but would catch server islands ...
+    );
+};
+
+export const preview = defineMiddleware(async (context, next) => {
     const response = await next();
     // TODO this is insufficient, falls down for server islands, need to verify that;
     // TODO if bundling routes integration, would need to document how to opt out of types augmentation / injection? i.e. ignore visible side-effect
     // TODO for rewrites, handle in transforms, i think the only possible way (tho on rewrite, wouldn't you want canonical url set to pre-rewrite?)
-    if (!response.headers.get("content-type")?.includes("text/html")) {
+    if (!isPage(context, response)) {
         return response;
     }
 
-    // @ts-expect-error -- ts complaining about indexing with symbol; not going to augment Locals with a symbol index signature, this is fine
-    const meta = context.locals[localsKey] as MetaOptions | undefined;
+    const isPreview = context.url.searchParams.has("og-img");
 
-    if (!meta) {
+    if (!isPreview) {
+        return response;
+    }
+
+    const searchParams = new URLSearchParams();
+    searchParams.append("route", context.url.pathname);
+
+    return context.rewrite("/og?" + searchParams.toString());
+});
+
+export const process = defineMiddleware(async (context, next) => {
+    const response = await next();
+    // TODO this is insufficient, falls down for server islands, need to verify that;
+    // TODO if bundling routes integration, would need to document how to opt out of types augmentation / injection? i.e. ignore visible side-effect
+    // TODO for rewrites, handle in transforms, i think the only possible way (tho on rewrite, wouldn't you want canonical url set to pre-rewrite?)
+    if (!isPage(context, response)) {
         return response;
     }
 
@@ -43,17 +66,17 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
             https://yoast.com/rel-canonical/#when-canonical
             http://www.thesempost.com/using-rel-canonical-on-all-pages-for-duplicate-content-protection/
     */
+    const meta = resolveMeta(context);
+
+    // TODO Differentiate meta undefined vs. globally defined
+    if (!meta) {
+        return response;
+    }
+
     const opts: MetaOptions = {
         ...meta,
-        og: true,
-        pathname: context.url.pathname, // TODO Test how this ends up formatted against origin set e.g. warnings about trailing slashes (warn w/ typescript, template literal?)
-        type: "website"
+        pathname: context.url.pathname // TODO Test how this ends up formatted against origin set e.g. warnings about trailing slashes (warn w/ typescript, template literal?)
     };
-    if (context.url.pathname !== "/") {
-        opts.name = "GrepCo"; // TODO exclude site name and type from addPageMeta interface
-        opts.separator = " | ";
-        opts.ogNameInTitle = true;
-    }
 
     const html = await response.text();
 
@@ -61,4 +84,6 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
 
     // TODO What does this do?
     return new Response(String(processed), response);
-};
+});
+
+export const onRequest = sequence(preview, process);

@@ -30,7 +30,10 @@ const updatedOn = git?.latest ?? new Date();
 
 addPageMeta(Astro, {
     description: post.data.description,
-    title: post.data.title
+    modified: updatedOn,
+    published: publishedOn,
+    title: post.data.title,
+    type: "article"
 });
 ---
 
