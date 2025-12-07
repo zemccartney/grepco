@@ -2,7 +2,9 @@ import type { APIContext } from "astro";
 import type { Options as MetaOptions } from "rehype-meta";
 
 import { resolveMeta } from "@page-meta/add";
+import { hashTransform, propsToFilename } from "astro/assets/utils";
 import { defineMiddleware, sequence } from "astro:middleware";
+import Filenamify from "filenamify";
 import { rehype } from "rehype";
 import rehypeMeta from "rehype-meta";
 
@@ -18,13 +20,15 @@ import rehypeMeta from "rehype-meta";
 */
 
 const isPage = (ctx: APIContext, response: Response) => {
+    // TODO routing integration, surface data
     return (
         ctx.routePattern &&
         ctx.routePattern !== "/og" && // TODO configurable endpoint path
-        response.headers.get("content-type")?.includes("text/html") // excludes /_image, TODO but would catch server islands ...
+        response.headers.get("content-type")?.includes("text/html") // TODO excludes /_image, TODO but would catch server islands ...
     );
 };
 
+// TODO needed only if server rendered
 export const preview = defineMiddleware(async (context, next) => {
     const response = await next();
     // TODO this is insufficient, falls down for server islands, need to verify that;
@@ -78,8 +82,59 @@ export const process = defineMiddleware(async (context, next) => {
         pathname: context.url.pathname // TODO Test how this ends up formatted against origin set e.g. warnings about trailing slashes (warn w/ typescript, template literal?)
     };
 
+    // store the metadata for the astro:build:done hook
+    // TODO security concerns here?
+    if (
+        context.isPrerendered &&
+        opts.image &&
+        /* @ts-expect-error -- TODO fix later */
+        globalThis[Symbol.for("astro-page-meta-store")]
+    ) {
+        const filePath = `${Filenamify(context.url.pathname)}.png`;
+        const transform = {
+            format: "png",
+            // TODO Don't expose image array as an option, resolve these TS errors via upstream patch
+            /* @ts-expect-error -- TODO fix later */
+            height: opts.image.height,
+            src: filePath,
+            /* @ts-expect-error -- TODO fix later */
+            width: opts.image.width
+        };
+
+        const finalImgPath = propsToFilename(
+            filePath,
+            transform,
+            // TODO explain fake image service name
+            // https://github.com/withastro/astro/blob/main/packages/astro/src/assets/utils/transformToPath.ts
+            hashTransform(transform, "page-meta-img", [
+                "format",
+                "height",
+                "src",
+                "width"
+            ])
+        );
+
+        const ogImgProp = new URL(finalImgPath, context.site).toString();
+
+        /* @ts-expect-error -- TODO fix later */
+        opts.image.url = ogImgProp;
+
+        /* @ts-expect-error -- TODO fix later */
+        globalThis[Symbol.for("astro-page-meta-store")].set(
+            context.url.pathname,
+            {
+                imagePath: finalImgPath,
+                meta: { ...opts },
+                ogImgProp
+            }
+        );
+    }
+
     const html = await response.text();
 
+    // TODO minify whitespace in prod ... How? Manipulate middleware source somehow?
+
+    // TODO How to transform pathnames to filenames? Reuse logic at image generation time
     const processed = await rehype().use(rehypeMeta, opts).process(html);
 
     // TODO What does this do?

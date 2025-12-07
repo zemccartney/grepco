@@ -6,6 +6,8 @@ import {
 } from "astro-integration-kit";
 import * as Fs from "node:fs/promises";
 
+import generateOgImages from "./image-gen";
+
 // TODO Add option to set defaults (can still override per page)
 // TODO Does Symbol work in virtual module? need to use UUID?
 // TODO How do we type addPageMeta? follow same typing as rehype meta options
@@ -27,8 +29,16 @@ export default defineIntegration({
     setup: ({ name }) => {
         const { resolve } = createResolver(import.meta.url);
 
+        // Using Symbol.for ensures this is a singleton across all modules in the build process.
+        const OG_META_STORE_KEY = Symbol.for("astro-page-meta-store");
+        /* @ts-expect-error -- fix later */
+        globalThis[OG_META_STORE_KEY] = new Map();
+
+        const state = {};
+
         return {
             hooks: {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 "astro:routes:resolved": ({ routes }) => {
                     // TODO stash route tree
                     // TODO expose as types? expose routing utils for matching logic w/in components? Or already available
@@ -43,6 +53,11 @@ export default defineIntegration({
                     addVirtualImports(params, {
                         imports: [
                             {
+                                // TODO Use some sort of parser to allow writing this in a ts file, inject data as needed (magic-string? recast? ast-grep?)
+                                // TODO setting routePattern here is incorrect, using route pathname everywhere else
+                                // TODO Pass routePattern, too, extra context helpful?
+                                // TODO Unless some other need for passing build data here, convert to script
+                                // site is accessible from the API context
                                 content: `
                                         export const localsKey = Symbol("page-meta::add");
 
@@ -51,6 +66,8 @@ export default defineIntegration({
                                                 ...data
                                             };
                                         };
+
+                                        const buildHash = new Map();
 
                                         export const resolveMeta = (ctx) => {
                                             const meta = ctx.locals[localsKey] ?? {};
@@ -118,10 +135,27 @@ export default defineIntegration({
                         }),
                         filename: "page-meta.d.ts"
                     });
+
+                    console.log(params.config.image, "IMAGES");
+
+                    /* @ts-expect-error -- fix later */
+                    state.imgService = params.config.image.service.entrypoint;
                 },
                 // eslint-disable-next-line perfectionist/sort-objects
-                "astro:build:done": ({ pages }) => {
-                    console.log("PENGUIN", pages);
+                "astro:build:done": async () => {
+                    /* @ts-expect-error -- fix later */
+                    for (const entry of globalThis[
+                        OG_META_STORE_KEY
+                    ].entries()) {
+                        console.log(entry);
+                    }
+
+                    await generateOgImages(
+                        /* @ts-expect-error -- fix later */
+                        globalThis[OG_META_STORE_KEY] as Parameters<
+                            typeof generateOgImages
+                        >[0]
+                    );
                 }
             }
         };
