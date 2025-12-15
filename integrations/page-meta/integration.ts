@@ -139,22 +139,17 @@ export default defineIntegration({
                     console.log(params.config.image, "IMAGES");
 
                     /* @ts-expect-error -- fix later */
-                    state.imgService = params.config.image.service.entrypoint;
+                    state.imgConfig = params.config.image.service.entrypoint;
                 },
                 // eslint-disable-next-line perfectionist/sort-objects
                 "astro:build:done": async () => {
-                    /* @ts-expect-error -- fix later */
-                    for (const entry of globalThis[
-                        OG_META_STORE_KEY
-                    ].entries()) {
-                        console.log(entry);
-                    }
-
                     await generateOgImages(
                         /* @ts-expect-error -- fix later */
                         globalThis[OG_META_STORE_KEY] as Parameters<
                             typeof generateOgImages
-                        >[0]
+                        >[0],
+                        // @ts-expect-error -- TODO fix later
+                        state.imgConfig
                     );
                 }
             }

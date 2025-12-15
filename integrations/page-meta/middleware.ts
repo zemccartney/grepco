@@ -90,7 +90,10 @@ export const process = defineMiddleware(async (context, next) => {
         /* @ts-expect-error -- TODO fix later */
         globalThis[Symbol.for("astro-page-meta-store")]
     ) {
-        const filePath = `${Filenamify(context.url.pathname)}.png`;
+        // TODO Surface image variance / defaulting patterns here somehow? Should be tested in dev
+        // TODO manually replacing leading and trailing slashes so don't result in ugly-looking filenames
+        // TODO expose formatting options to end user? if only input to filenamify?
+        const filePath = `${Filenamify(context.url.pathname === "/" ? "base" : context.url.pathname.replace(/^\//, "").replace(/\/$/, ""), { replacement: "-" })}.png`;
         const transform = {
             format: "png",
             // TODO Don't expose image array as an option, resolve these TS errors via upstream patch
@@ -112,9 +115,19 @@ export const process = defineMiddleware(async (context, next) => {
                 "src",
                 "width"
             ])
-        );
+        ).replace(/^\//, ""); // propsToFilename adds a leading slash, remove ... TODO do better?
 
-        const ogImgProp = new URL(finalImgPath, context.site).toString();
+        // Replace the last underscore before the extension with a period (e.g., filename_hash.extension -> filename.hash.extension)
+        const parts = finalImgPath.split(".");
+        const extension = parts.pop();
+        const nameWithoutExtension = parts.join(".");
+        const modifiedName = nameWithoutExtension.replace(/_([^_]*)$/, ".$1");
+        const transformedFinalImgPath = `${modifiedName}.${extension}`;
+
+        const ogImgProp = new URL(
+            `og-images/${transformedFinalImgPath}`,
+            context.site
+        ).toString();
 
         /* @ts-expect-error -- TODO fix later */
         opts.image.url = ogImgProp;
@@ -123,7 +136,7 @@ export const process = defineMiddleware(async (context, next) => {
         globalThis[Symbol.for("astro-page-meta-store")].set(
             context.url.pathname,
             {
-                imagePath: finalImgPath,
+                imagePath: transformedFinalImgPath,
                 meta: { ...opts },
                 ogImgProp
             }

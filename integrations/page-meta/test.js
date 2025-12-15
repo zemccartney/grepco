@@ -55,6 +55,29 @@ const rm = new Map([
         }
     ],
     [
+        "/about/",
+        {
+            imagePath: "/!about!_Zv6jEP.png",
+            meta: {
+                description: "About a fake production company and it's author",
+                image: {
+                    height: 630,
+                    url: "https://grepco.net/!about!_Zv6jEP.png",
+                    width: 1200
+                },
+                name: "GrepCo",
+                og: true,
+                ogNameInTitle: false,
+                origin: "https://grepco.net",
+                pathname: "/about/",
+                separator: " | ",
+                title: "About Me",
+                type: "website"
+            },
+            ogImgProp: "https://grepco.net/!about!_Zv6jEP.png"
+        }
+    ],
+    [
         "/projects/",
         {
             imagePath: "/!projects!_ZtoBoQ.png",
